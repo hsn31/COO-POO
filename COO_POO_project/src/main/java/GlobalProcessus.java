@@ -1,5 +1,7 @@
 
+import java.io.IOException;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,17 +15,21 @@ import java.util.logging.Logger;
  *
  * @author peraire
  */
+
+//Main-Class: <default package>.<GlobalProcessus>;
+
 public class GlobalProcessus {
     
-    private static NetworkManager manager_1;
-    private static NetworkManager manager_2;
+    private static NetworkManager manager;
     
-    GlobalProcessus()
+    private static int iduser;
+    
+    GlobalProcessus() throws UnknownHostException
     {
+ 
         try 
         {
-            manager_1 = new NetworkManager(11);
-            manager_2 = new NetworkManager(12);
+            manager = new NetworkManager(iduser);
         } 
         catch (SocketException ex) 
         {
@@ -31,9 +37,37 @@ public class GlobalProcessus {
         }
     }
     
-    static void main()
+    public static void main(String [] args) throws IOException
     {
-        manager_1.sendMessage("abcd");
-        manager_2.sendMessage("abcd");
+
+        try
+        {
+            iduser = Integer.parseInt(args[2]);
+
+            System.out.println("le mode est: " + args[0]);
+            System.out.println("le port est: " + args[1]);
+            System.out.println("l'id user est: " + args[2]);
+
+            GlobalProcessus gp = new GlobalProcessus();
+
+            if(args[0].equals("send"))
+            {
+                System.out.println("Mode emission");
+                manager.sendMessage(args[3]);
+            }
+            else if(args[0].equals("receive"))
+            {
+                System.out.println("Mode reception");
+                manager.receiveMessage();
+            }
+
+            manager.closeServer();
+        }
+        catch(Exception e)
+        {
+            manager.closeServer();
+        }
+        
+        
     }
 }

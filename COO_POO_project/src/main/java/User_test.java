@@ -27,4 +27,9 @@ public class User_test {
     {
         memoryMessages.add(message);
     }
+    
+    public int getId()
+    {
+        return id;
+    }
 }
