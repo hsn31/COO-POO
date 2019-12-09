@@ -5,12 +5,14 @@ public class Chat {
 	
  private boolean open;
  private int distantid;
- private List<String> ListOfMessages = new ArrayList<String>();
+ private List<Message> ListOfMessages = new ArrayList<Message>();
  
- public List<String> getListOfMessage(int distantid) {
-	 distantid = this.distantid;
+ public List<Message> getListOfMessage(int distantid) {
+	 this.distantid = distantid;
      // with distantid find the right 
 	 // ListOfMessages (with right account)
+	 // then we can return the RIGHT list of messages 
+	 // for who wants it
 	 return ListOfMessages;
  }
  
@@ -19,7 +21,14 @@ public class Chat {
  }
  
  public void StartChat() {
-	 open = true;
+	 open = true; // when chat is opened, open = true;
  }
+
+public static void setNewMessage(Message message) {
+	// set message  to ListOfMessages
+	
+}
+
+
  
 }

@@ -12,7 +12,19 @@ import java.sql.Time;
  */
 public class Message 
 {
+
 	private Time time;
 	private String text;
+	
+	
+	
+	
+	public Message(Time timeWhenClicked, String textWhenPresented) { // creates new message
+		// we get here from clickSend() (Application-class?)
+		Message message = new Message(timeWhenClicked, textWhenPresented);
+		Chat.setNewMessage(message); //sets message to the chat history
+	}
+	
+	
     
 }
