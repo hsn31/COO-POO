@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author peraire
- */
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
@@ -17,9 +7,12 @@ public class NetworkManager {
     
     private User_test localUser;
     private DatagramSocket dgramSocket;
+    
     private byte[] inBuffer;
-    private byte[] outBuffer;
     private DatagramPacket inPacket;
+    private int inPort;
+    
+    private byte[] outBuffer;
     private DatagramPacket outPacket;
     
     private InetAddress distantAddress;
@@ -32,8 +25,11 @@ public class NetworkManager {
         dgramSocket = new DatagramSocket(applicationPort);
         
         inBuffer = new byte[256];
-        outBuffer = new byte[256];
+        
+        
         inPacket = new DatagramPacket(inBuffer, inBuffer.length);
+        
+        outBuffer = new byte[256];
         
         distantAddress = InetAddress.getLocalHost();
     }
