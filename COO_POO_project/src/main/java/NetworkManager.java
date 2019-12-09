@@ -5,24 +5,23 @@ import java.util.*;
 
 public class NetworkManager {
     
-    private User_test localUser;
-    private DatagramSocket dgramSocket;
-    
-    private byte[] inBuffer;
+	private int local_id;
+	private InetAddress local_address;
+	
+    private DatagramSocket inDgramSocket; 
     private DatagramPacket inPacket;
+    private byte[] inBuffer;
     private int inPort;
     
-    private byte[] outBuffer;
+    private DatagramSocket outDgramSocket; 
     private DatagramPacket outPacket;
+    private byte[] outBuffer;
     
-    private InetAddress distantAddress;
-    private int applicationPort;
-    
-    NetworkManager(int id) throws SocketException, UnknownHostException
+    public NetworkManager(int id) throws SocketException, UnknownHostException
     {
-        localUser = new User_test(id);
-        applicationPort = 2000;
-        dgramSocket = new DatagramSocket(applicationPort);
+    	inPort = 2832;
+    	inDgramSocket = new DatagramSocket(inPort);
+
         
         inBuffer = new byte[256];
         
@@ -31,22 +30,26 @@ public class NetworkManager {
         
         outBuffer = new byte[256];
         
-        distantAddress = InetAddress.getLocalHost();
+        InetAddress distantAddress = InetAddress.getLocalHost();
     }
     
-
+    public int get_inPort()
+    {
+    	return inPort;
+    }
+    
+    public InetAddress get_local_address()
+    {
+    	return local_address;
+    }
     
     public void receiveMessage() throws IOException
     {
-        dgramSocket.receive(inPacket);
+    	inDgramSocket.receive(inPacket);
         
-        distantAddress = inPacket.getAddress();
+        InetAddress distantAddress = inPacket.getAddress();
         
         String message = new String(inPacket.getData(), 0, inPacket.getLength());
-        
-        localUser.registerMessage(message);
-        
-        System.out.println("you have received this message: " + message + " on the user number " + localUser.getId());
     }
     
     
@@ -54,34 +57,40 @@ public class NetworkManager {
     {
         List<InetAddress> ListInetAddresses = listAllBroadcastAddresses();
         
+        outDgramSocket.setBroadcast(true);
+        
         // test ok : listAllBroadcastAddresses().get(0).toString()
         broadcast(message, ListInetAddresses.get(0));
+        
+        outDgramSocket.receive();
+        
+        
+        outDgramSocket.setBroadcast(false);
     }
     
-    public void sendMessage(String message) throws IOException
-    {
-        localUser.registerMessage(message);
-        
-        byte[] buffer = message.getBytes();
-        
-        outPacket = new DatagramPacket(buffer, buffer.length, distantAddress, applicationPort);
-        dgramSocket.send(outPacket);
-    }
-    
- 
-
     public void broadcast(String message, InetAddress broadcastAddress) throws IOException 
     {
-        dgramSocket.setBroadcast(true);
- 
         byte[] buffer = message.getBytes();
  
-        outPacket = new DatagramPacket(buffer, buffer.length, broadcastAddress, applicationPort);
-        dgramSocket.send(outPacket);
+        outPacket = new DatagramPacket(buffer, buffer.length, broadcastAddress, inPort);
+        outDgramSocket.send(outPacket);
     }
-
     
-    public List<InetAddress> listAllBroadcastAddresses() throws SocketException 
+    public void sendMessage(String message, InetAddress distantAddress, int distantPort) throws IOException
+    {
+        byte[] buffer = message.getBytes();
+        
+        outPacket = new DatagramPacket(buffer, buffer.length, distantAddress, distantPort);
+        outDgramSocket.send(outPacket);
+    }
+    
+    
+    
+    
+    //------ Finished functions !!! ---------------------------------------------------------------------------------------
+    
+    
+    private List<InetAddress> listAllBroadcastAddresses() throws SocketException 
     {
         List<InetAddress> broadcastList = new ArrayList<>();
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
