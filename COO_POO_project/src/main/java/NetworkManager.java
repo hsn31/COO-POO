@@ -5,32 +5,41 @@ import java.util.*;
 
 public class NetworkManager {
     
-	private int local_id;
 	private InetAddress local_address;
 	
+	//attributes to receive messages on a chat converssation (port fixed)
     private DatagramSocket inDgramSocket; 
     private DatagramPacket inPacket;
     private byte[] inBuffer;
     private int inPort;
     
+    //attributes to send from anyport x, a message or a broadcast message
     private DatagramSocket outDgramSocket; 
     private DatagramPacket outPacket;
-    private byte[] outBuffer;
     
-    public NetworkManager(int id) throws SocketException, UnknownHostException
+    //attributes to receive the answer in broadcast (port x)
+    private DatagramPacket inPacket_broadcast;
+    private byte[] inBuffer_broadcast;
+    
+    private Thread receiver;
+    
+    private global_buffer ...;
+    
+    public NetworkManager() throws SocketException, UnknownHostException
     {
+    	local_address = InetAddress.getLocalHost();
+    	
     	inPort = 2832;
     	inDgramSocket = new DatagramSocket(inPort);
 
-        
         inBuffer = new byte[256];
-        
-        
         inPacket = new DatagramPacket(inBuffer, inBuffer.length);
         
-        outBuffer = new byte[256];
+        inBuffer_broadcast = new byte[256];
+        inPacket_broadcast = new DatagramPacket(inBuffer_broadcast, inBuffer_broadcast.length);
         
-        InetAddress distantAddress = InetAddress.getLocalHost();
+        receiver = new Thread(new ReceiverThread(this));
+		receiver.start();
     }
     
     public int get_inPort()
@@ -43,13 +52,17 @@ public class NetworkManager {
     	return local_address;
     }
     
-    public void receiveMessage() throws IOException
+    public String receiveMessage() throws IOException
     {
     	inDgramSocket.receive(inPacket);
         
         InetAddress distantAddress = inPacket.getAddress();
         
+        int distantPort = inPacket.getPort();
+        
         String message = new String(inPacket.getData(), 0, inPacket.getLength());
+        
+        return message;
     }
     
     
@@ -62,7 +75,7 @@ public class NetworkManager {
         // test ok : listAllBroadcastAddresses().get(0).toString()
         broadcast(message, ListInetAddresses.get(0));
         
-        outDgramSocket.receive();
+        outDgramSocket.receive(inPacket_broadcast);
         
         
         outDgramSocket.setBroadcast(false);
@@ -113,6 +126,7 @@ public class NetworkManager {
     
     public void closeServer()
     {
-        dgramSocket.close();
+        outDgramSocket.close();
+        inDgramSocket.close();
     }
 }
