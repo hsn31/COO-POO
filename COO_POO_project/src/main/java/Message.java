@@ -1,10 +1,7 @@
 import java.lang.Object;
 import java.sql.Time;
+import java.util.Date;
 
-/*To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -14,6 +11,11 @@ public class Message
 {
 
 	private Time timeShown;
+	private String text;
+	
+	private String userID;
+	private int chatID;
+	private Date date;
 	private String text;
 	
 	
@@ -28,6 +30,27 @@ public class Message
 		timeWhenClicked =  getTimeShown();
 		textPresented = getText();
 		
+	}
+	
+	/* Il faut se mettre d'accord sur le constructeur. 
+	public Message(String userID,int chatID, String text) {
+		this.userID = userID;
+		this.chatID = chatID;
+		this.date = new Date();
+		this.text = text;
+	}
+	*/
+
+	public int getChatID() {
+		return chatID;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public Date getDate() {
+		return date;
 	}
 	
 	public Time getTimeShown() {
