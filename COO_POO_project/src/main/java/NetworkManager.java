@@ -3,17 +3,31 @@ import java.net.*;
 import java.util.*;
 
 
-public class NetworkManager {
+/*
+ * format d'un message : String
+ * 
+ * <broadcast/unicast> <IPsender> <Text>
+ * 
+ * unicast => Text = message => relever le temps auquel on le reçoit
+ * broadcast => Text = <IPsourcerequete> <requete> <answer>
+ * 		| connected
+ * 		| pseudo utilisé ?
+ * 		| disconnected
+ * 
+ */
+
+public class NetworkManager 
+{
     
 	private InetAddress local_address;
 	
-	//attributes to receive messages on a chat converssation (port fixed)
+	//attributes to receive messages on a chat conversation (port fixed)
     private DatagramSocket inDgramSocket; 
     private DatagramPacket inPacket;
     private byte[] inBuffer;
     private int inPort;
     
-    //attributes to send from anyport x, a message or a broadcast message
+    //attributes TO SEND from any port x, a message or a broadcast message
     private DatagramSocket outDgramSocket; 
     private DatagramPacket outPacket;
     
@@ -23,7 +37,7 @@ public class NetworkManager {
     
     private Thread receiver;
     
-    private global_buffer ...;
+    private ArrayList<String> global_buffer;
     
     public NetworkManager() throws SocketException, UnknownHostException
     {
@@ -52,21 +66,22 @@ public class NetworkManager {
     	return local_address;
     }
     
-    public String receiveMessage() throws IOException
+    public void receiveMessage() throws IOException
     {
     	inDgramSocket.receive(inPacket);
         
-        InetAddress distantAddress = inPacket.getAddress();
-        
-        int distantPort = inPacket.getPort();
-        
         String message = new String(inPacket.getData(), 0, inPacket.getLength());
         
-        return message;
+        save_message(message);
+    }
+    
+    public void save_message(String m)
+    {
+    	global_buffer.add(m);
     }
     
     
-    public void sendBroadcast(String message) throws IOException
+    public void sendFirstBroadcast(String message) throws IOException
     {
         List<InetAddress> ListInetAddresses = listAllBroadcastAddresses();
         
@@ -77,6 +92,17 @@ public class NetworkManager {
         
         outDgramSocket.receive(inPacket_broadcast);
         
+        outDgramSocket.setBroadcast(false);
+    }
+    
+    public void sendClassicBroadcast(String message) throws IOException
+    {
+        List<InetAddress> ListInetAddresses = listAllBroadcastAddresses();
+        
+        outDgramSocket.setBroadcast(true);
+        
+        // test ok : listAllBroadcastAddresses().get(0).toString()
+        broadcast(message, ListInetAddresses.get(0));
         
         outDgramSocket.setBroadcast(false);
     }

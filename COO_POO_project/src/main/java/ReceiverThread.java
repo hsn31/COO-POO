@@ -15,14 +15,12 @@ public class ReceiverThread implements Runnable
 		{
 			try 
 			{
-				String message = local_manager.receiveMessage();
+				local_manager.receiveMessage();
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
 			}
-			
-			local_manager.
 		}
 		
 	}
