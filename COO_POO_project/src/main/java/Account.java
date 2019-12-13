@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,16 +14,19 @@ public class Account {
 	
 	int id;
 	boolean created;
-	String pseudonyme;
+	
+	// to modifyPseudonyme its static
+	static String pseudonyme;
+	
 	boolean Active;
-	List<Chat> listOfChat = new ArrayList<Chat>();
+	static ArrayList<Chat> listOfChat = new ArrayList<Chat>();
     
 	
 	
-	 public List<Message> getChatHistory(int distantId) {
+	 public static ArrayList<Message> getChatHistory(String distantId) {
 		 for (int i = 0; i < listOfChat.size(); i++) {
-				 if (i == distantId) {
-					 List<Message> chatHistory = Chat.getListOfMessage(distantId);
+				 if (listOfChat.get(i).getDistantId() == distantId) {
+					 ArrayList<Message> chatHistory = Chat.getListOfMessage(distantId);
 					 return chatHistory;
 				 }		 
 				 
@@ -32,12 +34,15 @@ public class Account {
 		return null;
      }
 	 
-	 public void accountCreated() {
+	 public void accountCreated(int id, String pseudonyme) {
+		 this.id = id;
+		 this.pseudonyme = pseudonyme;
+		 this.Active = true;	 
 		 created = true;
 	 }
 	 
-	 public void modifyPseudonyme(String pseudonyme) {
-		 this.pseudonyme = pseudonyme;
+	 public static void modifyPseudonyme(String pseudo) {
+		 pseudonyme = pseudo;
 	 }
 }
 

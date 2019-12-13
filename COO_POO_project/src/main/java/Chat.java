@@ -1,25 +1,25 @@
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Chat {
 	
  private boolean open;
- private int distantid;
- private static List<Message> ListOfMessages = new ArrayList<Message>();
+ private String distantid;
+ private static ArrayList<Message> ListOfMessages = new ArrayList<Message>();
  // do we need a method for this as well? list of message needs 
  // an id to know which chat it belongs to
  
  
  
  // to find a right list of messages with the distantid
- public static List<Message> getListOfMessage(int distantid) {
+ public static ArrayList<Message> getListOfMessage(String distantid) {
 	 return ListOfMessages;
 	  
  }
  
- public void getDistantId() {
-	 
+ public String getDistantId() {
+	 return this.distantid;
  }
  
  public void StartChat() {
