@@ -1,3 +1,5 @@
+package network;
+
 import java.util.ArrayList;
 
 /*To change this license header, choose License Headers in Project Properties.
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  */
 public class LocalMemory 
 {
-	private int localId;
+	static int localId;
 	private ArrayList<Account> listOfActiveUsers = new ArrayList<Account>();
 	private ArrayList<Account> listOfAccountsCreated = new ArrayList<Account>();
 	private ArrayList<String> listOfPseudonymes = new ArrayList<String>();
@@ -26,7 +28,7 @@ public class LocalMemory
 	}
 	
 	public ArrayList<Message> getChatHistory(String distantId) {
-		private ArrayList<Message> chatHistory = new ArrayList<Message>();
+		ArrayList<Message> chatHistory = new ArrayList<Message>();
 		chatHistory = Account.getChatHistory(distantId);
 		return chatHistory;
 	}

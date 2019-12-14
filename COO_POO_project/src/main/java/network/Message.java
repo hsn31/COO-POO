@@ -1,4 +1,5 @@
-import java.lang.Object;
+package network;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -7,11 +8,11 @@ import java.util.Date;
  *
  * @author väinö
  */
+
 public class Message 
 {
 
 	private Time timeShown;
-	private String text;
 	
 	private String userID;
 	private int chatID;

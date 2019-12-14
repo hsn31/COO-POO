@@ -1,24 +1,33 @@
+package network;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
-
+import java.lang.String;
 
 /*
  * format d'un message : String
  * 
- * <broadcast/unicast> <IPsender> <Text>
+ * <ID><broadcast/unicast> <IPsender> <Text>
  * 
  * unicast => Text = message => relever le temps auquel on le reçoit
  * broadcast => Text = <IPsourcerequete> <requete> <answer>
- * 		| connected
- * 		| pseudo utilisé ?
- * 		| disconnected
+ * 		| connected ID == <2>
+ * 		| pseudo_already_used_? ID == <1>
+ *      | update_pseudo ID ==<3>
+ * 		| disconnected ID == <4>
  * 
+ * L'ID nous permet de differencier les differents messages possibles. ATTENTION: A CONFIRMER 
+ * la correspondance
+ * 
+ *
  */
+ 
+ //Ajout 14/12/2019 des threads | 10 jours avant Noel. 
 
-public class NetworkManager 
+public class NetworkManager implements Runnable 
 {
-    
+    private boolean NetworkManagerActive = false;
 	private InetAddress local_address;
 	
 	//attributes to receive messages on a chat conversation (port fixed)
@@ -34,6 +43,9 @@ public class NetworkManager
     //attributes to receive the answer in broadcast (port x)
     private DatagramPacket inPacket_broadcast;
     private byte[] inBuffer_broadcast;
+	
+	//Online and active Users 
+	private HashMap <String,InetAddress> onlineUsers = new HashMap <String,InetAddress>();
     
     private Thread receiver;
     
@@ -41,6 +53,7 @@ public class NetworkManager
     
     public NetworkManager() throws SocketException, UnknownHostException
     {
+		this.NetworkManagerActive = true;
     	local_address = InetAddress.getLocalHost();
     	
     	inPort = 2832;
@@ -56,6 +69,42 @@ public class NetworkManager
 		receiver.start();
     }
     
+	//A confirmer lundi lorsqu'on se verra
+    
+	public void run() {
+		//debugging
+		System.out.println("Network_Manager running");
+		
+		try {
+			while(this.NetworkManagerActive) {
+			//Je pensais mettre ici socket.receive puis analyser le paquet en mettant 
+			//	if (packets==<1> then
+			// Envoyer moi le tableau
+			//traitement
+			// if packets == <3> then
+			// disconection........... Utilisation du HashMap <String,InetAddress> onlineUsers
+			}
+			
+		}catch(Exception e) {
+			System.out.println("NetworkManager Error");
+			e.printStackTrace();
+		}
+		
+		while(true) {
+			//System.out.println("Network_Manager while");
+		}
+		
+	}
+	
+	//To have all onlineUsers
+	public Set<String> getOnlineUsers() {
+
+   		synchronized(onlineUsers) {
+			Set<String> s = new HashSet<String>(onlineUsers.keySet());
+   			return s;
+   		}
+	}
+	
     public int get_inPort()
     {
     	return inPort;
@@ -152,7 +201,9 @@ public class NetworkManager
     
     public void closeServer()
     {
+		this.NetworkManagerActive = false;
         outDgramSocket.close();
         inDgramSocket.close();
+		System.out.println("Server successfully closed");
     }
 }

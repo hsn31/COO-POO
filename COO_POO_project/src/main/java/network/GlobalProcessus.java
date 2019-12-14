@@ -1,3 +1,4 @@
+package network;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -29,7 +30,7 @@ public class GlobalProcessus {
  
         try 
         {
-            manager = new NetworkManager(iduser);
+            manager = new NetworkManager();
         } 
         catch (SocketException ex) 
         {
@@ -53,7 +54,7 @@ public class GlobalProcessus {
             if(args[0].equals("send"))
             {
                 System.out.println("Mode emission");
-                manager.sendMessage(args[3]);
+                manager.sendMessage(args[3], null, iduser);
             }
             else if(args[0].equals("receive"))
             {

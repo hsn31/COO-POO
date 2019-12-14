@@ -1,3 +1,5 @@
+package network;
+
 import java.io.IOException;
 
 public class ReceiverThread implements Runnable
