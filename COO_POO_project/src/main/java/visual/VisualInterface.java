@@ -116,4 +116,22 @@ public class VisualInterface extends JFrame {
 		}
 
 	}
+	
+	//-----------------------------------------------------------------------------------------
+	
+	public void showNewActiveUser(String pseudonyme)
+	{
+		
+	}
+	
+	public void showModificationActiveUser(String pseudonyme)
+	{
+		
+	}
+	
+	public void removeActiveUser(String pseudonyme)
+	{
+		//suppress in window application
+		//close windows chat
+	}
 }

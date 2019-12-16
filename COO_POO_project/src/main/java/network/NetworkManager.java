@@ -8,22 +8,20 @@ import java.lang.String;
 /*
  * format d'un message : String
  * 
- * <ID><broadcast/unicast> <IPsender> <Text>
+ * ID<>broadcast/unicast<>IPsender<>Text
  * 
  * unicast => Text = message => relever le temps auquel on le reçoit
  * broadcast => Text = <IPsourcerequete> <requete> <answer>
- * 		| connected ID == <2>
- * 		| pseudo_already_used_? ID == <1>
- *      | update_pseudo ID ==<3>
- * 		| disconnected ID == <4>
+ * 		ID == <1> | on veut se connecter => demande du tableau (?)
+ * 		ID == <2> | connected 
+ *      ID == <3> | update_pseudo 
+ * 		ID == <4> | disconnected 
  * 
- * L'ID nous permet de differencier les differents messages possibles. ATTENTION: A CONFIRMER 
- * la correspondance
+ * L'ID nous permet de differencier les differents messages possibles. 
  * 
  *
  */
  
- //Ajout 14/12/2019 des threads | 10 jours avant Noel. 
 
 public class NetworkManager implements Runnable 
 {
@@ -69,7 +67,7 @@ public class NetworkManager implements Runnable
 		receiver.start();
     }
     
-	//A confirmer lundi lorsqu'on se verra
+	
     
 	public void run() {
 		//debugging
@@ -83,6 +81,10 @@ public class NetworkManager implements Runnable
 			//traitement
 			// if packets == <3> then
 			// disconection........... Utilisation du HashMap <String,InetAddress> onlineUsers
+				
+				String message = global_buffer.get(0);
+				
+				treatMessageReceived(message);
 			}
 			
 		}catch(Exception e) {
@@ -95,6 +97,35 @@ public class NetworkManager implements Runnable
 		}
 		
 	}
+	
+	//a mettre dans une thread treatment qui est demarrée par mainapplication
+	public void treatMessageReceived(String message)
+	{
+		String[] dataPacket = message.split("<>");
+		
+		String idPacketReceived = dataPacket[0];
+		String naturePacketReceived = dataPacket[1];
+		String ipSenderPacketReceived = dataPacket[2];
+		String textPacketReceived = dataPacket[3];
+		
+		if(idPacketReceived.equals("1"))
+		{
+			//sendListActiveUser(ipSenderPacketReceived);
+		}
+		else if(idPacketReceived.equals("2"))
+		{
+			//addActiveUser(ipSenderPacketReceived, textPacketReceived);
+		}
+		else if(idPacketReceived.equals("3"))
+		{
+			//modifyActiveUser(ipSenderPacketReceived, textPacketReceived);
+		}
+		else if(idPacketReceived.equals("4"))
+		{
+			//deleteActiveUser(ipSenderPacketReceived, textPacketReceived);
+		}
+	}
+	
 	
 	//To have all onlineUsers
 	public Set<String> getOnlineUsers() {
@@ -156,7 +187,7 @@ public class NetworkManager implements Runnable
         outDgramSocket.setBroadcast(false);
     }
     
-    public void broadcast(String message, InetAddress broadcastAddress) throws IOException 
+    private void broadcast(String message, InetAddress broadcastAddress) throws IOException 
     {
         byte[] buffer = message.getBytes();
  
@@ -172,7 +203,25 @@ public class NetworkManager implements Runnable
         outDgramSocket.send(outPacket);
     }
     
-    
+	//A FAIRE. 
+	
+	public int broadcastGetListActiveUser() {
+		
+		//send broadcast <1>
+		return 0;
+	}
+	
+	public int broadcastConnected() {
+		return 0;
+	}
+	 
+	public int broadcastUpdatePseudo() {
+		return 0;
+	}
+
+	public int broadcastDisconnected() {
+		return 0;
+	}
     
     
     //------ Finished functions !!! ---------------------------------------------------------------------------------------

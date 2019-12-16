@@ -1,10 +1,12 @@
-package network;
+package tests;
 
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import network.NetworkManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

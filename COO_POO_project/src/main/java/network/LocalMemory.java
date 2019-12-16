@@ -42,5 +42,16 @@ public class LocalMemory
 		// this method to bring the details of account from application to account
 		Account.accountCreated(localId, pseudonyme); // static thing thats in all the classes
 	}
+	
+	public void updateListConnectedBroadcast(String ipAddress, String pseudonyme)
+	{
+		//if already exist => modify pseudo
+		//else add
+	}
+	
+	public void deleteListConnectedBroadcast(String ipAddress)
+	{
+		
+	}
 
 }

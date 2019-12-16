@@ -13,10 +13,10 @@ import java.lang.String;
  
  /*
  * Convention pour les messages du Broadcast...
- * <1> pseudo_already_used_?
- * <2> connected
- * <3> update_pseudo
- * <4> disconnected
+ * 		ID == <1> | on veut se connecter => demande du tableau (?)
+ * 		ID == <2> | connected 
+ *      ID == <3> | update_pseudo 
+ * 		ID == <4> | disconnected 
  */
  
 public class Account {
@@ -44,24 +44,9 @@ public class Account {
     }
 	 
 	
-	//A FAIRE. 
-	//A VERIFIER -On le fait dans account ou NetworkManager
 	
-	public int broadcastPseudoAlreadyUsed() {
-		return 0;
-	}
 	
-	public int broadcastConnected() {
-		return 0;
-	}
-	 
-	public int broadcastUpdatePseudo() {
-		return 0;
-	}
 
-	public int broadcastDisconnected() {
-		return 0;
-	}
 	
 	
 	public static void accountCreated(int id, String pseudonyme) {
