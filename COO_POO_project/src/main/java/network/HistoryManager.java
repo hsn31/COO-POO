@@ -12,7 +12,7 @@ import java.util.*;
  
  //Je propose d'utiliser cette classe pour le history d'un utilisateur... Mais il faut modifier le nom
  
-public class User_test {
+public class HistoryManager {
     
     private String id;
 	private Date connectDate;
@@ -66,7 +66,7 @@ public class User_test {
 		
     private LinkedList<String> memoryMessages;
     
-    User_test(String new_id)
+    HistoryManager(String new_id)
     {
         id = new_id;
         memoryMessages = new LinkedList<String>();
