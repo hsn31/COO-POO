@@ -1,7 +1,8 @@
 package network;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 
 /**
@@ -14,9 +15,7 @@ public class Message
 
 	private Time timeShown;
 	
-	private String userID;
-	private int chatID;
-	private Date date;
+	private LocalDateTime date;
 	private String text;
 	
 	
@@ -42,15 +41,9 @@ public class Message
 	}
 	*/
 
-	public int getChatID() {
-		return chatID;
-	}
 
-	public String getUserID() {
-		return userID;
-	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 	

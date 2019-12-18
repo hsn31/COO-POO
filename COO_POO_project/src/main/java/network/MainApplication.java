@@ -2,6 +2,7 @@ package network;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import visual.VisualInterface;
 
@@ -11,11 +12,16 @@ public class MainApplication
 	private LocalMemory local_memory;
 	private VisualInterface local_interface;
 	
+	private Thread processor_messages;
+	
 	public MainApplication() throws SocketException, UnknownHostException
 	{
 		local_memory = new LocalMemory();
 		local_interface = new VisualInterface();
 		local_manager = new NetworkManager();
+		
+		processor_messages = new Thread(new ProcessingThread(this));
+		processor_messages.start();
 	}
 	
 	public static void main() throws SocketException, UnknownHostException
@@ -44,5 +50,15 @@ public class MainApplication
 	{
 		local_memory.deleteListConnectedBroadcast(ipAddress);
 		local_interface.removeActiveUser(pseudonyme);
+	}
+	
+	public void deleteOneMessage()
+	{
+		//
+	}
+	
+	public ArrayList<String> getActualListOfMessages()
+	{
+		return local_manager.getListOfMessages();
 	}
 }

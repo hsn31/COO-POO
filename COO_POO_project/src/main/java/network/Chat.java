@@ -23,6 +23,7 @@ public class Chat {
 	 return this.distantid;
  }
  
+ //A FAIRE
  public void StartChat() {
  }
  

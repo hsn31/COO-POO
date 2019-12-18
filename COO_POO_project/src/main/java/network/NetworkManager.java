@@ -10,20 +10,27 @@ import java.lang.String;
  * 
  * ID<>broadcast/unicast<>IPsender<>Text
  * 
- * unicast => Text = message => relever le temps auquel on le reçoit
- * broadcast => Text = <IPsourcerequete> <requete> <answer>
- * 		ID == <1> | on veut se connecter => demande du tableau (?)
- * 		ID == <2> | connected 
- *      ID == <3> | update_pseudo 
- * 		ID == <4> | disconnected 
+ * 
+ * broadcast => 
+ * 		ID == 1  | on veut se connecter => demande qui est connecté (?) : Text = ""
+ * 		ID == 2  | connected : Text = pseudo
+ *      ID == 3  | update_pseudo : Text = pseudo
+ * 		ID == 4  | disconnected : Text = pseudo
+ * 
+ * 
+ * unicast => 
+ *  	ID == 5  | message of chat : Text = message => relever le temps auquel on le reçoit
+ * 		ID == 11 | answer to 1 => (IPaddress , pseudonyme) : Text = <IPsourcerequete> <requete> <answer>
+ * 
+ * 
  * 
  * L'ID nous permet de differencier les differents messages possibles. 
  * 
  *
  */
  
-
-public class NetworkManager implements Runnable 
+//Network manager n'a plus besoin d'etre thread => processing thread liée a main application
+public class NetworkManager //implements Runnable 
 {
     private boolean NetworkManagerActive = false;
 	private InetAddress local_address;
@@ -66,66 +73,12 @@ public class NetworkManager implements Runnable
         receiver = new Thread(new ReceiverThread(this));
 		receiver.start();
     }
-    
 	
-    
-	public void run() {
-		//debugging
-		System.out.println("Network_Manager running");
-		
-		try {
-			while(this.NetworkManagerActive) {
-			//Je pensais mettre ici socket.receive puis analyser le paquet en mettant 
-			//	if (packets==<1> then
-			// Envoyer moi le tableau
-			//traitement
-			// if packets == <3> then
-			// disconection........... Utilisation du HashMap <String,InetAddress> onlineUsers
-				
-				String message = global_buffer.get(0);
-				
-				treatMessageReceived(message);
-			}
-			
-		}catch(Exception e) {
-			System.out.println("NetworkManager Error");
-			e.printStackTrace();
-		}
-		
-		while(true) {
-			//System.out.println("Network_Manager while");
-		}
-		
-	}
 	
-	//a mettre dans une thread treatment qui est demarrée par mainapplication
-	public void treatMessageReceived(String message)
+	public ArrayList<String> getListOfMessages()
 	{
-		String[] dataPacket = message.split("<>");
-		
-		String idPacketReceived = dataPacket[0];
-		String naturePacketReceived = dataPacket[1];
-		String ipSenderPacketReceived = dataPacket[2];
-		String textPacketReceived = dataPacket[3];
-		
-		if(idPacketReceived.equals("1"))
-		{
-			//sendListActiveUser(ipSenderPacketReceived);
-		}
-		else if(idPacketReceived.equals("2"))
-		{
-			//addActiveUser(ipSenderPacketReceived, textPacketReceived);
-		}
-		else if(idPacketReceived.equals("3"))
-		{
-			//modifyActiveUser(ipSenderPacketReceived, textPacketReceived);
-		}
-		else if(idPacketReceived.equals("4"))
-		{
-			//deleteActiveUser(ipSenderPacketReceived, textPacketReceived);
-		}
+		return global_buffer;
 	}
-	
 	
 	//To have all onlineUsers
 	public Set<String> getOnlineUsers() {
@@ -255,4 +208,37 @@ public class NetworkManager implements Runnable
         inDgramSocket.close();
 		System.out.println("Server successfully closed");
     }
+    
+    //
+    
+    /*
+  	public void run() {
+  		//debugging
+  		System.out.println("Network_Manager running");
+  		
+  		try {
+  			while(this.NetworkManagerActive) {
+  			//Je pensais mettre ici socket.receive puis analyser le paquet en mettant 
+  			//	if (packets==<1> then
+  			// Envoyer moi le tableau
+  			//traitement
+  			// if packets == <3> then
+  			// disconection........... Utilisation du HashMap <String,InetAddress> onlineUsers
+  				
+  				String message = global_buffer.get(0);
+  				
+  				treatMessageReceived(message);
+  			}
+  			
+  		}catch(Exception e) {
+  			System.out.println("NetworkManager Error");
+  			e.printStackTrace();
+  		}
+  		
+  		while(true) {
+  			//System.out.println("Network_Manager while");
+  		}
+  		
+  	}
+  	*/
 }
