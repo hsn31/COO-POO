@@ -42,12 +42,7 @@ public class Account {
 	     }
 		return null;
     }
-	 
-	
-	
-	
-
-	
+	 	
 	
 	public static void accountCreated(int id, String pseudonyme) {
 		//A VERIFIER
