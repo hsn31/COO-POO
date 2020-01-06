@@ -1,15 +1,7 @@
 package network;
 
-//Il faudrait se coordonner sur les noms de packages. 
-
 import java.util.*;
 import java.lang.String;
-
-/**
- *
- * @author peraire
- *
- */
  
  /*
  * Convention pour les messages du Broadcast...
@@ -22,13 +14,12 @@ import java.lang.String;
 public class Account {
 	
 	int id;
-	boolean created;
+	boolean justCreated; //avant le check. 
 	
 	// to modifyPseudonyme it's static
-	static String pseudonyme;
+	private String pseudonyme;
 	
-	boolean Active;
-	static ArrayList<Chat> listOfChat = new ArrayList<Chat>();
+	private ArrayList<Chat> listOfChat = new ArrayList<Chat>();
     
 	
 	
