@@ -1,59 +1,36 @@
 package network;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
+import java.util.Date;
 
-
-
-/**
- *
- * @author väinö
- */
+//MISE A JOUR LE 06_01_2020.  OK.
 
 public class Message 
 {
 
-	private Time timeShown;
-	
-	private LocalDateTime date;
 	private String text;
+	private Date date;
 	
-	
-	
-	
-	public Message(Time timeWhenClicked, String textPresented) { // creates new message
-		// we get here from clickSend() (Application-class?)
-		// time
-		// 11.12: when we want to add a new message from Chat-class,
-		// we get here. We give values for attributes time and string and
-		// return it. How?
-		timeWhenClicked =  getTimeShown();
-		textPresented = getText();
+	// creates new message
+	public Message(String textPresented) { 
+
+		this.date = new Date();
+		this.text= textPresented;
 		
 	}
 	
-	/* Il faut se mettre d'accord sur le constructeur. 
-	public Message(String userID,int chatID, String text) {
-		this.userID = userID;
-		this.chatID = chatID;
-		this.date = new Date();
-		this.text = text;
+	//pour reconstruire à partir d'une date précédente
+	public Message(String textPresented, Date date) { 
+
+		this.date = date;
+		this.text= textPresented;
+		
 	}
-	*/
 
-
-
-	public LocalDateTime getDate() {
+	public Date getDate() {
 		return date;
 	}
 	
-	public Time getTimeShown() {
-		//take time of the message from Agent : ClickSend()
-		return timeShown;
-	}
-	
 	public String getText() {
-		//take time of the message from Agent : ClickSend()
 		return text;
 	}
 

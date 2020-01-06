@@ -55,7 +55,7 @@ public class History {
 	public void closeHistory() {
 		
 		try{
-			file.write("End of the conversation :" + (new java.util.Date()).toString() + "\n");
+			file.write("End of the conversation :" + (new Date()).toString() + "\n");
 			file.close();
 			
 		} catch (IOException e){

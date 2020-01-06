@@ -290,7 +290,7 @@ public class ApplicationWindow implements ActionListener
 			e.printStackTrace();
 		}
 		
-		(new Thread(discovery)).start();
+	//	(new Thread(discovery)).start();
 			box = new TextField();
             login = new Dialog(this);
 			labelError = new JLabel("");
