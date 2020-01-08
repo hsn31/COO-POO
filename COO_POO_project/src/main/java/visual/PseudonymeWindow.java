@@ -174,24 +174,23 @@ public class PseudonymeWindow implements ActionListener
 	
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
 	
-	/*
-	public JButton get_button()
+	
+	public JButton getValidateButton()
 	{
-		return button;
-	}
-	*/
-	/*
-	public void creation_listener_button(Visual_Interface application)
-	{
-		button.addActionListener(application);
+		return validateButton;
 	}
 	
 	
+	public void creation_listener_validateButton(MainApplication application)
+	{
+		validateButton.addActionListener(application);
+	}
 	
-	§§§§§§§§§
-	            validate.addActionListener(new MyButtonExitListener());
-            exit.addActionListener(new MyButtonExitListener());
-	*/
+	public String getWrittenPseudonyme()
+	{
+		return areaEnterPseudonyme.getText();
+	}
+	
 	
 	public void close_window()
 	{
@@ -219,15 +218,14 @@ public class PseudonymeWindow implements ActionListener
 	}
 	
 	
-	
 	private void refresh_display()
 	{
 		
 	}
 	
-	private void clean_alert_message()
+	private void clean_error_message()
 	{
-		
+		labelError.setText("");
 	}
 	
 	
