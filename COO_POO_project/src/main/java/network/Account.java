@@ -25,17 +25,21 @@ public class Account {
 	boolean created;
 	
 	// to modifyPseudonyme it's static
-	static String pseudonyme;
+	private String pseudonyme;
 	
 	boolean Active;
-	static ArrayList<Chat> listOfChat = new ArrayList<Chat>();
+	private ArrayList<Chat> listOfChat = new ArrayList<Chat>(); 
+	
+	
+	// kokeilu
+	private ArrayList<Message> chatHistory;
     
 	
 	
-	public static ArrayList<Message> getChatHistory(String distantId) {
+	public ArrayList<Message> getChatHistory(int distantId) {
 		 for (int i = 0; i < listOfChat.size(); i++) {
 				 if (listOfChat.get(i).getDistantId() == distantId) {
-					 ArrayList<Message> chatHistory = Chat.getListOfMessage(distantId);
+					 chatHistory = listOfChat.get(i).getListOfMessage(distantId);
 					 return chatHistory;
 				 }		 
 				 
@@ -44,20 +48,23 @@ public class Account {
     }
 	 	
 	
-	public static void accountCreated(int id, String pseudonyme) {
+	public void accountCreated(int id, String pseudonyme) {
 		//A VERIFIER
 		
-		/*	this.id = id;
+		this.id = id;
 		this.pseudonyme = pseudonyme;
-		this.Active = true;	*/ 
+		this.Active = true;	
+		this.created = true;
 	}
 	
-	//A faire
+	// the meaning... set Active = true, check if active is true
 	public boolean isOnline(String pseudonyme) {
-		return false;
+			return Active;
 	}
+
+
 	 
-	public static void modifyPseudonyme(String pseudo) {
+	public void modifyPseudonyme(String pseudo) {
 		pseudonyme = pseudo;
 	}
 }
