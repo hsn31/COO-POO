@@ -1,7 +1,5 @@
 package network;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 
 //CLASSE CHAT TERMINEE LE 06_01_2020. TEST OK. 
@@ -27,9 +25,7 @@ public class Chat {
 			this.etat=state.open;
 	}
 
-	// to find a right list of messages with the distantid, THIS METHOD IS
-	// NOT DOING IT YET
-	public ArrayList<Message> getListOfMessage(int distantId2) {
+	public ArrayList<Message> getListOfMessage() {
 		return ListOfMessages;
 	}
 
@@ -48,9 +44,6 @@ public class Chat {
 	public void CloseChat() {
 		this.etat=state.closed;
 	}
-
-
-
 
 
 }

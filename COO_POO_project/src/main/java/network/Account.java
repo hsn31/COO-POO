@@ -1,8 +1,8 @@
 package network;
 
 import java.util.*;
-import java.lang.String;
  
+//TEST OK le 08_01_2020
  /*
  * Convention pour les messages du Broadcast...
  * 		ID == <1> | on veut se connecter => demande du tableau (?)
@@ -13,45 +13,24 @@ import java.lang.String;
  
 public class Account {
 	
-	int id;
-	boolean justCreated; //avant le check. 
-	
-	// to modifyPseudonyme it's static
 	private String pseudonyme;
+	private String ipAdress;
 	
-    
-	
-	
-	public ArrayList<Message> getChatHistory(int distantId) {
-		 for (int i = 0; i < listOfChat.size(); i++) {
-				 if (listOfChat.get(i).getDistantId() == distantId) {
-					 chatHistory = listOfChat.get(i).getListOfMessage(distantId);
-					 return chatHistory;
-				 }		 
-				 
-	     }
-		return null;
-    }
-	 	
-	
-	public void accountCreated(int id, String pseudonyme) {
-		//A VERIFIER
+	public Account(String ipAdress, String pseudonyme) {
 		
-		this.id = id;
-		this.pseudonyme = pseudonyme;
-		this.Active = true;	
-		this.created = true;
+		this.ipAdress=ipAdress;
+		this.pseudonyme = pseudonyme;	
+	}
+	 	
+	public String getPseudo() {
+		return this.pseudonyme;
 	}
 	
-	// the meaning... set Active = true, check if active is true
-	public boolean isOnline(String pseudonyme) {
-			return Active;
+	public String getIp() {
+		return this.ipAdress;
 	}
-
-
-	 
 	public void modifyPseudonyme(String pseudo) {
-		pseudonyme = pseudo;
+		this.pseudonyme = pseudo;
 	}
 }
 

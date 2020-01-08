@@ -29,16 +29,18 @@ public class LocalMemory
         return adresseIPLocale;
 	}
 	
+	// the meaning... set Active = true, check if active is true
+	public boolean isOnline(String pseudonyme) {
+		return listOfActiveUsers.containsValue(pseudonyme);
+			
+	}
 	
 	//ATTENTION : TRUE Signifie que le pseudo est deja utilisé. -TESTOK 
 	public boolean checkUnicity(String tempPseudo) {
 		
-		if (listOfActiveUsers.containsValue(tempPseudo)){
-			return true;
-		}else {
-			return false;
-		}
+		return listOfActiveUsers.containsValue(tempPseudo);
 	}
+	
 	
 	//renvoie le nombre d'élements contenus dans la collection -TESTOK
 	public int checkActiveUserAmount() {
@@ -53,15 +55,14 @@ public class LocalMemory
 	}
 	
 	
-	//Modification du pseudo de l'utilisateur local
-	public void modifyPseudonyme(String pseudonyme) {
-		Account.modifyPseudonyme(pseudonyme);
+	//Modification du pseudo d'un utilisateur
+	public void modifyPseudonyme(Account account, String pseudonyme) {
+		account.modifyPseudonyme(pseudonyme);
 		
 	}
 	
-	public void createAccount(int localId, String pseudonyme) {
-		// this method to bring the details of account from application to account
-		Account.accountCreated(localId, pseudonyme); // static thing thats in all the classes
+	public void createAccount(String ipAddress, String pseudonyme) {
+		Account account = new Account (ipAddress, pseudonyme);
 	}
 	
 	
@@ -79,6 +80,11 @@ public class LocalMemory
 	public void deleteListConnectedBroadcast(String ipAddress)
 	{
 		listOfActiveUsers.remove(ipAddress);
+	}
+	
+	public void addLocalUserListConnectedBroadcast(String pseudo)
+	{
+		listOfActiveUsers.put(getLocalIp(),pseudo);
 	}
 
 }
