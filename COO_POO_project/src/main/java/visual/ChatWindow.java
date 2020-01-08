@@ -11,8 +11,13 @@ import java.net.*;
 public class ChatWindow implements ActionListener
 {
 
-	private JPanel main_window;
+	private JPanel main_window; 
 	private JLabel wallpaper_area;
+	private JTextField text_area;
+	private JButton send_message;
+	private JScrollPane scrollbar;
+	
+	
 	
 	//+ JPanel JButton JLabel par zone dans la frame
 	
@@ -50,6 +55,13 @@ public class ChatWindow implements ActionListener
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
+	
+	
+	
+	// building the chatwindow -väinö
+    main_window.add(send_message) {
+    	
+    }
 	
 	private void initialize_coding_parameters()
 	{
@@ -188,6 +200,12 @@ public class ChatWindow implements ActionListener
 		
 	}
 	
+	private void send_Message()
+	{
+		// when send-button is pressed,
+		// from this method we send
+		// the written text forward
+	}
 	
 	//------------------Management of interaction with the User and Listeners---------------------------------
 	
