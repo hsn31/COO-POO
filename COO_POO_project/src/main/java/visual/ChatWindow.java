@@ -11,7 +11,7 @@ import java.net.*;
 public class ChatWindow implements ActionListener
 {
 
-	private JFrame main_window;
+	private JPanel main_window;
 	private JLabel wallpaper_area;
 	
 	//+ JPanel JButton JLabel par zone dans la frame

@@ -7,8 +7,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.*;
 import java.net.*;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import network.*;
 
@@ -217,109 +223,119 @@ public class ApplicationWindow implements ActionListener
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////
-	private static ApplicationWindow app;
-	private static JLabel labelInfo;
-	private static JLabel labelError;
-	private Dialog login;
-	private TextField box;
-    private static network.NetworkManager discovery;
-    
-    public void actionPerformed(ActionEvent event)
-	{
-		  
-		String wantedPseudo = box.getText();
-		if(wantedPseudo.equals("")) {
-			labelError.setText("Impossible to login with an empty pseudo !");
-		} else {
-			if(discovery.getOnlineUsers().contains(wantedPseudo)) {
-				labelError.setText("Impossible to login because : " + wantedPseudo + " is already Online.");
-			}
-			else {
-				try {
-					discovery.closeServer();
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
-				finally {
-					new VisualInterface();
-						app.dispose();
-					}
-				}
-			}
-	}
-	  
-	public class MyButtonExitListener implements ActionListener
-   {
-      public void actionPerformed(ActionEvent event)
-      {
-	 		try {
-				discovery.closeServer();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-         login.dispose();
-         System.exit(0);
-      }
-   }
-   
-   	WindowListener exitListener = new WindowAdapter() {
-
-		@Override
-		public void windowClosing(WindowEvent event) {
-		     try {
-				discovery.closeServer();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-         login.dispose();
-         System.exit(0);
-		}
-	};
 	
-	public ApplicationWindow () throws SocketException
-	{
-		this.setTitle("Chat Session");	
-		try {
-			discovery = new network.NetworkManager();
-			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	/*
+	
+	private JLabel jLabelBienvenue;
+	private JPanel jNorthPanel;
+	private JList<Account> jListConnectedUser;
+	private DefaultListModel<Account> lm;
+	private JPanel jPanelBottom;
+	private JTextArea jTextArea;
+	private ArrayList<Account> connectedUsers = new ArrayList<>();
+
+	public VisualInterface() {
+		super("Clavardage");
+
+		this.setLayout(new BorderLayout());
+
+		this.jNorthPanel = new JPanel(new GridBagLayout());
+		this.jLabelBienvenue = new JLabel("Bienvenue");
+		jNorthPanel.add(jLabelBienvenue);
+
+		this.getContentPane().add(jNorthPanel, BorderLayout.NORTH);
+
+		this.lm = new DefaultListModel<>();
+
+		this.jListConnectedUser = new JList<>(lm);
+		JScrollPane jsp = new JScrollPane(jListConnectedUser);
+		jListConnectedUser.setAutoscrolls(true);
+		jsp.setPreferredSize(new Dimension(100, 100));
+		this.getContentPane().add(jsp, BorderLayout.WEST);
+		jListConnectedUser.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				jListConnectedUser.setSelectionForeground(Color.BLACK);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+		});
+
+		this.jPanelBottom = new JPanel();
+		this.getContentPane().add(jPanelBottom, BorderLayout.SOUTH);
+
+		this.jTextArea = new JTextArea();
+		jTextArea.setEditable(false);
 		
-	//	(new Thread(discovery)).start();
-			box = new TextField();
-            login = new Dialog(this);
-			labelError = new JLabel("");
-            labelInfo = new JLabel("Welcome. Please enter your pseudonyme", JLabel.CENTER);
-            login.setLayout(new GridLayout(0, 1));
-            JButton validate = new JButton("ValidationPseudo");        
-            validate.addActionListener(new MyButtonExitListener());
-            JButton exit = new JButton("Exit");
-            exit.addActionListener(new MyButtonExitListener());		   
-            login.setSize(850, 400);
-            login.add(labelInfo);   
-			login.add(labelError);
-			login.add(box);
-			login.add(validate);
-			
-			login.add(exit);    
-			login.setVisible(true);
-			login.addWindowListener(exitListener);
-			
+		JScrollPane jspTa = new JScrollPane(jTextArea);		
+		this.getContentPane().add(jspTa, BorderLayout.CENTER);
+
+		ActionListener al = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Date date = new Date();
+				DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+				        DateFormat.SHORT,
+				        DateFormat.SHORT);
+				jTextArea.setText(jTextArea.getText() +shortDateFormat.format(date) + " -- Me : " + "\n");
+		
+				
+			}
+		};
+
+
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				System.exit(0);
+			}
+		});
+
+		this.pack();
+		this.setVisible(true);
+		this.setSize(500, 500);
+
 	}
 
-	public static void main(String argv[]) {
-		try {
-			app = new ApplicationWindow();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void updateTextArea(String mess) {
+		jTextArea.setText(jTextArea.getText() + mess + "\n");
 	}
+
+	public void updateTextAreaWithNewText(String mess) {
+		jTextArea.setText(mess);
+	}
+
+	
+	public void updateConnectedUsers(ArrayList<Account> connectedUsers) {
+
+		this.connectedUsers = connectedUsers;
+		this.lm.clear();
+		for (Account u : connectedUsers) {
+			lm.addElement(u);
+		}
+
+	}
+	
+	
+	
+	
+	
+	
 					
    
    

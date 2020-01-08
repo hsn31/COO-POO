@@ -27,8 +27,9 @@ public class Chat {
 			this.etat=state.open;
 	}
 
-	// to find a right list of messages with the distantid
-	public ArrayList<Message> getListOfMessage(String distantid) {
+	// to find a right list of messages with the distantid, THIS METHOD IS
+	// NOT DOING IT YET
+	public ArrayList<Message> getListOfMessage(int distantId2) {
 		return ListOfMessages;
 	}
 

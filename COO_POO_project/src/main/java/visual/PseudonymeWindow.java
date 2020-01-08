@@ -12,35 +12,49 @@ import java.net.*;
 
 import network.*;
 
+/*Quand la fenetre de pseudonyme se ferme, si debut => tout s'éteint : MainApplication
+ * si pendant changement => reouverture de la fenetre application et pas de changement : VisualInterface
+ */
+
+
+
+
+
 public class PseudonymeWindow implements ActionListener
 {
 	
+	private String titleWindow;
 	private JFrame main_window;
 	private JLabel wallpaper_area;
 	
 	//+ JPanel JButton JLabel par zone dans la frame
+	private static JLabel labelInfo;
+	private static JLabel labelError;
+	private JTextField areaEnterPseudonyme; //box
+	private JButton validateButton;
+	//exit button ???
 	
 	//DESIGN
 	private ImageIcon wallpaper;
 	//palette couleurs ?
 	
-	/*
-	private enum State
+	
+	private enum PseudoAction
 	{
-		BLA,
-		BLO,
-		BLU,
+		CREATE,
+		MODIFY,
 	}
-	*/
+	
 	
 	/*
 	 * //coding_parameters : values to follow the progression
 	 * private State state;
 	*/
+	private PseudoAction state;
 	
-	public PseudonymeWindow() throws FontFormatException, IOException
+	public PseudonymeWindow(PseudoAction stateApp) throws FontFormatException, IOException
 	{
-		initialize_coding_parameters();
+		initialize_coding_parameters(stateApp);
 		
 		creation_elements();
 		creation_listeners();
@@ -50,14 +64,14 @@ public class PseudonymeWindow implements ActionListener
 		
 		main_window.setLocation(200, 0);
 		main_window.setVisible(true);
-		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //!!
+		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //!! 
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
 	
-	private void initialize_coding_parameters()
+	private void initialize_coding_parameters(PseudoAction stateApp)
 	{
-		
+		state = stateApp;
 	}
 	
 	private void creation_elements() throws FontFormatException, IOException
@@ -66,10 +80,25 @@ public class PseudonymeWindow implements ActionListener
 		wallpaper = new ImageIcon("wallpaper_pseudonyme.jpg");
 		
 		//MAIN WINDOW
-		main_window = new JFrame("pseudonyme window");
+		
+		if(state == PseudoAction.CREATE)
+		{
+			titleWindow = "Chat Application - Beginning";
+		}
+		else if(state == PseudoAction.MODIFY)
+		{
+			titleWindow = "Modify your pseudonyme";
+		}
+		
+		main_window = new JFrame(titleWindow);
 		wallpaper_area = new JLabel(wallpaper);
 		
 		//new : JPanel JButton JLabel par zone dans la frame
+		
+		labelError = new JLabel("");
+        labelInfo = new JLabel("Welcome. Please enter your pseudonyme", JLabel.CENTER);
+        areaEnterPseudonyme = new JTextField();
+        validateButton = new JButton("Validate Pseudonyme");
 	}
 	
 	private void creation_listeners()
@@ -127,22 +156,19 @@ public class PseudonymeWindow implements ActionListener
 		*/
 		
 		//main window
-		main_window.setSize(new Dimension(1000, 700));
+		main_window.setSize(new Dimension(850, 400));
 		main_window.setResizable(false); //??????
 	}
 	
 	private void add_and_layout()
 	{
-		/*
-		JPanel.add(button / JLabel); , BorderLayout.WEST);
+		main_window.setLayout(new GridLayout(0, 1));
 		
-		//main window
-		main_window.setLayout(new GridBagLayout());
-		GridBagConstraints coord = new GridBagConstraints();
-		coord.gridx = 0 ;
-		coord.gridy = 0 ;
-		main_window.add(JLabel/JPanel, coord);
-		*/
+		main_window.add(labelInfo);   
+		main_window.add(labelError);
+		main_window.add(areaEnterPseudonyme);
+		main_window.add(validateButton);
+	
 		main_window.pack(); //to keep all the size of the wallpaper
 	}
 	
@@ -159,6 +185,12 @@ public class PseudonymeWindow implements ActionListener
 	{
 		button.addActionListener(application);
 	}
+	
+	
+	
+	§§§§§§§§§
+	            validate.addActionListener(new MyButtonExitListener());
+            exit.addActionListener(new MyButtonExitListener());
 	*/
 	
 	public void close_window()
@@ -169,17 +201,23 @@ public class PseudonymeWindow implements ActionListener
 
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
-	/*
-	private void click_on_button() throws InterruptedException
+	//methode a creer dans MainApplication !!!!!!!!!!
+	private void click_on_validate_pseudonyme_button() throws InterruptedException
 	{
-		if(state_== )
+		String wantedPseudo = box.getText();
+		if(wantedPseudo.equals("")) 
 		{
-			
+			labelError.setText("Impossible to login with an empty pseudo !");
+		} else 
+		{
+			if(discovery.getOnlineUsers().contains(wantedPseudo)) 
+			{
+				labelError.setText("Impossible to login because : " + wantedPseudo + " is already Online.");
+			}
 		}
-		else 
 
 	}
-	*/
+	
 	
 	
 	private void refresh_display()
@@ -198,19 +236,19 @@ public class PseudonymeWindow implements ActionListener
 	
 	public void actionPerformed(ActionEvent e) 
 	{
-		/*
-		if(e.getSource().equals(button))
+		if(e.getSource().equals(validateButton))
 		{
 			try 
 			{
-				click_on_button();
+				click_on_validate_pseudonyme_button();
 			} 
 			catch (InterruptedException e1) 
 			{
 				e1.printStackTrace();
 			}
 		}
-		*/
+		
+		
 	}
 	
 }
