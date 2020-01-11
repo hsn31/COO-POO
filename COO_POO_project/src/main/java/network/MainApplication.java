@@ -2,6 +2,8 @@ package network;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -53,9 +55,13 @@ public class MainApplication implements ActionListener
 	
 	
 	//------------------- ACTIONS -------------------------------------------------------
-	public void sendListActiveUser(String destAddress)
+	
+	//Envoi le pseudo en retour d'un appel broadcast d'ID n°1
+	//format 11<>unicast<>IPSENDER<>PSEUDO
+	public void sendActiveUser(String destAddress) throws UnknownHostException, IOException
 	{
-		
+		InetAddress test = local_manager.get_local_address();
+		local_manager.sendMessage("11<>unicast<>"+test+"<>"+local_memory.getPseudo(),InetAddress.getByName(destAddress),local_manager.get_inPort());
 	}
 	
 	public void addActiveUser(String ipAddress, String pseudonyme)
@@ -78,7 +84,7 @@ public class MainApplication implements ActionListener
 	
 	public void deleteOneMessage()
 	{
-		//
+		local_manager.getListOfMessages().remove(0);
 	}
 	
 	public ArrayList<String> getActualListOfMessages()
@@ -94,15 +100,14 @@ public class MainApplication implements ActionListener
 	}
 	
 	
-	public void actionPerformed(ActionEvent e) 
-	{
-		if(e.getSource().equals(local_interface.getValidatePseudoButton()))
-		{
+	public void actionPerformed(ActionEvent e){
+		
+		if(e.getSource().equals(local_interface.getValidatePseudoButton())) {
 			try 
 			{
 				click_on_validate_pseudonyme_button();
 			} 
-			catch (InterruptedException e1) 
+			catch (Exception e1) 
 			{
 				e1.printStackTrace();
 			}

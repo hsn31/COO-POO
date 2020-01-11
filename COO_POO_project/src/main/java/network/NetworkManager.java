@@ -34,6 +34,7 @@ public class NetworkManager //implements Runnable
 {
     private boolean NetworkManagerActive = false;
 	private InetAddress local_address;
+	private String stringLocalAdress = local_address.toString();
 	
 	//attributes to receive messages on a chat conversation (port fixed)
     private DatagramSocket inDgramSocket; 
@@ -48,9 +49,6 @@ public class NetworkManager //implements Runnable
     //attributes to receive the answer in broadcast (port x)
     private DatagramPacket inPacket_broadcast;
     private byte[] inBuffer_broadcast;
-	
-	//Online and active Users 
-	private HashMap <String,InetAddress> onlineUsers = new HashMap <String,InetAddress>();
     
     private Thread receiver;
     
@@ -74,20 +72,12 @@ public class NetworkManager //implements Runnable
 		receiver.start();
     }
 	
-	
+	//ListOfMessages recu par la thread. 
 	public ArrayList<String> getListOfMessages()
 	{
 		return global_buffer;
 	}
 	
-	//To have all onlineUsers
-	public Set<String> getOnlineUsers() {
-
-   		synchronized(onlineUsers) {
-			Set<String> s = new HashSet<String>(onlineUsers.keySet());
-   			return s;
-   		}
-	}
 	
     public int get_inPort()
     {
@@ -156,24 +146,54 @@ public class NetworkManager //implements Runnable
         outDgramSocket.send(outPacket);
     }
     
-	//A FAIRE. 
+    
+	//Moi, Utilisateur Local, j'envoie les Broadcasts suivants pour avoir des infos ou avertir. 
 	
-	public int broadcastGetListActiveUser() {
+   //ATTENTION : ON UTILISE SENDFIRSTBROADCAST OU SENDCLASSICBROADCAST
+	public int broadcastGetActiveUser() {
 		
 		//send broadcast <1>
-		return 0;
+		try {
+			sendFirstBroadcast("1<>broadcast<>"+stringLocalAdress+"<>_");
+			return 0;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 1;
+		}
+		
 	}
 	
-	public int broadcastConnected() {
-		return 0;
+	public int broadcastConnected(String pseudo) {
+		//send broadcast <2>
+		try {
+			sendFirstBroadcast("2<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
+			return 0;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 1;
+		}
 	}
 	 
-	public int broadcastUpdatePseudo() {
-		return 0;
+	public int broadcastUpdatePseudo(String pseudo) {
+		//send broadcast <3>
+		try {
+			sendFirstBroadcast("3<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
+			return 0;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 1;
+		}
 	}
 
 	public int broadcastDisconnected() {
-		return 0;
+		//send broadcast <4>
+		try {
+			sendFirstBroadcast("4<>broadcast<>"+stringLocalAdress+"<>_");
+			return 0;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 1;
+		}
 	}
     
     

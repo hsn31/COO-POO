@@ -16,8 +16,10 @@ public class Account {
 	private String pseudonyme;
 	private String ipAdress;
 	
+	private ArrayList<Chat> ListOfChat;
+	
 	public Account(String ipAdress, String pseudonyme) {
-		
+		this.ListOfChat =new ArrayList<Chat>();
 		this.ipAdress=ipAdress;
 		this.pseudonyme = pseudonyme;	
 	}
@@ -25,6 +27,32 @@ public class Account {
 	public String getPseudo() {
 		return this.pseudonyme;
 	}
+	
+	//Retourne le Chat en lien avec ce DistantID
+	public Chat getChatHistory(String distant) {
+		Chat temp= null;
+	
+		for (int i=0; i<this.ListOfChat.size(); i++) {
+			if ((this.ListOfChat.get(i).getDistantId()).equals(distant)) {
+				temp =this.ListOfChat.get(i);
+			}
+		}
+		return temp;
+	}
+	
+	//retourne la liste des messages en lien avec ce DistantID
+	public ArrayList<Message> getChatMessageHistory(String distant) {
+		ArrayList<Message> temp=new ArrayList<Message>();
+		
+		for (int i=0; i<this.ListOfChat.size(); i++) {
+			if ((this.ListOfChat.get(i).getDistantId()).equals(distant)) {
+				temp =this.ListOfChat.get(i).getListOfMessage();
+			}
+		}
+
+		return temp;
+	}
+	
 	
 	public String getIp() {
 		return this.ipAdress;

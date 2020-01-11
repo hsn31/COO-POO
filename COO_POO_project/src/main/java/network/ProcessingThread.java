@@ -1,6 +1,7 @@
 package network;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class ProcessingThread implements Runnable 
@@ -19,16 +20,20 @@ public class ProcessingThread implements Runnable
 		{
 			//refresh
 			listOfMessages = local_application.getActualListOfMessages();
-			processMessageReceived(listOfMessages.get(0));
+			try {
+				processMessageReceived(listOfMessages.get(0));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			//supress message read
-			//local_application.deleteOneMessage();
+			local_application.deleteOneMessage();
 		}
 		
 	}
 	
 	
-	public void processMessageReceived(String message)
+	public void processMessageReceived(String message) throws UnknownHostException, IOException
 	{
 		String[] dataPacket = message.split("<>");
 		
@@ -40,7 +45,7 @@ public class ProcessingThread implements Runnable
 		//int state = local
 		if(idPacketReceived.equals("1"))
 		{
-			local_application.sendListActiveUser(ipSenderPacketReceived);
+			local_application.sendActiveUser(ipSenderPacketReceived);
 		}
 		else if(idPacketReceived.equals("2"))
 		{

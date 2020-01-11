@@ -10,8 +10,8 @@ public class Chat {
 		open,closed
 	}
 	
-	//correspond à l'ID du correspondant. 
-	private int distantid;
+	//correspond à l'ID du correspondant (c'est l'adresse IP). 
+	private String distantid;
 
 	private Message message;
 	
@@ -19,7 +19,7 @@ public class Chat {
 	
 	private ArrayList<Message> ListOfMessages;
 	
-	public Chat (int distantId) { 
+	public Chat (String distantId) { 
 			this.distantid = distantId;
 			this.ListOfMessages =new ArrayList<Message>();
 			this.etat=state.open;
@@ -29,7 +29,7 @@ public class Chat {
 		return ListOfMessages;
 	}
 
-	public int getDistantId() {
+	public String getDistantId() {
 		return this.distantid;
 	}
 	

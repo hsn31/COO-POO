@@ -4,6 +4,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
+
+//TEST OK LE 11_01_2020
+
 public class LocalMemory 
 {
 	
@@ -48,21 +51,16 @@ public class LocalMemory
 	}
 	
 	
-	public ArrayList<Message> getChatHistory(String distantId) {
-		ArrayList<Message> chatHistory = new ArrayList<Message>();
-		chatHistory = Account.getChatHistory(distantId);
-		return chatHistory;
-	}
-	
-	
 	//Modification du pseudo d'un utilisateur
 	public void modifyPseudonyme(Account account, String pseudonyme) {
 		account.modifyPseudonyme(pseudonyme);
 		
 	}
 	
+	//crée un compte et le place dans la liste des Utilisateurs Actifs
 	public void createAccount(String ipAddress, String pseudonyme) {
 		Account account = new Account (ipAddress, pseudonyme);
+		listOfActiveUsers.put(ipAddress, pseudonyme);
 	}
 	
 	
@@ -85,6 +83,12 @@ public class LocalMemory
 	public void addLocalUserListConnectedBroadcast(String pseudo)
 	{
 		listOfActiveUsers.put(getLocalIp(),pseudo);
+	}
+
+	//A FAIRE
+	public String getPseudo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
