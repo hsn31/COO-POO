@@ -32,7 +32,7 @@ public class PseudonymeWindow implements ActionListener
 	private static JLabel labelError;
 	private JTextField areaEnterPseudonyme; //box
 	private JButton validateButton;
-	//exit button ???
+	private JButton exitButton;
 	
 	//DESIGN
 	private ImageIcon wallpaper;
@@ -64,7 +64,7 @@ public class PseudonymeWindow implements ActionListener
 		
 		main_window.setLocation(200, 0);
 		main_window.setVisible(true);
-		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //!! 
+		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
@@ -99,6 +99,7 @@ public class PseudonymeWindow implements ActionListener
         labelInfo = new JLabel("Welcome. Please enter your pseudonyme", JLabel.CENTER);
         areaEnterPseudonyme = new JTextField();
         validateButton = new JButton("Validate Pseudonyme");
+        exitButton = new JButton("Exit");
 	}
 	
 	private void creation_listeners()
@@ -168,6 +169,7 @@ public class PseudonymeWindow implements ActionListener
 		main_window.add(labelError);
 		main_window.add(areaEnterPseudonyme);
 		main_window.add(validateButton);
+		main_window.add(exitButton);
 	
 		main_window.pack(); //to keep all the size of the wallpaper
 	}
@@ -180,17 +182,21 @@ public class PseudonymeWindow implements ActionListener
 		return validateButton;
 	}
 	
+	public JButton getExitButton()
+	{
+		return exitButton;
+	}
 	
-	public void creation_listener_validateButton(MainApplication application)
+	public void creation_listeners_pseudoWindow(MainApplication application)
 	{
 		validateButton.addActionListener(application);
+		exitButton.addActionListener(application);
 	}
 	
 	public String getWrittenPseudonyme()
 	{
 		return areaEnterPseudonyme.getText();
 	}
-	
 	
 	public void close_window()
 	{

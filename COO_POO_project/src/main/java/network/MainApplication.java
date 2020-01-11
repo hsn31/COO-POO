@@ -22,7 +22,6 @@ public class MainApplication implements ActionListener
 	{
 		CREATING_PSEUDO,
 		CHATTING,
-		MODIFYING_PSEUDO,
 	}
 	
 	private AppState local_state;
@@ -35,6 +34,12 @@ public class MainApplication implements ActionListener
 		local_interface = new VisualInterface();
 		local_manager = new NetworkManager();
 		
+		//récupérer les données de la database dans le constructeur de localMemory
+		
+		if(local_memory.)
+		{
+			local_state = AppState.CREATING_PSEUDO;
+		}
 		local_state = AppState.CREATING_PSEUDO;
 		
 		processor_messages = new Thread(new ProcessingThread(this));

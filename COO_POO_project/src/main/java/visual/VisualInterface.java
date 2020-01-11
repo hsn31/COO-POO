@@ -25,7 +25,7 @@ public class VisualInterface implements ActionListener
 	
 	public void creation_listeners(MainApplication application)
 	{
-		pseudo_window.creation_listener_validateButton(application);
+		pseudo_window.creation_listeners_pseudoWindow(application);
 	}
 	
 	public JButton getValidatePseudoButton()

@@ -14,7 +14,9 @@ public class LocalMemory
 	//Map <AdresseIP,Pseudo>
 	
 	Map<String,String> listOfActiveUsers = new LinkedHashMap<String,String>();
-
+	
+	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
+	Account local_account;
 	
 	//renvoi l'adresse IP de la machine locale sur le réseau -TESTOK
 	public String getLocalIp() {
@@ -57,16 +59,20 @@ public class LocalMemory
 		
 	}
 	
+	
+	//utilisée seulement lors de la première connexion sur un ordi
 	//crée un compte et le place dans la liste des Utilisateurs Actifs
 	public void createAccount(String ipAddress, String pseudonyme) {
-		Account account = new Account (ipAddress, pseudonyme);
-		listOfActiveUsers.put(ipAddress, pseudonyme);
+		local_account = new Account (ipAddress, pseudonyme);
+		listOfActiveUsers.put(ipAddress, pseudonyme); // pas sur qu'on ait besoin de l'ajouter
 	}
 	
 	
 	//Ajouter et uploader la liste des utilisateurs connectés -TESTOK
 	public void updateListConnectedBroadcast(String ipAddress, String pseudonyme)
 	{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//ce serait pas plutot : containsKey(ipAddress) ??????????
 		if (listOfActiveUsers.containsValue(pseudonyme)){
 			listOfActiveUsers.replace(ipAddress, pseudonyme);
 		}else {
@@ -86,9 +92,9 @@ public class LocalMemory
 	}
 
 	//A FAIRE
-	public String getPseudo() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPseudo() 
+	{
+		return local_account.getPseudo();
 	}
 
 }
