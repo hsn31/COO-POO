@@ -1,5 +1,6 @@
 package network;
 
+import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -22,37 +23,59 @@ public class MainApplication implements ActionListener
 	{
 		CREATING_PSEUDO,
 		CHATTING,
+		//MODIFYING_PSEUDO,
 	}
 	
 	private AppState local_state;
 	
 	//------------------ CONSTRUCTOR AND TEST ------------------------------------------
 	
-	public MainApplication() throws SocketException, UnknownHostException
+	public MainApplication() throws FontFormatException, IOException
 	{
 		local_memory = new LocalMemory();
 		local_interface = new VisualInterface();
 		local_manager = new NetworkManager();
 		
+		//A FAIRE
 		//récupérer les données de la database dans le constructeur de localMemory
+		//récupérer la liste des active users (ou ?)
 		
-		if(local_memory.)
-		{
-			local_state = AppState.CREATING_PSEUDO;
-		}
 		local_state = AppState.CREATING_PSEUDO;
+		
+		if(local_memory.accountIsAlreadyCreated())
+		{
+			if(local_memory.lastPseudonymeIsOk())
+			{
+				//a écrire: connexion avec l'ancien pseudonyme > envoie d'un broadcast...
+				
+				//Donc on peut direct afficher l'applicationWindow:
+				local_state = AppState.CHATTING;
+			}
+		}
+		
 		
 		processor_messages = new Thread(new ProcessingThread(this));
 		processor_messages.start();
+		
+		//open interface
+		if(local_state == AppState.CREATING_PSEUDO)
+		{
+			local_interface.openCreatingPseudonymeWindow();
+		}
+		else if(local_state == AppState.CHATTING)
+		{
+			local_interface.openApplicationWindow();
+		}
 	}
 	
-	public static void main() throws SocketException, UnknownHostException
+	public static void main() throws FontFormatException, IOException
 	{
 		new MainApplication();
 	}
 	
 	//------------------- LISTENERS -----------------------------------------------------
 	
+	//a modifier ???
 	private void creation_listeners_VisualInterface()
 	{
 		local_interface.creation_listeners(this);

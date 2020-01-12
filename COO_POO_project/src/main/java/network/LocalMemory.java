@@ -59,14 +59,25 @@ public class LocalMemory
 		
 	}
 	
+	//----------------------------------------------------------------------------------------------
 	
-	//utilisée seulement lors de la première connexion sur un ordi
-	//crée un compte et le place dans la liste des Utilisateurs Actifs
-	public void createAccount(String ipAddress, String pseudonyme) {
-		local_account = new Account (ipAddress, pseudonyme);
-		listOfActiveUsers.put(ipAddress, pseudonyme); // pas sur qu'on ait besoin de l'ajouter
+	//une des deux :: utilisée a chaque ouverture de l'application
+	
+	//crée un compte .......et le place dans la liste des Utilisateurs Actifs
+	//si jamais créé: pseudo bidon
+	public void createNewAccount(String ipAddress, String pseudonyme) 
+	{
+		local_account = new Account (false, ipAddress, pseudonyme);
+		listOfActiveUsers.put(ipAddress, pseudonyme); // A mon avis il ne faut pas l'ajouter !!!!!!!!!!!!!!!!
 	}
 	
+	public void createAccountFromDatabase(String ipAddress, String pseudonyme) 
+	{
+		local_account = new Account (true, ipAddress, pseudonyme);
+		//ensuite: l'account sera rempli par le reste de la database si le reste existe
+	}
+	
+	//----------------------------------------------------------------------------------------------
 	
 	//Ajouter et uploader la liste des utilisateurs connectés -TESTOK
 	public void updateListConnectedBroadcast(String ipAddress, String pseudonyme)
@@ -91,10 +102,27 @@ public class LocalMemory
 		listOfActiveUsers.put(getLocalIp(),pseudo);
 	}
 
-	//A FAIRE
 	public String getPseudo() 
 	{
 		return local_account.getPseudo();
 	}
+	
+	
+	//vvvvv Deux fonctions qui servent à l'initialisation de MainApplication vvvvvv
+	
+	//fonction utilisable que si les données de la database ont été récupérées
+	public boolean accountIsAlreadyCreated()
+	{
+		return local_account.wasCreated();
+	}
+	
+	//fonction utilisable que si les données de la database ont été récupérées 
+	//ET que la liste des active users a été récupérée par le network
+	public boolean lastPseudonymeIsOk()
+	{
+		return !(listOfActiveUsers.containsValue(local_account.getPseudo()));
+	}
+	
+	//-------------------------------------------------------------------------------
 
 }

@@ -39,7 +39,7 @@ public class PseudonymeWindow implements ActionListener
 	//palette couleurs ?
 	
 	
-	private enum PseudoAction
+	public enum PseudoAction
 	{
 		CREATE,
 		MODIFY,
@@ -95,8 +95,8 @@ public class PseudonymeWindow implements ActionListener
 		
 		//new : JPanel JButton JLabel par zone dans la frame
 		
-		labelError = new JLabel("");
         labelInfo = new JLabel("Welcome. Please enter your pseudonyme", JLabel.CENTER);
+        labelError = new JLabel("");
         areaEnterPseudonyme = new JTextField();
         validateButton = new JButton("Validate Pseudonyme");
         exitButton = new JButton("Exit");

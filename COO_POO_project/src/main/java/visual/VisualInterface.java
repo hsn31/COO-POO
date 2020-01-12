@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import network.*;
+import visual.PseudonymeWindow.PseudoAction;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -17,6 +18,24 @@ public class VisualInterface implements ActionListener
 	PseudonymeWindow pseudo_window;
 	
 	public VisualInterface()
+	{
+		
+	}
+	
+	//-----------------------------------------------------------------------------------------
+	
+	//!!! penser aux listeners !!!
+	public void openCreatingPseudonymeWindow() throws FontFormatException, IOException
+	{
+		pseudo_window = new PseudonymeWindow(PseudoAction.CREATE);
+	}
+	
+	public void openModifyingPseudonymeWindow() throws FontFormatException, IOException
+	{
+		pseudo_window = new PseudonymeWindow(PseudoAction.MODIFY);
+	}
+	
+	public void openApplicationWindow()
 	{
 		
 	}
