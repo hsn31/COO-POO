@@ -82,9 +82,8 @@ public class LocalMemory
 	//Ajouter et uploader la liste des utilisateurs connectés -TESTOK
 	public void updateListConnectedBroadcast(String ipAddress, String pseudonyme)
 	{
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//ce serait pas plutot : containsKey(ipAddress) ??????????
-		if (listOfActiveUsers.containsValue(pseudonyme)){
+
+		if (listOfActiveUsers.containsKey(ipAddress)){
 			listOfActiveUsers.replace(ipAddress, pseudonyme);
 		}else {
 			listOfActiveUsers.put(ipAddress, pseudonyme);

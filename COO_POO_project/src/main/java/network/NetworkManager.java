@@ -103,7 +103,7 @@ public class NetworkManager //implements Runnable
     	global_buffer.add(m);
     }
     
-    
+    //NE PAS UTILISER
     public void sendFirstBroadcast(String message) throws IOException
     {
         List<InetAddress> ListInetAddresses = listAllBroadcastAddresses();
@@ -148,13 +148,12 @@ public class NetworkManager //implements Runnable
     
     
 	//Moi, Utilisateur Local, j'envoie les Broadcasts suivants pour avoir des infos ou avertir. 
-	
-   //ATTENTION : ON UTILISE SENDFIRSTBROADCAST OU SENDCLASSICBROADCAST
+
 	public int broadcastGetActiveUser() {
 		
 		//send broadcast <1>
 		try {
-			sendFirstBroadcast("1<>broadcast<>"+stringLocalAdress+"<>_");
+			sendClassicBroadcast("1<>broadcast<>"+stringLocalAdress+"<>_");
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -166,7 +165,7 @@ public class NetworkManager //implements Runnable
 	public int broadcastConnected(String pseudo) {
 		//send broadcast <2>
 		try {
-			sendFirstBroadcast("2<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
+			sendClassicBroadcast("2<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -177,7 +176,7 @@ public class NetworkManager //implements Runnable
 	public int broadcastUpdatePseudo(String pseudo) {
 		//send broadcast <3>
 		try {
-			sendFirstBroadcast("3<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
+			sendClassicBroadcast("3<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -188,7 +187,7 @@ public class NetworkManager //implements Runnable
 	public int broadcastDisconnected() {
 		//send broadcast <4>
 		try {
-			sendFirstBroadcast("4<>broadcast<>"+stringLocalAdress+"<>_");
+			sendClassicBroadcast("4<>broadcast<>"+stringLocalAdress+"<>_");
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
