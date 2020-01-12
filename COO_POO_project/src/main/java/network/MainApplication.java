@@ -53,7 +53,8 @@ public class MainApplication implements ActionListener
 			}
 		}
 		
-		
+		//parameters to make run the application
+		creation_listeners_VisualInterface();
 		processor_messages = new Thread(new ProcessingThread(this));
 		processor_messages.start();
 		
@@ -75,7 +76,7 @@ public class MainApplication implements ActionListener
 	
 	//------------------- LISTENERS -----------------------------------------------------
 	
-	//a modifier ???
+
 	private void creation_listeners_VisualInterface()
 	{
 		local_interface.creation_listeners(this);

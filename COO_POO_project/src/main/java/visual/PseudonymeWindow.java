@@ -63,7 +63,7 @@ public class PseudonymeWindow implements ActionListener
 		design_elements();
 		
 		main_window.setLocation(200, 0);
-		main_window.setVisible(true);
+		main_window.setVisible(false);
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
@@ -198,9 +198,16 @@ public class PseudonymeWindow implements ActionListener
 		return areaEnterPseudonyme.getText();
 	}
 	
-	public void close_window()
+	//---------------------------------------------------//
+	
+	public void showWindow()
 	{
-		main_window.dispose();
+		main_window.setVisible(true);
+	}
+	
+	public void hideWindow()
+	{
+		main_window.setVisible(false);
 	}
 	
 
@@ -224,14 +231,19 @@ public class PseudonymeWindow implements ActionListener
 	}
 	
 	
-	private void refresh_display()
+	public void display_error_message(String message)
 	{
-		
+		labelError.setText(message);
 	}
 	
-	private void clean_error_message()
+	public void clean_error_message()
 	{
 		labelError.setText("");
+	}
+	
+	public void clean_areaEnterPseudonyme()
+	{
+		areaEnterPseudonyme.setText("");
 	}
 	
 	

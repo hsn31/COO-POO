@@ -15,29 +15,40 @@ public class VisualInterface implements ActionListener
 {
 	
 	ApplicationWindow main_window;
+	//une seule fenêtre pour deux utilisation
 	PseudonymeWindow pseudo_window;
 	
-	public VisualInterface()
-	{
-		
-	}
-	
-	//-----------------------------------------------------------------------------------------
-	
-	//!!! penser aux listeners !!!
-	public void openCreatingPseudonymeWindow() throws FontFormatException, IOException
+	public VisualInterface() throws FontFormatException, IOException
 	{
 		pseudo_window = new PseudonymeWindow(PseudoAction.CREATE);
 	}
 	
-	public void openModifyingPseudonymeWindow() throws FontFormatException, IOException
+	//-----------------------------------------------------------------------------------------
+	
+	
+	public void openCreatingPseudonymeWindow()
 	{
-		pseudo_window = new PseudonymeWindow(PseudoAction.MODIFY);
+		pseudo_window.showWindow();
+	}
+	
+	public void openModifyingPseudonymeWindow()
+	{
+		pseudo_window.showWindow();
+	}
+	
+	public void closePseudonymeWindow()
+	{
+		pseudo_window.hideWindow();
 	}
 	
 	public void openApplicationWindow()
 	{
-		
+		main_window.showWindow();
+	}
+	
+	public void closeApplicationWindow()
+	{
+		main_window.hideWindow();
 	}
 	
 	//-----------------------------------------------------------------------------------------
@@ -45,6 +56,7 @@ public class VisualInterface implements ActionListener
 	public void creation_listeners(MainApplication application)
 	{
 		pseudo_window.creation_listeners_pseudoWindow(application);
+		main_window.creation_listeners_appliWindow(application);
 	}
 	
 	public JButton getValidatePseudoButton()
@@ -54,6 +66,12 @@ public class VisualInterface implements ActionListener
 	
 	//-----------------------------------------------------------------------------------------
 	
+	
+	
+	
+	
+	
+	//est-ce que ces 3 fonctions ont besoin de ce parametre ? : String ipAddress, 
 	public void showNewActiveUser(String pseudonyme)
 	{
 		

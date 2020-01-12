@@ -160,16 +160,23 @@ public class ApplicationWindow implements ActionListener
 		return button;
 	}
 	*/
-	/*
-	public void creation_listener_button(Visual_Interface application)
-	{
-		button.addActionListener(application);
-	}
-	*/
 	
-	public void close_window()
+	public void creation_listeners_appliWindow(MainApplication application)
 	{
-		main_window.dispose();
+		//button.addActionListener(application);
+	}
+	
+	
+	//---------------------------------------------------//
+	
+	public void showWindow()
+	{
+		main_window.setVisible(true);
+	}
+	
+	public void hideWindow()
+	{
+		main_window.setVisible(false);
 	}
 	
 
