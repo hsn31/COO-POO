@@ -11,11 +11,14 @@ import java.net.*;
 public class ChatWindow implements ActionListener
 {
 
-	private JPanel main_window; 
+	private JFrame main_window; 
 	private JLabel wallpaper_area;
 	private JTextField text_area;
 	private JButton send_message;
 	private JScrollPane scrollbar;
+	
+	// do we need something like this if message is not fine?  
+	// private static JLabel labelError;
 	
 	
 	
@@ -74,10 +77,20 @@ public class ChatWindow implements ActionListener
 		wallpaper = new ImageIcon("wallpaper_pseudonyme.jpg");
 		
 		//MAIN WINDOW
-		main_window = new JFrame("pseudonyme window");
+
+		//new : JPanel JButton JLabel par zone dans la frame
+		// there need for code?
+		
+		
+		main_window = new JFrame("titleWindow"); 
 		wallpaper_area = new JLabel(wallpaper);
 		
-		//new : JPanel JButton JLabel par zone dans la frame
+		text_area = new JTextField();
+		send_message = new JButton("Send");
+		scrollbar = new JScrollPane();
+		
+
+
 	}
 	
 	private void creation_listeners()
@@ -145,12 +158,18 @@ public class ChatWindow implements ActionListener
 		JPanel.add(button / JLabel); , BorderLayout.WEST);
 		
 		//main window
-		main_window.setLayout(new GridBagLayout());
+		
 		GridBagConstraints coord = new GridBagConstraints();
 		coord.gridx = 0 ;
 		coord.gridy = 0 ;
 		main_window.add(JLabel/JPanel, coord);
 		*/
+
+		// 12.1 ADDED TEXT_AREA, SEND_MESSAGE, SCROLLBAR
+		main_window.setLayout(new GridBagLayout());
+		main_window.add(text_area);   
+		main_window.add(send_message);
+		main_window.add(scrollbar);		
 		main_window.pack(); //to keep all the size of the wallpaper
 	}
 	
@@ -162,32 +181,46 @@ public class ChatWindow implements ActionListener
 		return button;
 	}
 	*/
-	/*
+	
 	public void creation_listener_button(Visual_Interface application)
 	{
-		button.addActionListener(application);
+		send_message.addActionListener(application);
 	}
-	*/
+	
 	
 	public void close_window()
 	{
 		main_window.dispose();
 	}
 	
+	// GETIT TÄHÄN
+	public JTextField getTextArea()
+	{
+		return text_area;
+	}
+	public JButton getSendMessageButton()
+	{
+		return send_message;
+	}
+	public JScrollPane getScrollBar()
+	{
+		return scrollbar;
+	}
 
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
-	/*
-	private void click_on_button() throws InterruptedException
+	
+	// 12.1 THIS METHOD TBD...
+	private void click_on_send_button() throws InterruptedException
 	{
-		if(state_== )
+		/*if(state_== )
 		{
 			
 		}
 		else 
-
+*/
 	}
-	*/
+
 	
 	
 	private void refresh_display()
@@ -207,24 +240,44 @@ public class ChatWindow implements ActionListener
 		// the written text forward
 	}
 	
+	
+	// tämä nyt viimeinen 12.1
+	
+	
+	/*public void display_error_message(String message)
+	{
+		labelError.setText(message);
+	}
+	
+	public void clean_error_message()
+	{
+		labelError.setText("");
+	} 
+	
+	public void clean_areaEnterPseudonyme()
+	{
+		areaEnterPseudonyme.setText("");
+	} */
+	
+	
 	//------------------Management of interaction with the User and Listeners---------------------------------
 	
 	
 	public void actionPerformed(ActionEvent e) 
 	{
-		/*
-		if(e.getSource().equals(button))
+		
+		if(e.getSource().equals(send_message))
 		{
 			try 
 			{
-				click_on_button();
+				click_on_send_button();
 			} 
 			catch (InterruptedException e1) 
 			{
 				e1.printStackTrace();
 			}
 		}
-		*/
+		
 	}
 	
 	
