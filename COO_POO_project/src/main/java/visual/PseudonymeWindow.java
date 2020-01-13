@@ -213,24 +213,6 @@ public class PseudonymeWindow implements ActionListener
 
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
-	//methode a creer dans MainApplication !!!!!!!!!!
-	private void click_on_validate_pseudonyme_button() throws InterruptedException
-	{
-		String wantedPseudo = box.getText();
-		if(wantedPseudo.equals("")) 
-		{
-			labelError.setText("Impossible to login with an empty pseudo !");
-		} else 
-		{
-			if(discovery.getOnlineUsers().contains(wantedPseudo)) 
-			{
-				labelError.setText("Impossible to login because : " + wantedPseudo + " is already Online.");
-			}
-		}
-
-	}
-	
-	
 	public void display_error_message(String message)
 	{
 		labelError.setText(message);

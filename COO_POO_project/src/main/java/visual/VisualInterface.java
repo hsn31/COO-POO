@@ -23,7 +23,7 @@ public class VisualInterface implements ActionListener
 		pseudo_window = new PseudonymeWindow(PseudoAction.CREATE);
 	}
 	
-	//-----------------------------------------------------------------------------------------
+	//---------------Methods pas sur de les garder -----------------------------------------
 	
 	
 	public void openCreatingPseudonymeWindow()
@@ -51,7 +51,7 @@ public class VisualInterface implements ActionListener
 		main_window.hideWindow();
 	}
 	
-	//-----------------------------------------------------------------------------------------
+	//----------------- BUTTONS AND LISTENERS ------------------------------------------------
 	
 	public void creation_listeners(MainApplication application)
 	{
@@ -64,7 +64,14 @@ public class VisualInterface implements ActionListener
 		return pseudo_window.getValidateButton();
 	}
 	
-	//-----------------------------------------------------------------------------------------
+	//--------------- OTHER INFORMATIONS ---------------------------------------------
+	
+	public String getWrittenPseudonyme()
+	{
+		return pseudo_window.getWrittenPseudonyme();
+	}
+	
+	//--------------- ACTIONS --------------------------------------------------------
 	
 	
 	

@@ -125,13 +125,26 @@ public class MainApplication implements ActionListener
 	
 	private void click_on_validate_pseudonyme_button()
 	{
-		
+		String wantedPseudo = local_interface.getWrittenPseudonyme();
+		String currentError = "";
+		if(wantedPseudo.equals("")) 
+		{
+			currentError = "Impossible to login with an empty pseudo !";
+		} 
+		else 
+		{
+			if(discovery.getOnlineUsers().contains(wantedPseudo)) 
+			{
+				labelError.setText("Impossible to login because : " + wantedPseudo + " is already Online.");
+			}
+		}
 	}
 	
 	
 	public void actionPerformed(ActionEvent e){
 		
-		if(e.getSource().equals(local_interface.getValidatePseudoButton())) {
+		if(e.getSource().equals(local_interface.getValidatePseudoButton())) 
+		{
 			try 
 			{
 				click_on_validate_pseudonyme_button();
