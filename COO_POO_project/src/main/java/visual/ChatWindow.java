@@ -14,7 +14,7 @@ import java.net.*;
 public class ChatWindow
 {
 
-	private JFrame main_window; 
+	private JPanel main_window; 
 	private JTextField text_area;
 	private JButton send_message;
 	private JScrollPane scrollbar;
@@ -40,7 +40,7 @@ public class ChatWindow
 		
 		main_window.setLocation(200, 0);
 		main_window.setVisible(true);
-		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //!!
+		main_window.setDefaultCloseOperation(JPanel.DO_NOTHING_ON_CLOSE); //!!
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
@@ -59,7 +59,7 @@ public class ChatWindow
 	
 	private void creation_elements() throws FontFormatException, IOException
 	{
-		main_window = new JFrame("titleWindow"); 
+		main_window = new JPanel(); 
 		
 		text_area = new JTextField();
 		send_message = new JButton("Send");
@@ -114,7 +114,13 @@ public class ChatWindow
 		
 		//main window
 		main_window.setSize(new Dimension(1000, 700));
-		main_window.setResizable(false); //??????
+		
+	}
+	
+	public static void main() throws FontFormatException, IOException
+	{
+		new MainApplication();
+		// to view jpanel in main_window
 	}
 	
 	private void add_and_layout()
@@ -129,6 +135,8 @@ public class ChatWindow
 		coord.gridy = 0 ;
 		main_window.add(JLabel/JPanel, coord);
 		*/
+		
+
 
 		// 12.1 ADDED TEXT_AREA, SEND_MESSAGE, SCROLLBAR
 		main_window.setLayout(new GridBagLayout());
@@ -150,22 +158,30 @@ public class ChatWindow
 	{
 		send_message.addActionListener(application);
 	}
-	
-	// GETIT TÄHÄN
-	public JTextField getTextArea()
-	{
-		return text_area;
-	}
+
 	
 	public JButton getSendMessageButton()
 	{
 		return send_message;
 	}
 	
-	public JScrollPane getScrollBar()
-	{
-		return scrollbar;
+	public JTextField getMessageInTextField() {
+		
 	}
+	
+	public JPanel printMessage() {
+		
+	}
+	
+	public JTextField cleanTextArea() {
+		send_message.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 // envoyer string to mainapp
+	            text_area.setText("");
+	         }
+	});
+	}
+
 
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
