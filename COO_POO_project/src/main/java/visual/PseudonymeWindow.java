@@ -174,13 +174,18 @@ public class PseudonymeWindow
 	public void changeTo_ModifyWindow()
 	{
 		main_window.setTitle("Modify your pseudonyme");
-		clean_error_message();
-		clean_areaEnterPseudonyme();
+		clean_window();
 	}
 	
 	public void display_error_message(String message)
 	{
 		labelError.setText(message);
+	}
+	
+	public void clean_window()
+	{
+		labelError.setText("");
+		areaEnterPseudonyme.setText("");
 	}
 	
 	public void clean_error_message()

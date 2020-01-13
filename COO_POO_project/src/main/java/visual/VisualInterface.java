@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import network.*;
-import network.MainApplication.AppState;
-import visual.PseudonymeWindow.PseudoAction;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.*;
@@ -21,7 +18,8 @@ public class VisualInterface
 	
 	public VisualInterface() throws FontFormatException, IOException
 	{
-		pseudo_window = new PseudonymeWindow(PseudoAction.CREATE);
+		pseudo_window = new PseudonymeWindow();
+		main_window = new ApplicationWindow();
 	}
 	
 	//---------------Methods pas sur de les garder -----------------------------------------
@@ -65,6 +63,11 @@ public class VisualInterface
 		return pseudo_window.getValidateButton();
 	}
 	
+	public JButton getExitPseudoButton()
+	{
+		return pseudo_window.getExitButton();
+	}
+	
 	//--------------- OTHER INFORMATIONS ---------------------------------------------
 	
 	public String getWrittenPseudonyme()
@@ -81,23 +84,31 @@ public class VisualInterface
 		pseudo_window.clean_areaEnterPseudonyme();
 	}
 	
-	private void process_login(String validatedPseudo)
+	public void process_login(String validatedPseudo)
 	{
-		/*
-		 * - fermer pseudowindow
-		 * - changer create_pseudowindow en modify_pseudowindow
-		 * - changer notre pseudo dans ApplicationWindow
-		 * - open ApplicationWindow
-		 */
-		
 		pseudo_window.hideWindow();
 		pseudo_window.changeTo_ModifyWindow();
 		
 		main_window.modifyPseudo(validatedPseudo);
+		main_window.showWindow();
+	}
+	
+	public void process_modifyPseudo(String validatedPseudo)
+	{
+		pseudo_window.hideWindow();
+		pseudo_window.clean_window();
+		
+		main_window.modifyPseudo(validatedPseudo);
+	}
+	
+	public void process_cancelModifyPseudo()
+	{
+		pseudo_window.hideWindow();
+		pseudo_window.clean_window();
 	}
 
 	
-	//est-ce que ces 3 fonctions ont besoin de ce parametre ? : String ipAddress, 
+	//est-ce que ces 3 fonctions ont besoin de ce parametre en plus ? : String ipAddress, 
 	public void showNewActiveUser(String pseudonyme)
 	{
 		

@@ -157,7 +157,21 @@ public class MainApplication implements ActionListener
 	
 	private void process_modifyPseudo(String validatedPseudo)
 	{
-		local_interface.clean_pseudoWindow();
+		local_manager.broadcastUpdatePseudo(validatedPseudo);
+		
+		local_memory.modifyPseudonyme(validatedPseudo);
+		
+		local_interface.process_modifyPseudo(validatedPseudo);
+	}
+	
+	private void process_cancelModifyPseudo()
+	{
+		local_interface.process_cancelModifyPseudo();
+	}
+	
+	private void process_shutDown()
+	{
+		//penser a sauvegarder dans la base de donnée !!
 	}
 	
 	//------------------- INTERACTIONS WITH USER -----------------------------
@@ -200,19 +214,28 @@ public class MainApplication implements ActionListener
 		}
 	}
 	
+	private void click_on_exit_pseudonyme_button()
+	{
+		if(local_state == AppState.LOGIN)
+		{
+			process_shutDown();
+		}
+		else if(local_state == AppState.CHATTING)
+		{
+			process_cancelModifyPseudo();
+		}
+	}
+	
 	
 	public void actionPerformed(ActionEvent e){
 		
 		if(e.getSource().equals(local_interface.getValidatePseudoButton())) 
 		{
-			try 
-			{
-				click_on_validate_pseudonyme_button();
-			} 
-			catch (Exception e1) 
-			{
-				e1.printStackTrace();
-			}
+			click_on_validate_pseudonyme_button();
+		}
+		else if(e.getSource().equals(local_interface.getExitPseudoButton())) 
+		{
+			click_on_exit_pseudonyme_button();
 		}
 		
 	}
