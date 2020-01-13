@@ -45,7 +45,7 @@ public class MainApplication implements ActionListener
 		{
 			if(local_memory.lastPseudonymeIsOk())
 			{
-				//a écrire: connexion avec l'ancien pseudonyme > envoie d'un broadcast...
+				local_manager.broadcastConnected(local_memory.getPseudo());
 				
 				//Donc on peut direct afficher l'applicationWindow:
 				local_state = AppState.CHATTING;
@@ -60,7 +60,7 @@ public class MainApplication implements ActionListener
 		//open interface
 		if(local_state == AppState.LOGIN)
 		{
-			local_interface.openCreatingPseudonymeWindow();
+			local_interface.openPseudonymeWindow();
 		}
 		else if(local_state == AppState.CHATTING)
 		{

@@ -213,36 +213,5 @@ public class NetworkManager //implements Runnable
 		System.out.println("Server successfully closed");
     }
     
-    //
-    
-    /*
-  	public void run() {
-  		//debugging
-  		System.out.println("Network_Manager running");
-  		
-  		try {
-  			while(this.NetworkManagerActive) {
-  			//Je pensais mettre ici socket.receive puis analyser le paquet en mettant 
-  			//	if (packets==<1> then
-  			// Envoyer moi le tableau
-  			//traitement
-  			// if packets == <3> then
-  			// disconection........... Utilisation du HashMap <String,InetAddress> onlineUsers
-  				
-  				String message = global_buffer.get(0);
-  				
-  				treatMessageReceived(message);
-  			}
-  			
-  		}catch(Exception e) {
-  			System.out.println("NetworkManager Error");
-  			e.printStackTrace();
-  		}
-  		
-  		while(true) {
-  			//System.out.println("Network_Manager while");
-  		}
-  		
-  	}
-  	*/
+   
 }

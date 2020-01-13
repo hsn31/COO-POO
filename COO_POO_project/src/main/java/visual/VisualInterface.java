@@ -25,12 +25,7 @@ public class VisualInterface
 	//---------------Methods pas sur de les garder -----------------------------------------
 	
 	
-	public void openCreatingPseudonymeWindow()
-	{
-		pseudo_window.showWindow();
-	}
-	
-	public void openModifyingPseudonymeWindow()
+	public void openPseudonymeWindow()
 	{
 		pseudo_window.showWindow();
 	}
@@ -43,6 +38,7 @@ public class VisualInterface
 	public void openApplicationWindow()
 	{
 		main_window.showWindow();
+		pseudo_window.changeTo_ModifyWindow();
 	}
 	
 	public void closeApplicationWindow()
