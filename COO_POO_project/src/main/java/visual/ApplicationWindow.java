@@ -179,7 +179,14 @@ public class ApplicationWindow implements ActionListener
 		main_window.setVisible(false);
 	}
 	
-
+	//--------------------------- REFRESHING ACTIONS ------------------------------------------
+	
+	public void modifyPseudo(String newPseudo)
+	{
+		//JLabel.setText(newPseudo);
+	}
+	
+	
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
 	/*
@@ -194,11 +201,6 @@ public class ApplicationWindow implements ActionListener
 	}
 	*/
 	
-	
-	private void refresh_display()
-	{
-		
-	}
 	
 	private void clean_alert_message()
 	{

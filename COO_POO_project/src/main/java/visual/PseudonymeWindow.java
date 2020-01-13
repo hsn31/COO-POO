@@ -12,15 +12,9 @@ import java.net.*;
 
 import network.*;
 
-/*Quand la fenetre de pseudonyme se ferme, si debut => tout s'éteint : MainApplication
- * si pendant changement => reouverture de la fenetre application et pas de changement : VisualInterface
- */
 
 
-
-
-
-public class PseudonymeWindow implements ActionListener
+public class PseudonymeWindow
 {
 	
 	private String titleWindow;
@@ -38,26 +32,9 @@ public class PseudonymeWindow implements ActionListener
 	private ImageIcon wallpaper;
 	//palette couleurs ?
 	
-	
-	public enum PseudoAction
+	public PseudonymeWindow() throws FontFormatException, IOException
 	{
-		CREATE,
-		MODIFY,
-	}
-	
-	
-	/*
-	 * //coding_parameters : values to follow the progression
-	 * private State state;
-	*/
-	private PseudoAction state;
-	
-	public PseudonymeWindow(PseudoAction stateApp) throws FontFormatException, IOException
-	{
-		initialize_coding_parameters(stateApp);
-		
 		creation_elements();
-		creation_listeners();
 		
 		esthetic_parameters();
 		design_elements();
@@ -67,12 +44,7 @@ public class PseudonymeWindow implements ActionListener
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
-	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
-	
-	private void initialize_coding_parameters(PseudoAction stateApp)
-	{
-		state = stateApp;
-	}
+	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR ------------------
 	
 	private void creation_elements() throws FontFormatException, IOException
 	{
@@ -80,15 +52,7 @@ public class PseudonymeWindow implements ActionListener
 		wallpaper = new ImageIcon("wallpaper_pseudonyme.jpg");
 		
 		//MAIN WINDOW
-		
-		if(state == PseudoAction.CREATE)
-		{
-			titleWindow = "Chat Application - Beginning";
-		}
-		else if(state == PseudoAction.MODIFY)
-		{
-			titleWindow = "Modify your pseudonyme";
-		}
+		titleWindow = "Chat Application - Login step";
 		
 		main_window = new JFrame(titleWindow);
 		wallpaper_area = new JLabel(wallpaper);
@@ -100,12 +64,6 @@ public class PseudonymeWindow implements ActionListener
         areaEnterPseudonyme = new JTextField();
         validateButton = new JButton("Validate Pseudonyme");
         exitButton = new JButton("Exit");
-	}
-	
-	private void creation_listeners()
-	{
-		//button.addActionListener(this);
-		//sub_area.creation_listeners(this);
 	}
 	
 	private void esthetic_parameters() throws FontFormatException, IOException
@@ -213,6 +171,13 @@ public class PseudonymeWindow implements ActionListener
 
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
+	public void changeTo_ModifyWindow()
+	{
+		main_window.setTitle("Modify your pseudonyme");
+		clean_error_message();
+		clean_areaEnterPseudonyme();
+	}
+	
 	public void display_error_message(String message)
 	{
 		labelError.setText(message);
@@ -226,27 +191,6 @@ public class PseudonymeWindow implements ActionListener
 	public void clean_areaEnterPseudonyme()
 	{
 		areaEnterPseudonyme.setText("");
-	}
-	
-	
-	//------------------Management of interaction with the User and Listeners---------------------------------
-	
-	
-	public void actionPerformed(ActionEvent e) 
-	{
-		if(e.getSource().equals(validateButton))
-		{
-			try 
-			{
-				click_on_validate_pseudonyme_button();
-			} 
-			catch (InterruptedException e1) 
-			{
-				e1.printStackTrace();
-			}
-		}
-		
-		
 	}
 	
 }

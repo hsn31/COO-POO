@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 import java.util.*;
 
 
-//TEST OK LE 11_01_2020
 
 public class LocalMemory 
 {
@@ -18,9 +17,11 @@ public class LocalMemory
 	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
 	Account local_account;
 	
+	//-------------------------------------------------------------------------------------
+	
 	//renvoi l'adresse IP de la machine locale sur le réseau -TESTOK
-	public String getLocalIp() {
-
+	public String getLocalIp() 
+	{
         String adresseIPLocale = null ;
 
         try{
@@ -33,30 +34,25 @@ public class LocalMemory
         
         return adresseIPLocale;
 	}
-	
-	// the meaning... set Active = true, check if active is true
-	public boolean isOnline(String pseudonyme) {
-		return listOfActiveUsers.containsValue(pseudonyme);
-			
-	}
+
 	
 	//ATTENTION : TRUE Signifie que le pseudo est deja utilisé. -TESTOK 
-	public boolean checkUnicity(String tempPseudo) {
-		
-		return listOfActiveUsers.containsValue(tempPseudo);
+	public boolean pseudoAlreadyUsed(String pseudonyme) 
+	{
+		return listOfActiveUsers.containsValue(pseudonyme);
 	}
 	
 	
 	//renvoie le nombre d'élements contenus dans la collection -TESTOK
-	public int checkActiveUserAmount() {
+	public int checkActiveUserAmount() 
+	{
 		return listOfActiveUsers.size();
 	}
 	
 	
-	//Modification du pseudo d'un utilisateur
-	public void modifyPseudonyme(Account account, String pseudonyme) {
-		account.modifyPseudonyme(pseudonyme);
-		
+	//Modification du pseudo de l'utilisateur local
+	public void modifyPseudonyme(String pseudonyme) {
+		local_account.modifyPseudonyme(pseudonyme);
 	}
 	
 	//----------------------------------------------------------------------------------------------

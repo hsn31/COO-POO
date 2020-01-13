@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import network.*;
+import network.MainApplication.AppState;
 import visual.PseudonymeWindow.PseudoAction;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.text.DateFormat;
 import java.util.*;
 
 
-public class VisualInterface implements ActionListener
+public class VisualInterface
 {
 	
 	ApplicationWindow main_window;
@@ -74,9 +75,27 @@ public class VisualInterface implements ActionListener
 	//--------------- ACTIONS --------------------------------------------------------
 	
 	
+	public void process_ErrorPseudo(String errorMessage)
+	{
+		pseudo_window.display_error_message(errorMessage);
+		pseudo_window.clean_areaEnterPseudonyme();
+	}
 	
-	
-	
+	private void process_login(String validatedPseudo)
+	{
+		/*
+		 * - fermer pseudowindow
+		 * - changer create_pseudowindow en modify_pseudowindow
+		 * - changer notre pseudo dans ApplicationWindow
+		 * - open ApplicationWindow
+		 */
+		
+		pseudo_window.hideWindow();
+		pseudo_window.changeTo_ModifyWindow();
+		
+		main_window.modifyPseudo(validatedPseudo);
+	}
+
 	
 	//est-ce que ces 3 fonctions ont besoin de ce parametre ? : String ipAddress, 
 	public void showNewActiveUser(String pseudonyme)
@@ -93,15 +112,6 @@ public class VisualInterface implements ActionListener
 	{
 		//suppress in window application
 		//close windows chat
-	}
-
-	
-	//-----------------------------------------------------------------------------------------
-
-	public void actionPerformed(ActionEvent e) 
-	{
-		
-		
 	}
 		
 }

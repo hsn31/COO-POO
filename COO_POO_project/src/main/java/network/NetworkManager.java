@@ -103,22 +103,7 @@ public class NetworkManager //implements Runnable
     	global_buffer.add(m);
     }
     
-    //NE PAS UTILISER
-    public void sendFirstBroadcast(String message) throws IOException
-    {
-        List<InetAddress> ListInetAddresses = listAllBroadcastAddresses();
-        
-        outDgramSocket.setBroadcast(true);
-        
-        // test ok : listAllBroadcastAddresses().get(0).toString()
-        broadcast(message, ListInetAddresses.get(0));
-        
-        outDgramSocket.receive(inPacket_broadcast);
-        
-        outDgramSocket.setBroadcast(false);
-    }
-    
-    public void sendClassicBroadcast(String message) throws IOException
+    public void sendBroadcast(String message) throws IOException
     {
         List<InetAddress> ListInetAddresses = listAllBroadcastAddresses();
         
@@ -153,7 +138,7 @@ public class NetworkManager //implements Runnable
 		
 		//send broadcast <1>
 		try {
-			sendClassicBroadcast("1<>broadcast<>"+stringLocalAdress+"<>_");
+			sendBroadcast("1<>broadcast<>"+stringLocalAdress+"<>_");
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -165,7 +150,7 @@ public class NetworkManager //implements Runnable
 	public int broadcastConnected(String pseudo) {
 		//send broadcast <2>
 		try {
-			sendClassicBroadcast("2<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
+			sendBroadcast("2<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -176,7 +161,7 @@ public class NetworkManager //implements Runnable
 	public int broadcastUpdatePseudo(String pseudo) {
 		//send broadcast <3>
 		try {
-			sendClassicBroadcast("3<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
+			sendBroadcast("3<>broadcast<>"+stringLocalAdress+"<>"+pseudo);
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -187,7 +172,7 @@ public class NetworkManager //implements Runnable
 	public int broadcastDisconnected() {
 		//send broadcast <4>
 		try {
-			sendClassicBroadcast("4<>broadcast<>"+stringLocalAdress+"<>_");
+			sendBroadcast("4<>broadcast<>"+stringLocalAdress+"<>_");
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();

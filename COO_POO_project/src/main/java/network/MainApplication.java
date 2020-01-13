@@ -21,9 +21,8 @@ public class MainApplication implements ActionListener
 	
 	private enum AppState
 	{
-		CREATING_PSEUDO,
+		LOGIN,
 		CHATTING,
-		//MODIFYING_PSEUDO,
 	}
 	
 	private AppState local_state;
@@ -40,7 +39,7 @@ public class MainApplication implements ActionListener
 		//récupérer les données de la database dans le constructeur de localMemory
 		//récupérer la liste des active users (ou ?)
 		
-		local_state = AppState.CREATING_PSEUDO;
+		local_state = AppState.LOGIN;
 		
 		if(local_memory.accountIsAlreadyCreated())
 		{
@@ -59,12 +58,13 @@ public class MainApplication implements ActionListener
 		processor_messages.start();
 		
 		//open interface
-		if(local_state == AppState.CREATING_PSEUDO)
+		if(local_state == AppState.LOGIN)
 		{
 			local_interface.openCreatingPseudonymeWindow();
 		}
 		else if(local_state == AppState.CHATTING)
 		{
+			//miss refresh the display with informations from local_memory
 			local_interface.openApplicationWindow();
 		}
 	}
@@ -86,11 +86,13 @@ public class MainApplication implements ActionListener
 	//------------------- ACTIONS -------------------------------------------------------
 	
 	//Envoi le pseudo en retour d'un appel broadcast d'ID n°1
-	//format 11<>unicast<>IPSENDER<>PSEUDO
+	//format "11<>unicast<>IPSENDER<>PSEUDO"
 	public void sendActiveUser(String destAddress) throws UnknownHostException, IOException
 	{
-		InetAddress test = local_manager.get_local_address();
-		local_manager.sendMessage("11<>unicast<>"+test+"<>"+local_memory.getPseudo(),InetAddress.getByName(destAddress),local_manager.get_inPort());
+		InetAddress ipsender = local_manager.get_local_address();
+		int inPort = local_manager.get_inPort();
+		InetAddress ipreceiver = InetAddress.getByName(destAddress);
+		local_manager.sendMessage("11<>unicast<>" + ipsender.toString() + "<>" + local_memory.getPseudo(), ipreceiver, inPort);
 	}
 	
 	public void addActiveUser(String ipAddress, String pseudonyme)
@@ -111,6 +113,7 @@ public class MainApplication implements ActionListener
 		local_interface.removeActiveUser(pseudonyme);
 	}
 	
+	//a packet in the buffer
 	public void deleteOneMessage()
 	{
 		local_manager.getListOfMessages().remove(0);
@@ -121,7 +124,43 @@ public class MainApplication implements ActionListener
 		return local_manager.getListOfMessages();
 	}
 
-	//------------------- INTERACTIONS WITH USER -------------------------------------------------------
+	
+	//------------------- SUB METHODS : INTERACTIONS WITH USER --------------
+	
+	private void process_login(String validatedPseudo)
+	{
+		/*
+		 * local_manager :
+		 * - send broadcast update connexion/pseudo
+		 * 
+		 * local_memory :
+		 * - update pseudo
+		 * 
+		 * local_interface :
+		 * - fermer pseudowindow
+		 * - changer create_pseudowindow en modify_pseudowindow
+		 * - changer notre pseudo dans ApplicationWindow
+		 * - open ApplicationWindow
+		 * 
+		 * ici:
+		 * - changer state en CHATTING
+		 */
+		
+		local_manager.broadcastConnected(validatedPseudo);
+		
+		local_memory.modifyPseudonyme(validatedPseudo);
+		
+		local_interface.process_login(validatedPseudo);
+		
+		local_state = AppState.CHATTING;
+	}
+	
+	private void process_modifyPseudo(String validatedPseudo)
+	{
+		local_interface.clean_pseudoWindow();
+	}
+	
+	//------------------- INTERACTIONS WITH USER -----------------------------
 	
 	private void click_on_validate_pseudonyme_button()
 	{
@@ -131,12 +170,33 @@ public class MainApplication implements ActionListener
 		{
 			currentError = "Impossible to login with an empty pseudo !";
 		} 
-		else 
+		else if(wantedPseudo.contains(" "))
 		{
-			if(discovery.getOnlineUsers().contains(wantedPseudo)) 
+			currentError = "Impossible to login with a pseudo which contains a space !";
+		} 
+		else
+		{
+			if(local_memory.pseudoAlreadyUsed(wantedPseudo)) 
 			{
-				labelError.setText("Impossible to login because : " + wantedPseudo + " is already Online.");
+				currentError = "Impossible to use the pseudonyme <" + wantedPseudo + "> because it is already Online.";
 			}
+		}
+		
+		if(currentError.equals(""))
+		{
+			if(local_state == AppState.LOGIN)
+			{
+				process_login(wantedPseudo);
+				
+			}
+			else if(local_state == AppState.CHATTING)
+			{
+				process_modifyPseudo(wantedPseudo);
+			}
+		}
+		else
+		{
+			local_interface.process_ErrorPseudo(currentError);
 		}
 	}
 	
