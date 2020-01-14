@@ -15,6 +15,8 @@ import java.net.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import network.*;
 
@@ -26,23 +28,25 @@ public class ApplicationWindow implements ActionListener
 	
 	//+ JPanel JButton JLabel par zone dans la frame
 	
+	private JPanel northPanel;
+	private JLabel welcomeLabel;
+	
+	private JPanel westPanel;
+	private 
+	private JList<DefaultListModel> areaListActiveUsers;
+	private DefaultListModel listActiveUsers;
+	
+	private JPanel centralPanel;
+	private JTabbedPane chatsAreas;
+	
 	//DESIGN
 	private ImageIcon wallpaper;
 	//palette couleurs ?
-	
-	/*
-	private enum State
-	{
-		BLA,
-		BLO,
-		BLU,
-	}
-	*/
-	
-	/*
-	 * //coding_parameters : values to follow the progression
-	 * private State state;
-	*/
+
+	//coding_parameters : values to follow the progression
+
+	//Map <Key : AdresseIP, Value : Pseudo>
+	LinkedHashMap<String,String> listOfActiveUsers = new LinkedHashMap<String,String>();
 	
 	public ApplicationWindow() throws FontFormatException, IOException
 	{
@@ -72,7 +76,7 @@ public class ApplicationWindow implements ActionListener
 		wallpaper = new ImageIcon("wallpaper_pseudonyme.jpg");
 		
 		//MAIN WINDOW
-		main_window = new JFrame("pseudonyme window");
+		main_window = new JFrame("Zone de clavardage");
 		wallpaper_area = new JLabel(wallpaper);
 		
 		//new : JPanel JButton JLabel par zone dans la frame
@@ -235,17 +239,6 @@ public class ApplicationWindow implements ActionListener
 	
 	/*
 	
-	private JLabel jLabelBienvenue;
-	private JPanel jNorthPanel;
-	private JList<Account> jListConnectedUser;
-	private DefaultListModel<Account> lm;
-	private JPanel jPanelBottom;
-	private JTextArea jTextArea;
-	private ArrayList<Account> connectedUsers = new ArrayList<>();
-
-	public VisualInterface() {
-		super("Clavardage");
-
 		this.setLayout(new BorderLayout());
 
 		this.jNorthPanel = new JPanel(new GridBagLayout());
@@ -254,7 +247,6 @@ public class ApplicationWindow implements ActionListener
 
 		this.getContentPane().add(jNorthPanel, BorderLayout.NORTH);
 
-		this.lm = new DefaultListModel<>();
 
 		this.jListConnectedUser = new JList<>(lm);
 		JScrollPane jsp = new JScrollPane(jListConnectedUser);

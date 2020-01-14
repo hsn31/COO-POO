@@ -12,10 +12,17 @@ public class LocalMemory
 	//On crée une Map, avec en Clé l'adresseIP, et en valeur le pseudo. 
 	//Map <AdresseIP,Pseudo>
 	
-	Map<String,String> listOfActiveUsers = new LinkedHashMap<String,String>();
+	LinkedHashMap<String,String> listOfActiveUsers;
 	
 	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
 	Account local_account;
+	
+	public LocalMemory()
+	{
+		listOfActiveUsers = new LinkedHashMap<String,String>();
+		//local_account ??
+	}
+	
 	
 	//-------------------------------------------------------------------------------------
 	
