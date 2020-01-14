@@ -35,7 +35,7 @@ public class ApplicationWindow implements ActionListener
 	private JPanel westPanel;
 	private JScrollPane listScroller;
 	private JList<DefaultListModel<String>> areaListActiveUsers;
-	private DefaultListModel<String> listActiveUsers;
+	private ListModel<String> listActiveUsers;
 	
 	private JPanel centralPanel;
 	private JTabbedPane chatsAreas;
@@ -89,9 +89,9 @@ public class ApplicationWindow implements ActionListener
 		exitButton = new JButton("Exit");
 		
 		westPanel = new JPanel();
-		areaListActiveUsers = new JList<DefaultListModel<>>();
-		listScroller = new JScrollPane(areaListActiveUsers);
 		listActiveUsers = new DefaultListModel<String>();
+		areaListActiveUsers = new JList<DefaultListModel<String>>(listActiveUsers);
+		listScroller = new JScrollPane(areaListActiveUsers);
 		
 		private JPanel centralPanel;
 		private JTabbedPane chatsAreas;
