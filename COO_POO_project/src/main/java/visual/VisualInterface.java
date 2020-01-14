@@ -68,7 +68,7 @@ public class VisualInterface
 	
 	public JButton getSendMessageButton()
 	{
-		return chat_window.getSendButton();
+		return chat_window.getButton();
 	}
 	
 	//--------------- OTHER INFORMATIONS ---------------------------------------------

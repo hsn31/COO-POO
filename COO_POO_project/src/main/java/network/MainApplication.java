@@ -238,6 +238,11 @@ public class MainApplication implements ActionListener
 		}
 	}
 	
+	private void click_on_send_message_button()
+	{
+		
+	}
+	
 	
 	public void actionPerformed(ActionEvent e){
 		
@@ -248,6 +253,10 @@ public class MainApplication implements ActionListener
 		else if(e.getSource().equals(local_interface.getExitPseudoButton())) 
 		{
 			click_on_exit_pseudonyme_button();
+		}
+		else if(e.getSource().equals(local_interface.getSendMessageButton())) 
+		{
+			click_on_send_message_button();
 		}
 		
 	}
