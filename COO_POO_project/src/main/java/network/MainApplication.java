@@ -9,9 +9,12 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import visual.VisualInterface;
 
-public class MainApplication implements ActionListener
+public class MainApplication implements ActionListener, ListSelectionListener
 {
 	private static final long Delta = 1000;
 	private NetworkManager local_manager;
@@ -258,6 +261,14 @@ public class MainApplication implements ActionListener
 		{
 			click_on_send_message_button();
 		}
+		
+	}
+
+	
+	//Appelé lors de la sélection des active users
+	public void valueChanged(ListSelectionEvent e) 
+	{
+		
 		
 	}
 }

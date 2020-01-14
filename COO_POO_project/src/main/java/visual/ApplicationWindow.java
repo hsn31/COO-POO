@@ -34,11 +34,13 @@ public class ApplicationWindow implements ActionListener
 	
 	private JPanel westPanel;
 	private JScrollPane listScroller;
-	private JList<DefaultListModel<String>> areaListActiveUsers;
+	private JList<String> areaListActiveUsers;
 	private ListModel<String> listActiveUsers;
 	
-	private JPanel centralPanel;
-	private JTabbedPane chatsAreas;
+	private JPanel centralChatsPanel;
+	private JButton exitCurrentChatButton;
+	//<Key : AdresseIP, Value : ChatWindow> => all the chat Panels open : max 50, 1000 on the network
+	private LinkedHashMap<String,ChatWindow> listOfChats;
 	
 	//DESIGN
 	private ImageIcon wallpaper;
@@ -48,7 +50,7 @@ public class ApplicationWindow implements ActionListener
 	//coding_parameters :
 
 	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListMdodel
-	LinkedHashMap<String,String> listOfActiveUsers;
+	private LinkedHashMap<String,String> listOfActiveUsers;
 	
 	public ApplicationWindow(LinkedHashMap<String,String> initialUsersList) throws FontFormatException, IOException
 	{
@@ -82,23 +84,24 @@ public class ApplicationWindow implements ActionListener
 		main_window = new JFrame("Zone de clavardage");
 		wallpaper_area = new JLabel(wallpaper);
 		
-		//new : JPanel JButton JLabel par zone dans la frame
-		
 		northPanel = new JPanel();
 		welcomeLabel = new JLabel("Bienvenue");;
 		exitButton = new JButton("Exit");
 		
 		westPanel = new JPanel();
 		listActiveUsers = new DefaultListModel<String>();
-		areaListActiveUsers = new JList<DefaultListModel<String>>(listActiveUsers);
+		areaListActiveUsers = new JList<String>(listActiveUsers);
 		listScroller = new JScrollPane(areaListActiveUsers);
 		
-		private JPanel centralPanel;
-		private JTabbedPane chatsAreas;
+		centralChatsPanel = new JPanel();
+		exitCurrentChatButton = new JButton("\u00d7"); //croix du multiplié
+		listOfChats = new LinkedHashMap<String,ChatWindow>();
+		
 	}
 	
 	private void creation_listeners()
 	{
+		//listScroller ??
 		//button.addActionListener(this);
 		//sub_area.creation_listeners(this);
 	}
@@ -182,7 +185,8 @@ public class ApplicationWindow implements ActionListener
 	
 	public void creation_listeners_appliWindow(MainApplication application)
 	{
-		//button.addActionListener(application);
+		exitButton.addActionListener(application);
+		areaListActiveUsers.addListSelectionListener(application);
 	}
 	
 	
