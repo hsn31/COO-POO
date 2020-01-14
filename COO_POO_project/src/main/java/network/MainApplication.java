@@ -189,6 +189,17 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		//et a eteindre le server ! les servers ?
 	}
 	
+	private void process_applyMessage(String wantedMessage, String distantAddress)
+	{
+		local_interface.process_applyMessage();
+		
+		local_manager.unicastSendChatMessage(wantedMessage, distantAddress);
+		
+		
+		
+		
+	}
+	
 	//------------------- INTERACTIONS WITH USER -----------------------------
 	
 	private void click_on_validate_pseudonyme_button()
@@ -241,8 +252,26 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		}
 	}
 	
-	private void click_on_send_message_button()
+	private void click_on_send_message_button(String distantAddress)
 	{
+		String wantedMessage = local_interface.getWrittenMessage();
+		String currentError = "";
+		int length = wantedMessage.length();
+		if(wantedMessage.equals("")) 
+		{
+			currentError = "Impossible to send an empty message";
+		}
+		else if(length > 500)
+		{
+			currentError = "Message too long";
+		}
+		
+		// next if the text is right, other faults
+		
+		else
+		{ 
+			process_applyMessage(wantedMessage, distantAddress);
+		}
 		
 	}
 	
@@ -259,7 +288,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		}
 		else if(e.getSource().equals(local_interface.getSendMessageButton())) 
 		{
-			click_on_send_message_button();
+			String distantAddress = "NOT READY ATTENTION"; // ATTENTION!!!!!!!!!!!!!!!!!!!!!!!!
+			click_on_send_message_button(distantAddress);
 		}
 		
 	}

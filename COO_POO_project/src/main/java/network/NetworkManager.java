@@ -123,6 +123,12 @@ public class NetworkManager //implements Runnable
         outDgramSocket.send(outPacket);
     }
     
+    public void unicastSendChatMessage(String wantedMessage, String distantAddress)
+    {
+    	InetAddress distantAddress2 = distantAddress; // type mismatch String InetAddress
+		sendMessage(wantedMessage, distantAddress2, inPort);
+    }
+    
     public void sendMessage(String message, InetAddress distantAddress, int distantPort) throws IOException
     {
         byte[] buffer = message.getBytes();
