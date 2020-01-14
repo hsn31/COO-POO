@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.*;
+import java.sql.Date;
 
 
 public class ChatWindow
@@ -18,6 +19,7 @@ public class ChatWindow
 	private JTextField text_area;
 	private JButton send_message;
 	private JScrollPane scrollbar;
+	private JPanel show_text;
 	
 	// do we need something like this if message is not fine?  
 	// private static JLabel labelError;
@@ -47,10 +49,7 @@ public class ChatWindow
 	
 	
 	
-	// building the chatwindow -väinö
-    main_window.add(send_message) {
-    	
-    }
+	
 	
 	private void initialize_coding_parameters()
 	{
@@ -64,6 +63,7 @@ public class ChatWindow
 		text_area = new JTextField();
 		send_message = new JButton("Send");
 		scrollbar = new JScrollPane();
+		show_text = new JPanel(); 
 	}
 	
 	private void esthetic_parameters() throws FontFormatException, IOException
@@ -143,6 +143,7 @@ public class ChatWindow
 		main_window.add(text_area);   
 		main_window.add(send_message);
 		main_window.add(scrollbar);
+		main_window.add(show_text);
 	}
 	
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
@@ -165,15 +166,20 @@ public class ChatWindow
 		return send_message;
 	}
 	
-	public JTextField getMessageInTextField() {
+	public String getMessageInTextField() {
+		String message = text_area.getText();
+		return message;
+	}
+	
+	public void printMessage(String message) {
+		JLabel label_show_text = new JLabel();
+		
+		label_show_text.setText(message);
+		show_text.add(label_show_text);
 		
 	}
 	
-	public JPanel printMessage() {
-		
-	}
-	
-	public JTextField cleanTextArea() {
+	public void cleanTextArea() {
 		send_message.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 // envoyer string to mainapp

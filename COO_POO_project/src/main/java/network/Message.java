@@ -1,6 +1,10 @@
 package network;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import visual.ChatWindow;
 
 //MISE A JOUR LE 06_01_2020.  OK.
 
@@ -32,6 +36,14 @@ public class Message
 	
 	public String getText() {
 		return text;
+	}
+	
+	
+	public String returnMessage() {
+		String message = text;
+		DateFormat dateFormat = new SimpleDateFormat("hh:MM:ss yyyy-mm-dd");  
+        String strDate = dateFormat.format(date);  
+		return message + " " + strDate;
 	}
 
 
