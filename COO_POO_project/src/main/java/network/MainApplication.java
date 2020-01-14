@@ -193,6 +193,8 @@ public class MainApplication implements ActionListener
 		local_manager.unicastSendChatMessage(wantedMessage, distantAddress);
 		
 		
+		
+		
 	}
 	
 	//------------------- INTERACTIONS WITH USER -----------------------------
@@ -255,7 +257,7 @@ public class MainApplication implements ActionListener
 		if(wantedMessage.equals("")) 
 		{
 			currentError = "Impossible to send an empty message";
-		} 
+		}
 		else if(length > 500)
 		{
 			currentError = "Message too long";
@@ -263,7 +265,7 @@ public class MainApplication implements ActionListener
 		
 		// next if the text is right, other faults
 		
-		if(currentError.equals(""))
+		else
 		{ 
 			process_applyMessage(wantedMessage, distantAddress);
 		}
@@ -283,7 +285,7 @@ public class MainApplication implements ActionListener
 		}
 		else if(e.getSource().equals(local_interface.getSendMessageButton())) 
 		{
-			String distantAddress = "has to be worked on";
+			String distantAddress = "NOT READY ATTENTION"; // ATTENTION!!!!!!!!!!!!!!!!!!!!!!!!
 			click_on_send_message_button(distantAddress);
 		}
 		
