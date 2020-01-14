@@ -172,6 +172,7 @@ public class MainApplication implements ActionListener
 	private void process_shutDown()
 	{
 		//penser a sauvegarder dans la base de donnée !!
+		//et a eteindre le server ! les servers ?
 	}
 	
 	//------------------- INTERACTIONS WITH USER -----------------------------

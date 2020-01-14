@@ -30,11 +30,12 @@ public class ApplicationWindow implements ActionListener
 	
 	private JPanel northPanel;
 	private JLabel welcomeLabel;
+	private JButton exitButton;
 	
 	private JPanel westPanel;
-	private 
-	private JList<DefaultListModel> areaListActiveUsers;
-	private DefaultListModel listActiveUsers;
+	private JScrollPane listScroller;
+	private JList<DefaultListModel<String>> areaListActiveUsers;
+	private DefaultListModel<String> listActiveUsers;
 	
 	private JPanel centralPanel;
 	private JTabbedPane chatsAreas;
@@ -43,14 +44,15 @@ public class ApplicationWindow implements ActionListener
 	private ImageIcon wallpaper;
 	//palette couleurs ?
 
-	//coding_parameters : values to follow the progression
-
-	//Map <Key : AdresseIP, Value : Pseudo>
-	LinkedHashMap<String,String> listOfActiveUsers = new LinkedHashMap<String,String>();
 	
-	public ApplicationWindow() throws FontFormatException, IOException
+	//coding_parameters :
+
+	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListMdodel
+	LinkedHashMap<String,String> listOfActiveUsers;
+	
+	public ApplicationWindow(LinkedHashMap<String,String> initialUsersList) throws FontFormatException, IOException
 	{
-		initialize_coding_parameters();
+		initialize_coding_parameters(initialUsersList);
 		
 		creation_elements();
 		creation_listeners();
@@ -59,15 +61,16 @@ public class ApplicationWindow implements ActionListener
 		design_elements();
 		
 		main_window.setLocation(200, 0);
-		main_window.setVisible(true);
+		main_window.setVisible(false);
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //!!
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
 	
-	private void initialize_coding_parameters()
+	private void initialize_coding_parameters(LinkedHashMap<String,String> initialList)
 	{
-		
+		listOfActiveUsers = new LinkedHashMap<String,String>();
+		listOfActiveUsers.putAll(initialList);
 	}
 	
 	private void creation_elements() throws FontFormatException, IOException
@@ -80,6 +83,18 @@ public class ApplicationWindow implements ActionListener
 		wallpaper_area = new JLabel(wallpaper);
 		
 		//new : JPanel JButton JLabel par zone dans la frame
+		
+		northPanel = new JPanel();
+		welcomeLabel = new JLabel("Bienvenue");;
+		exitButton = new JButton("Exit");
+		
+		westPanel = new JPanel();
+		areaListActiveUsers = new JList<DefaultListModel<>>();
+		listScroller = new JScrollPane(areaListActiveUsers);
+		listActiveUsers = new DefaultListModel<String>();
+		
+		private JPanel centralPanel;
+		private JTabbedPane chatsAreas;
 	}
 	
 	private void creation_listeners()
