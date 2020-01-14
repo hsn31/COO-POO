@@ -148,12 +148,12 @@ public class ChatWindow
 	
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
 	
-	/*
-	public JButton get_button()
+	
+	public JButton getButton()
 	{
-		return button;
+		return send_message;
 	}
-	*/
+	
 	
 	public void creation_listener_sendButton(MainApplication application)
 	{
@@ -199,7 +199,7 @@ public class ChatWindow
 
 	
 	
-	// tämä nyt viimeinen 12.1
+	
 	
 	
 	
