@@ -13,6 +13,7 @@ import visual.VisualInterface;
 
 public class MainApplication implements ActionListener
 {
+	private static final long Delta = 1000;
 	private NetworkManager local_manager;
 	private LocalMemory local_memory;
 	private VisualInterface local_interface;
@@ -35,9 +36,21 @@ public class MainApplication implements ActionListener
 		local_interface = new VisualInterface();
 		local_manager = new NetworkManager();
 		
+		long t1 = System.currentTimeMillis();
+		 
 		//A FAIRE
 		//récupérer les données de la database dans le constructeur de localMemory
 		//récupérer la liste des active users (ou ?)
+		
+		//Lancement des Threads
+		processor_messages = new Thread(new ProcessingThread(this));
+		processor_messages.start();
+		
+		//Envoi du broadcast d'ID <1>
+		local_manager.broadcastGetActiveUser();
+		
+		//Attention, on fait une pause de 1000 millisecondes pour recevoir les broadcasts 
+		while(System.currentTimeMillis()<t1+Delta);
 		
 		local_state = AppState.LOGIN;
 		
@@ -54,8 +67,6 @@ public class MainApplication implements ActionListener
 		
 		//parameters to make run the application
 		creation_listeners_VisualInterface();
-		processor_messages = new Thread(new ProcessingThread(this));
-		processor_messages.start();
 		
 		//open interface
 		if(local_state == AppState.LOGIN)
