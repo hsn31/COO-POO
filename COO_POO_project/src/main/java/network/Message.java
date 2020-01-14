@@ -41,7 +41,7 @@ public class Message
 	
 	public String returnMessage() {
 		String message = text;
-		DateFormat dateFormat = new SimpleDateFormat("hh:MM:ss yyyy-mm-dd");  
+		DateFormat dateFormat = new SimpleDateFormat("T D");  
         String strDate = dateFormat.format(date);  
 		return message + " " + strDate;
 	}
