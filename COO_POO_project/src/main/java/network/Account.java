@@ -73,5 +73,10 @@ public class Account {
 	{
 		this.pseudonyme = pseudo;
 	}
+	
+	public String returnMessage(String message) {
+		return message;
+	}
+	
 }
 

@@ -125,6 +125,10 @@ public class LocalMemory
 		return !(listOfActiveUsers.containsValue(local_account.getPseudo()));
 	}
 	
+	public String returnMessage(String message) {
+		return message;
+	}
+	
 	//-------------------------------------------------------------------------------
 
 }

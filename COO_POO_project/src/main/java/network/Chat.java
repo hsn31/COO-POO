@@ -45,5 +45,9 @@ public class Chat {
 		this.etat=state.closed;
 	}
 
+	// return message to account
+	public String returnMessage(String message) {
+		return message;
+	}
 
 }

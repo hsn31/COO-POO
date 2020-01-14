@@ -15,11 +15,13 @@ public class VisualInterface
 	ApplicationWindow main_window;
 	//une seule fenêtre pour deux utilisation
 	PseudonymeWindow pseudo_window;
+	ChatWindow chat_window;
 	
 	public VisualInterface() throws FontFormatException, IOException
 	{
 		pseudo_window = new PseudonymeWindow();
 		main_window = new ApplicationWindow();
+		chat_window = new ChatWindow();
 	}
 	
 	//---------------Methods pas sur de les garder -----------------------------------------
@@ -62,6 +64,11 @@ public class VisualInterface
 	public JButton getExitPseudoButton()
 	{
 		return pseudo_window.getExitButton();
+	}
+	
+	public JButton getSendMessageButton()
+	{
+		return chat_window.getSendButton();
 	}
 	
 	//--------------- OTHER INFORMATIONS ---------------------------------------------
