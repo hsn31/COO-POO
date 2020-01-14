@@ -118,6 +118,7 @@ public class VisualInterface
 	public void process_applyMessage()
 	{
 		chat_window.cleanTextArea();
+		// need for the parameter of a message?
 	}
 
 	
