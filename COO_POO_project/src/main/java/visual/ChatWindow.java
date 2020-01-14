@@ -187,6 +187,12 @@ public class ChatWindow
 	         }
 	});
 	}
+	
+	public String getWrittenMessage()
+	{
+		return text_area.getText();
+	}
+	
 
 
 	//---------------------------Functions to manage the interaction with the user------------------------------

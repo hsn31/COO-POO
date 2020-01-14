@@ -78,6 +78,11 @@ public class VisualInterface
 		return pseudo_window.getWrittenPseudonyme();
 	}
 	
+	public String getWrittenMessage()
+	{
+		return chat_window.getWrittenMessage();
+	}
+	
 	//--------------- ACTIONS --------------------------------------------------------
 	
 	
@@ -108,6 +113,11 @@ public class VisualInterface
 	{
 		pseudo_window.hideWindow();
 		pseudo_window.clean_window();
+	}
+	
+	public void process_applyMessage()
+	{
+		chat_window.cleanTextArea();
 	}
 
 	
