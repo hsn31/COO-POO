@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class ProcessingThread implements Runnable 
 {
+	private boolean interrupted=false;
+	
 	private MainApplication local_application;
 	private ArrayList<String> listOfMessages;
 	
@@ -14,9 +16,15 @@ public class ProcessingThread implements Runnable
 		local_application = application;
 	}
 	
+	public void interrupt(){
+	    interrupted = true;
+	 }
+	
 	public void run() 
 	{
-		while(true)
+		interrupted = false;
+		
+		while(!interrupted)
 		{
 			//refresh
 			listOfMessages = local_application.getActualListOfMessages();
@@ -28,6 +36,15 @@ public class ProcessingThread implements Runnable
 			
 			//supress message read
 			local_application.deleteOneMessage();
+			
+			//Arreter la Thread de maniere propre. 
+			try{
+				Thread.sleep(1);
+			}catch(InterruptedException a) {
+				a.printStackTrace();
+				Thread.currentThread().interrupt();
+			}
+			
 		}
 		
 	}
