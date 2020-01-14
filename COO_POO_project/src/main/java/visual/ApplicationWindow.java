@@ -217,10 +217,12 @@ public class ApplicationWindow implements ActionListener
 	}
 	
 	
-	public void creation_listeners_appliWindow(MainApplication application, VisualInterface interface)
+	public void creation_listeners_appliWindow(MainApplication application, VisualInterface local_interface)
 	{
 		exitButton.addActionListener(application);
 		areaListActiveUsers.addListSelectionListener(application);
+		
+		modifyPseudoButton.addActionListener(local_interface);
 	}
 	
 	
