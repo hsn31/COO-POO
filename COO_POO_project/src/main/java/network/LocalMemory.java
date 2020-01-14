@@ -12,15 +12,14 @@ public class LocalMemory
 	//On crée une Map, avec en Clé l'adresseIP, et en valeur le pseudo. 
 	//Map <AdresseIP,Pseudo>
 	
-	LinkedHashMap<String,String> listOfActiveUsers;
+	private LinkedHashMap<String,String> listOfActiveUsers;
 	
 	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
-	Account local_account;
+	private Account local_account;
 	
 	public LocalMemory()
 	{
 		listOfActiveUsers = new LinkedHashMap<String,String>();
-		//local_account ??
 	}
 	
 	
@@ -71,13 +70,14 @@ public class LocalMemory
 	public void createNewAccount(String ipAddress, String pseudonyme) 
 	{
 		local_account = new Account (false, ipAddress, pseudonyme);
-		listOfActiveUsers.put(ipAddress, pseudonyme); // A mon avis il ne faut pas l'ajouter !!!!!!!!!!!!!!!!
+		listOfActiveUsers.put(ipAddress, pseudonyme); //on peut disvuter avec soit mm
 	}
 	
 	public void createAccountFromDatabase(String ipAddress, String pseudonyme) 
 	{
 		local_account = new Account (true, ipAddress, pseudonyme);
 		//ensuite: l'account sera rempli par le reste de la database si le reste existe
+		listOfActiveUsers.put(ipAddress, pseudonyme); //on peut disvuter avec soit mm
 	}
 	
 	//----------------------------------------------------------------------------------------------
