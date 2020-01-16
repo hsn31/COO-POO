@@ -78,6 +78,10 @@ public class NetworkManager //implements Runnable
 		return global_buffer;
 	}
 	
+	//to stop the thread
+	public void stop() {
+		receiver.interrupt();
+	}
 	
     public int get_inPort()
     {
@@ -216,7 +220,7 @@ public class NetworkManager //implements Runnable
 		this.NetworkManagerActive = false;
         outDgramSocket.close();
         inDgramSocket.close();
-		System.out.println("Server successfully closed");
+		System.out.println("Server NetworkManager successfully closed");
     }
     
    

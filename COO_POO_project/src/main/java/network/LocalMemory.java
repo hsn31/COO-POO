@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
-
+//Mettre ici l'histoire des historiques  + 
 
 public class LocalMemory 
 {

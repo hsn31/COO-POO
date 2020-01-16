@@ -43,7 +43,16 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		 
 		//A FAIRE
 		//récupérer les données de la database dans le constructeur de localMemory
-		//récupérer la liste des active users (ou ?)
+		
+		/*************
+		*1- récupération la liste des active users
+		*				-Activation des threads
+		*				-Envoi du broadcast
+		*				-Attente de 1 seconde
+		*2- Si le compte existe deja, et si le pseudo est ok alors parfait
+		*3- Pour tous les autres cas, on redemande le pseudo. 
+		*4- Puis on ouvre openPseudonymeWindow(). 
+		*/
 		
 		//Lancement des Threads
 		processor_messages = new Thread(new ProcessingThread(this));
@@ -54,6 +63,9 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		
 		//Attention, on fait une pause de 1000 millisecondes pour recevoir les broadcasts 
 		while(System.currentTimeMillis()<t1+Delta);
+		
+		//Test de la liste des utilisateurs. 
+		System.out.println("NOMBRE D'UTILISATEURS"+Integer.toString(local_memory.checkActiveUserAmount()));
 		
 		local_state = AppState.LOGIN;
 		
@@ -83,7 +95,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		}
 	}
 	
-	public static void main() throws FontFormatException, IOException
+	public static void main(String[] args) throws FontFormatException, IOException
 	{
 		new MainApplication();
 	}
@@ -185,9 +197,22 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	
 	private void process_shutDown()
 	{
+		//ATTENTION ATTENTION ATTENTION ATTETION
 		//penser a sauvegarder dans la base de donnée !!
+<<<<<<< HEAD
 		//et a eteindre le server ! les servers ?
 		//System.exit(0);
+=======
+	
+		local_manager.closeServer();
+		
+		//fermer les threads
+		local_manager.stop();
+		processor_messages.interrupt();
+		
+		//envoyer le message de déconnnexion 
+		local_manager.broadcastDisconnected();
+>>>>>>> 8c6ccf6092adf32d61cb96ece9d90d666d2722a3
 	}
 	
 	private void process_applyMessage(String wantedMessage, String distantAddress)
