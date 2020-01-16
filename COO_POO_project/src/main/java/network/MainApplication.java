@@ -187,6 +187,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	{
 		//penser a sauvegarder dans la base de donnée !!
 		//et a eteindre le server ! les servers ?
+		//System.exit(0);
 	}
 	
 	private void process_applyMessage(String wantedMessage, String distantAddress)

@@ -42,8 +42,7 @@ public class ApplicationWindow implements ActionListener
 	
 	private JPanel centralChatsPanel;
 	private JButton exitCurrentChatButton;
-	//<Key : AdresseIP, Value : ChatWindow> => all the chat Panels open : max 50, 1000 on the network
-	private LinkedHashMap<String,ChatWindow> listOfChats;
+	private ChatWindow currentChatPanel;
 	
 	//DESIGN
 	private ImageIcon wallpaper;
@@ -55,6 +54,8 @@ public class ApplicationWindow implements ActionListener
 
 	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListMdodel
 	private LinkedHashMap<String,String> listOfActiveUsers;
+	//<Key : AdresseIP, Value : total_conversation> => all the chat Panels open : max 50, 1000 on the network
+	private LinkedHashMap<String,String> listOfChats;
 	
 	public ApplicationWindow(LinkedHashMap<String,String> initialUsersList) throws FontFormatException, IOException
 	{
@@ -79,6 +80,8 @@ public class ApplicationWindow implements ActionListener
 	{
 		listOfActiveUsers = new LinkedHashMap<String,String>();
 		listOfActiveUsers.putAll(initialList);
+		
+		listOfChats = new LinkedHashMap<String,String>();
 	}
 	
 	private void creation_elements() throws FontFormatException, IOException
@@ -102,15 +105,17 @@ public class ApplicationWindow implements ActionListener
 		listActiveUsers = new DefaultListModel<String>();
 		areaListActiveUsers = new JList<String>(listActiveUsers);
 		listScroller = new JScrollPane(areaListActiveUsers);
+		areaListActiveUsers.setAutoscrolls(true); //??????????????????????????????????????????????????
+		//ou ca ??? listScroller.setAutoscrolls(true); 
 		
 		centralChatsPanel = new JPanel();
 		exitCurrentChatButton = new JButton("\u00d7"); //croix du multiplié
-		listOfChats = new LinkedHashMap<String,ChatWindow>();
-		
+		currentChatPanel = new ChatWindow();
 	}
 	
 	private void creation_listeners()
 	{
+		
 		//listScroller ??
 		//button.addActionListener(this);
 		//sub_area.creation_listeners(this);
@@ -178,9 +183,10 @@ public class ApplicationWindow implements ActionListener
 		
 		centralChatsPanel.setPreferredSize(new Dimension(x, x));
 		exitCurrentChatButton.setPreferredSize(new Dimension(x, x));
+		//currentChatPanel already done in constructor
 		
 		//main window
-		main_window.setSize(new Dimension(x, x));
+		main_window.setSize(new Dimension(x, x)); //500 SUR 500 ???
 		main_window.setResizable(false); //??????
 	}
 	
@@ -211,9 +217,24 @@ public class ApplicationWindow implements ActionListener
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
 	
 	
-	public JButton get_modifyPseudobutton()
+	public JButton get_modifyPseudoButton()
 	{
 		return modifyPseudoButton;
+	}
+	
+	public JButton get_exitButton()
+	{
+		return exitButton;
+	}
+	
+	public JButton get_sendButton()
+	{
+		return currentChatPanel.getSendMessageButton();
+	}
+	
+	public JButton get_exitCurrentChatButton()
+	{
+		return exitCurrentChatButton;
 	}
 	
 	
@@ -221,6 +242,8 @@ public class ApplicationWindow implements ActionListener
 	{
 		exitButton.addActionListener(application);
 		areaListActiveUsers.addListSelectionListener(application);
+		currentChatPanel.creation_listener_sendButton(application);
+		exitCurrentChatButton.addActionListener(application);
 		
 		modifyPseudoButton.addActionListener(local_interface);
 	}
@@ -248,23 +271,19 @@ public class ApplicationWindow implements ActionListener
 	
 	public void showChatSelected(String ipAddress)
 	{
-		if(listOfChats.c)
+		if(listOfChats.containsKey(ipAddress))
+		{
+			
+		}
+		else
+		{
+			
+		}
 	}
 	
 	
 	//---------------------------Functions to manage the interaction with the user------------------------------
 	
-	/*
-	private void click_on_button() throws InterruptedException
-	{
-		if(state_== )
-		{
-			
-		}
-		else 
-
-	}
-	*/
 	
 	
 	private void clean_alert_message()
@@ -300,20 +319,6 @@ public class ApplicationWindow implements ActionListener
 	
 	/*
 	
-		this.setLayout(new BorderLayout());
-
-		this.jNorthPanel = new JPanel(new GridBagLayout());
-		this.jLabelBienvenue = new JLabel("Bienvenue");
-		jNorthPanel.add(jLabelBienvenue);
-
-		this.getContentPane().add(jNorthPanel, BorderLayout.NORTH);
-
-
-		this.jListConnectedUser = new JList<>(lm);
-		JScrollPane jsp = new JScrollPane(jListConnectedUser);
-		jListConnectedUser.setAutoscrolls(true);
-		jsp.setPreferredSize(new Dimension(100, 100));
-		this.getContentPane().add(jsp, BorderLayout.WEST);
 		jListConnectedUser.addMouseListener(new MouseListener() {
 
 			@Override
@@ -337,70 +342,10 @@ public class ApplicationWindow implements ActionListener
 			public void mouseReleased(MouseEvent e) {
 			}
 		});
-
-		this.jPanelBottom = new JPanel();
-		this.getContentPane().add(jPanelBottom, BorderLayout.SOUTH);
-
-		this.jTextArea = new JTextArea();
-		jTextArea.setEditable(false);
 		
-		JScrollPane jspTa = new JScrollPane(jTextArea);		
-		this.getContentPane().add(jspTa, BorderLayout.CENTER);
 
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Date date = new Date();
-				DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
-				        DateFormat.SHORT,
-				        DateFormat.SHORT);
-				jTextArea.setText(jTextArea.getText() +shortDateFormat.format(date) + " -- Me : " + "\n");
-		
-				
-			}
-		};
-
-
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) {
-				System.exit(0);
-			}
-		});
-
-		this.pack();
-		this.setVisible(true);
-		this.setSize(500, 500);
 
 	}
 
-	public void updateTextArea(String mess) {
-		jTextArea.setText(jTextArea.getText() + mess + "\n");
-	}
-
-	public void updateTextAreaWithNewText(String mess) {
-		jTextArea.setText(mess);
-	}
-
-	
-	public void updateConnectedUsers(ArrayList<Account> connectedUsers) {
-
-		this.connectedUsers = connectedUsers;
-		this.lm.clear();
-		for (Account u : connectedUsers) {
-			lm.addElement(u);
-		}
-
-	}
-	
-	
-	
-	
-	
-	
-					
-   
-   
-   
 	*/
 }

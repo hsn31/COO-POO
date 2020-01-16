@@ -5,17 +5,12 @@ import javax.swing.*;
 import network.MainApplication;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.*;
-import java.sql.Date;
 
 
-public class ChatWindow
+@SuppressWarnings("serial")
+public class ChatWindow extends JPanel
 {
-
-	private JPanel main_window; 
 	private JTextField text_area;
 	private JButton send_message;
 	private JScrollPane scrollbar;
@@ -24,9 +19,6 @@ public class ChatWindow
 	// do we need something like this if message is not fine?  
 	// private static JLabel labelError;
 	// ===> I don't think because we can display errors directly in the application window
-	
-	
-	//+ JPanel JButton JLabel
 	
 	//DESIGN
 	//palette couleurs ?
@@ -40,14 +32,10 @@ public class ChatWindow
 		esthetic_parameters();
 		design_elements();
 		
-		main_window.setLocation(200, 0);
-		main_window.setVisible(true);
+		this.setVisible(true);
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
-	
-	
-	
 	
 	
 	private void initialize_coding_parameters()
@@ -57,8 +45,6 @@ public class ChatWindow
 	
 	private void creation_elements() throws FontFormatException, IOException
 	{
-		main_window = new JPanel(); 
-		
 		text_area = new JTextField();
 		send_message = new JButton("Send");
 		scrollbar = new JScrollPane();
@@ -112,14 +98,8 @@ public class ChatWindow
 		*/
 		
 		//main window
-		main_window.setSize(new Dimension(1000, 700));
+		this.setSize(new Dimension(1000, 700));
 		
-	}
-	
-	public static void main() throws FontFormatException, IOException
-	{
-		new MainApplication();
-		// to view jpanel in main_window
 	}
 	
 	private void add_and_layout()
@@ -138,11 +118,11 @@ public class ChatWindow
 
 
 		// 12.1 ADDED TEXT_AREA, SEND_MESSAGE, SCROLLBAR
-		main_window.setLayout(new GridBagLayout());
-		main_window.add(text_area);   
-		main_window.add(send_message);
-		main_window.add(scrollbar);
-		main_window.add(show_text);
+		this.setLayout(new GridBagLayout());
+		this.add(text_area);   
+		this.add(send_message);
+		this.add(scrollbar);
+		this.add(show_text);
 	}
 	
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
@@ -178,13 +158,9 @@ public class ChatWindow
 		
 	}
 	
-	public void cleanTextArea() {
-		send_message.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	        	 // envoyer string to mainapp
-	            text_area.setText("");
-	         }
-	});
+	public void cleanTextArea() 
+	{
+		text_area.setText("");
 	}
 	
 	public String getWrittenMessage()
