@@ -29,26 +29,32 @@ public class ApplicationWindow implements ActionListener
 	//+ JPanel JButton JLabel par zone dans la frame
 	
 	private JPanel northPanel;
-	private JLabel welcomeLabel;
+	private JPanel loginPanel;
+	private JLabel pseudoLabel;
+	private JLabel logoLabel;
+	private JButton modifyPseudoButton;
 	private JButton exitButton;
 	
-	private JPanel westPanel;
+	private JPanel eastPanel;
 	private JScrollPane listScroller;
-	private JList<DefaultListModel<String>> areaListActiveUsers;
+	private JList<String> areaListActiveUsers;
 	private ListModel<String> listActiveUsers;
 	
-	private JPanel centralPanel;
-	private JTabbedPane chatsAreas;
+	private JPanel centralChatsPanel;
+	private JButton exitCurrentChatButton;
+	//<Key : AdresseIP, Value : ChatWindow> => all the chat Panels open : max 50, 1000 on the network
+	private LinkedHashMap<String,ChatWindow> listOfChats;
 	
 	//DESIGN
 	private ImageIcon wallpaper;
+	private ImageIcon logo;
 	//palette couleurs ?
 
 	
 	//coding_parameters :
 
 	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListMdodel
-	LinkedHashMap<String,String> listOfActiveUsers;
+	private LinkedHashMap<String,String> listOfActiveUsers;
 	
 	public ApplicationWindow(LinkedHashMap<String,String> initialUsersList) throws FontFormatException, IOException
 	{
@@ -60,9 +66,11 @@ public class ApplicationWindow implements ActionListener
 		esthetic_parameters();
 		design_elements();
 		
-		main_window.setLocation(200, 0);
+		exitCurrentChatButton.setVisible(false);
+		
+		main_window.setLocation(200, 0); //!!
 		main_window.setVisible(false);
-		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //!!
+		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
@@ -76,29 +84,34 @@ public class ApplicationWindow implements ActionListener
 	private void creation_elements() throws FontFormatException, IOException
 	{
 		//DESIGN
-		wallpaper = new ImageIcon("wallpaper_pseudonyme.jpg");
+		wallpaper = new ImageIcon("wallpaper_application.jpg");
+		logo = new ImageIcon("logo_local_user.jpg");
 		
 		//MAIN WINDOW
 		main_window = new JFrame("Zone de clavardage");
 		wallpaper_area = new JLabel(wallpaper);
 		
-		//new : JPanel JButton JLabel par zone dans la frame
-		
 		northPanel = new JPanel();
-		welcomeLabel = new JLabel("Bienvenue");;
+		loginPanel = new JPanel();
+		pseudoLabel = new JLabel();
+		logoLabel = new JLabel(logo);
+		modifyPseudoButton = new JButton("Modify your pseudo");
 		exitButton = new JButton("Exit");
 		
-		westPanel = new JPanel();
+		eastPanel = new JPanel();
 		listActiveUsers = new DefaultListModel<String>();
-		areaListActiveUsers = new JList<DefaultListModel<String>>(listActiveUsers);
+		areaListActiveUsers = new JList<String>(listActiveUsers);
 		listScroller = new JScrollPane(areaListActiveUsers);
 		
-		private JPanel centralPanel;
-		private JTabbedPane chatsAreas;
+		centralChatsPanel = new JPanel();
+		exitCurrentChatButton = new JButton("\u00d7"); //croix du multiplié
+		listOfChats = new LinkedHashMap<String,ChatWindow>();
+		
 	}
 	
 	private void creation_listeners()
 	{
+		//listScroller ??
 		//button.addActionListener(this);
 		//sub_area.creation_listeners(this);
 	}
@@ -150,39 +163,66 @@ public class ApplicationWindow implements ActionListener
 		JLabel.setPreferredSize(new Dimension(main_width, 100));
 		button.setPreferredSize(new Dimension(130, 40));
 		*/
+		int x = 3;
+		
+		northPanel.setPreferredSize(new Dimension(x, x));
+		loginPanel.setPreferredSize(new Dimension(x, x));
+		pseudoLabel.setPreferredSize(new Dimension(x, x));
+		logoLabel.setPreferredSize(new Dimension(x, x));
+		modifyPseudoButton.setPreferredSize(new Dimension(x, x));
+		exitButton.setPreferredSize(new Dimension(x, x));
+		
+		eastPanel.setPreferredSize(new Dimension(x, x));
+		listScroller.setPreferredSize(new Dimension(x, x));
+		areaListActiveUsers.setPreferredSize(new Dimension(x, x));
+		
+		centralChatsPanel.setPreferredSize(new Dimension(x, x));
+		exitCurrentChatButton.setPreferredSize(new Dimension(x, x));
 		
 		//main window
-		main_window.setSize(new Dimension(1000, 700));
+		main_window.setSize(new Dimension(x, x));
 		main_window.setResizable(false); //??????
 	}
 	
 	private void add_and_layout()
 	{
-		/*
-		JPanel.add(button / JLabel); , BorderLayout.WEST);
+		main_window.setLayout(new BorderLayout());
 		
-		//main window
-		main_window.setLayout(new GridBagLayout());
-		GridBagConstraints coord = new GridBagConstraints();
-		coord.gridx = 0 ;
-		coord.gridy = 0 ;
-		main_window.add(JLabel/JPanel, coord);
-		*/
+		main_window.add(northPanel, BorderLayout.NORTH);
+		northPanel.add(loginPanel);
+		
+		loginPanel.setLayout(new BorderLayout());
+		loginPanel.add(pseudoLabel, BorderLayout.CENTER);
+		loginPanel.add(logoLabel, BorderLayout.WEST);
+		loginPanel.add(modifyPseudoButton, BorderLayout.SOUTH);
+		
+		northPanel.add(exitButton);
+		
+		main_window.add(eastPanel, BorderLayout.EAST);
+		eastPanel.add(listScroller);
+		listScroller.add(areaListActiveUsers);
+		
+		main_window.add(centralChatsPanel, BorderLayout.CENTER);
+		centralChatsPanel.add(exitCurrentChatButton);
+
 		main_window.pack(); //to keep all the size of the wallpaper
 	}
 	
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
 	
-	/*
-	public JButton get_button()
-	{
-		return button;
-	}
-	*/
 	
-	public void creation_listeners_appliWindow(MainApplication application)
+	public JButton get_modifyPseudobutton()
 	{
-		//button.addActionListener(application);
+		return modifyPseudoButton;
+	}
+	
+	
+	public void creation_listeners_appliWindow(MainApplication application, VisualInterface local_interface)
+	{
+		exitButton.addActionListener(application);
+		areaListActiveUsers.addListSelectionListener(application);
+		
+		modifyPseudoButton.addActionListener(local_interface);
 	}
 	
 	
@@ -203,6 +243,12 @@ public class ApplicationWindow implements ActionListener
 	public void modifyPseudo(String newPseudo)
 	{
 		//JLabel.setText(newPseudo);
+		//aussi dans la list et dans le chat
+	}
+	
+	public void showChatSelected(String ipAddress)
+	{
+		if(listOfChats.c)
 	}
 	
 	

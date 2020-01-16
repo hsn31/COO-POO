@@ -9,7 +9,7 @@ import java.text.DateFormat;
 import java.util.*;
 
 
-public class VisualInterface
+public class VisualInterface implements ActionListener
 {
 	
 	ApplicationWindow main_window;
@@ -118,6 +118,7 @@ public class VisualInterface
 	public void process_applyMessage()
 	{
 		chat_window.cleanTextArea();
+		// need for the parameter of a message?
 	}
 
 	
@@ -136,6 +137,16 @@ public class VisualInterface
 	{
 		//suppress in window application
 		//close windows chat
+	}
+
+
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(e.getSource().equals(main_window.get_modifyPseudobutton()))
+		{
+			
+		}
+		
 	}
 		
 }

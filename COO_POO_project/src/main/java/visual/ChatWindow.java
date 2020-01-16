@@ -42,7 +42,6 @@ public class ChatWindow
 		
 		main_window.setLocation(200, 0);
 		main_window.setVisible(true);
-		main_window.setDefaultCloseOperation(JPanel.DO_NOTHING_ON_CLOSE); //!!
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
@@ -192,41 +191,4 @@ public class ChatWindow
 	{
 		return text_area.getText();
 	}
-	
-
-
-	//---------------------------Functions to manage the interaction with the user------------------------------
-	
-	
-	private void refresh_display()
-	{
-		
-	}
-
-	
-	
-	
-	
-	
-	
-	/*
-	 * 
-	 * HICHEM
-	 * 
-
-	public ChatWindow() {
-		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-
-		this.jLabelPrompt = new JLabel("Message : ");
-		this.add(jLabelPrompt);
-
-		this.jTextField = new JTextField();
-		this.add(jTextField);
-		
-		this.jButtonSend = new JButton("Send");
-		this.add(jButtonSend);
-		
-	}
-
-	*/
 }
