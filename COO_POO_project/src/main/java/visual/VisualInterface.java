@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import network.*;
+import network.Message.Origin;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.*;
@@ -15,13 +17,16 @@ public class VisualInterface implements ActionListener
 	ApplicationWindow main_window;
 	//une seule fenêtre pour deux utilisation
 	PseudonymeWindow pseudo_window;
-	ChatWindow chat_window;
 	
 	public VisualInterface() throws FontFormatException, IOException
 	{
 		pseudo_window = new PseudonymeWindow();
 		main_window = new ApplicationWindow();
-		chat_window = new ChatWindow();
+	}
+	
+	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
+	{
+		main_window.download_listOfActiveUsers(initialList);
 	}
 	
 	//---------------Methods pas sur de les garder -----------------------------------------
@@ -53,8 +58,10 @@ public class VisualInterface implements ActionListener
 	public void creation_listeners(MainApplication application)
 	{
 		pseudo_window.creation_listeners_pseudoWindow(application);
-		main_window.creation_listeners_appliWindow(application);
+		main_window.creation_listeners_appliWindow(application, this);
 	}
+	
+	//-----
 	
 	public JButton getValidatePseudoButton()
 	{
@@ -66,9 +73,21 @@ public class VisualInterface implements ActionListener
 		return pseudo_window.getExitButton();
 	}
 	
+	//-----
+	
 	public JButton getSendMessageButton()
 	{
-		return chat_window.getButton();
+		return main_window.get_sendButton();
+	}
+	
+	public JButton getExitApplicationButton()
+	{
+		return main_window.get_exitButton();
+	}
+	
+	public JButton getExitCurrentChatButton()
+	{
+		return main_window.get_exitCurrentChatButton();
 	}
 	
 	//--------------- OTHER INFORMATIONS ---------------------------------------------
@@ -80,7 +99,12 @@ public class VisualInterface implements ActionListener
 	
 	public String getWrittenMessage()
 	{
-		return chat_window.getWrittenMessage();
+		return main_window.getWrittenMessage();
+	}
+	
+	public String get_currentChatAddress()
+	{
+		return main_window.get_currentChatAddress();
 	}
 	
 	//--------------- ACTIONS --------------------------------------------------------
@@ -98,7 +122,7 @@ public class VisualInterface implements ActionListener
 		pseudo_window.changeTo_ModifyWindow();
 		
 		main_window.modifyPseudo(validatedPseudo);
-		main_window.showWindow();
+		//main_window sera afficher après avoir enregistré l'utilisateur local dans la liste des active users
 	}
 	
 	public void process_modifyPseudo(String validatedPseudo)
@@ -113,40 +137,49 @@ public class VisualInterface implements ActionListener
 	{
 		pseudo_window.hideWindow();
 		pseudo_window.clean_window();
+		main_window.enable_modifyButton();
 	}
 	
-	public void process_applyMessage()
+	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
-		chat_window.cleanTextArea();
-		// need for the parameter of a message?
+		main_window.process_applyMessage(nature, distantAddress, strDate, message);
 	}
-
 	
-	//est-ce que ces 3 fonctions ont besoin de ce parametre en plus ? : String ipAddress, 
-	public void showNewActiveUser(String pseudonyme)
+	public void process_applyErrorSending(String errorMessage)
 	{
-		
+		main_window.process_applyErrorSending(errorMessage);
 	}
 	
-	public void showModificationActiveUser(String pseudonyme)
+	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
 		
 	}
 	
-	public void removeActiveUser(String pseudonyme)
+	public void showModificationActiveUser(String ipAddress, String pseudonyme)
+	{
+		
+	}
+	
+	public void removeActiveUser(String ipAddress)
 	{
 		//suppress in window application
 		//close windows chat
 	}
+	
+	public void click_on_ExitCurrentChatButton()
+	{
+		main_window.process_exitCurrentChat();
+	}
 
-
+	//------------------------------------------------------------------------------------
+	
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(e.getSource().equals(main_window.get_modifyPseudobutton()))
+		if(e.getSource().equals(main_window.get_modifyPseudoButton()))
 		{
-			
+			pseudo_window.showWindow();
+			main_window.disable_modifyButton();
 		}
-		
 	}
 		
 }

@@ -1,36 +1,29 @@
 package network;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import visual.ChatWindow;
-
-//MISE A JOUR LE 06_01_2020.  OK.
 
 public class Message 
 {
 
 	private String text;
-	private Date date;
+	private String date;
+	private Origin nature;
+	
+	public enum Origin
+	{
+		SENT,
+		RECEIVED,
+	}
 	
 	// creates new message
-	public Message(String textPresented) { 
+	public Message(Origin naturePresented, String dateCalculated, String textPresented) {
 
-		this.date = new Date();
-		this.text= textPresented;
-		
-	}
-	
-	//pour reconstruire à partir d'une date précédente
-	public Message(String textPresented, Date date) { 
-
-		this.date = date;
+		this.nature = naturePresented;
+		this.date = dateCalculated;
 		this.text= textPresented;
 		
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 	
@@ -40,12 +33,7 @@ public class Message
 	
 	
 	public String returnMessage() {
-		String message = text;
-		DateFormat dateFormat = new SimpleDateFormat("T D");  
-        String strDate = dateFormat.format(date);  
-		return message + " " + strDate;
+		return date + "<s>" + text;
 	}
-
-
     
 }

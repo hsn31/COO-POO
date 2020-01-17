@@ -1,6 +1,8 @@
 package network;
 
 import java.util.*;
+
+import network.Message.Origin;
  
 //TEST OK le 08_01_2020
  /*
@@ -17,10 +19,10 @@ public class Account {
 	private String pseudonyme;
 	private String ipAdress;
 	
-	private ArrayList<Chat> ListOfChat;
+	private LinkedHashMap<String, Chat> ListOfChat; //string = distantIpAddress
 	
 	public Account(boolean alreadyCreated, String ipAdress, String pseudonyme) {
-		this.ListOfChat =new ArrayList<Chat>();
+		this.ListOfChat =new LinkedHashMap<String, Chat>();
 		this.createdLastConnection = alreadyCreated;
 		this.ipAdress=ipAdress;
 		this.pseudonyme = pseudonyme;	
@@ -74,8 +76,14 @@ public class Account {
 		this.pseudonyme = pseudo;
 	}
 	
-	public String returnMessage(String message) {
-		return message;
+	public void registerMessage(Origin nature, String distantAddress, String strDate, String message)
+	{
+		if(!ListOfChat.containsKey(distantAddress))
+		{
+			ListOfChat.put(distantAddress, new Chat(distantAddress));
+		}
+		
+		ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
 	}
 	
 }

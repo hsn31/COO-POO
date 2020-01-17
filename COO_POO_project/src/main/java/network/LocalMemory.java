@@ -4,6 +4,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import network.Message.Origin;
+
 //Mettre ici l'histoire des historiques  + 
 
 public class LocalMemory 
@@ -17,9 +19,24 @@ public class LocalMemory
 	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
 	private Account local_account;
 	
+	//HistoryManager => database !!
+	
 	public LocalMemory()
 	{
 		listOfActiveUsers = new LinkedHashMap<String,String>();
+		
+		//récupérer dans database données pour:
+		boolean database_say_account_exists = false;
+		
+		if(database_say_account_exists)
+		{
+			//String last_pseudo = getLastPseudoFromDataBase();
+			createAccountFromDatabase(getLocalIp(), "last_pseudo");
+		}
+		else
+		{
+			createNewAccount(getLocalIp(), "sera_changé_apres");
+		}
 	}
 	
 	
@@ -39,6 +56,11 @@ public class LocalMemory
         }
         
         return adresseIPLocale;
+	}
+	
+	public LinkedHashMap<String,String> getListOfActiveUsers()
+	{
+		return listOfActiveUsers;
 	}
 
 	
@@ -70,14 +92,14 @@ public class LocalMemory
 	public void createNewAccount(String ipAddress, String pseudonyme) 
 	{
 		local_account = new Account (false, ipAddress, pseudonyme);
-		listOfActiveUsers.put(ipAddress, pseudonyme); //on peut disvuter avec soit mm
+		listOfActiveUsers.put(ipAddress, pseudonyme); //on peut disvuter avec soit meme
 	}
 	
 	public void createAccountFromDatabase(String ipAddress, String pseudonyme) 
 	{
 		local_account = new Account (true, ipAddress, pseudonyme);
 		//ensuite: l'account sera rempli par le reste de la database si le reste existe
-		listOfActiveUsers.put(ipAddress, pseudonyme); //on peut disvuter avec soit mm
+		listOfActiveUsers.put(ipAddress, pseudonyme); //on peut disvuter avec soit meme
 	}
 	
 	//----------------------------------------------------------------------------------------------
@@ -98,11 +120,6 @@ public class LocalMemory
 	{
 		listOfActiveUsers.remove(ipAddress);
 	}
-	
-	public void addLocalUserListConnectedBroadcast(String pseudo)
-	{
-		listOfActiveUsers.put(getLocalIp(),pseudo);
-	}
 
 	public String getPseudo() 
 	{
@@ -122,13 +139,17 @@ public class LocalMemory
 	//ET que la liste des active users a été récupérée par le network
 	public boolean lastPseudonymeIsOk()
 	{
-		return !(listOfActiveUsers.containsValue(local_account.getPseudo()));
+		LinkedHashMap<String,String> list_ActiveUsers_withoutLocal = listOfActiveUsers;
+		list_ActiveUsers_withoutLocal.remove(getLocalIp());
+
+		return !(list_ActiveUsers_withoutLocal.containsValue(local_account.getPseudo()));
 	}
 	
-	public String returnMessage(String message) {
-		return message;
-	}
 	
 	//-------------------------------------------------------------------------------
-
+	
+	public void addMessage(Origin nature, String distantAddress, String strDate, String message)
+	{
+		local_account.registerMessage(nature, distantAddress, strDate, message);
+	}
 }

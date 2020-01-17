@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import network.Message.Origin;
 import visual.VisualInterface;
 
 public class MainApplication implements ActionListener, ListSelectionListener
@@ -43,6 +47,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		 
 		//A FAIRE
 		//récupérer les données de la database dans le constructeur de localMemory
+		//=> tout enregistrer dans account !
+		
 		
 		/*************
 		*1- récupération la liste des active users
@@ -50,8 +56,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		*				-Envoi du broadcast
 		*				-Attente de 1 seconde
 		*2- Si le compte existe deja, et si le pseudo est ok alors parfait
-		*3- Pour tous les autres cas, on redemande le pseudo. 
-		*4- Puis on ouvre openPseudonymeWindow(). 
+		*3- Pour tous les autres cas, on ouvre openPseudonymeWindow()
+		* pour (re)demander le pseudo
 		*/
 		
 		//Lancement des Threads
@@ -74,11 +80,16 @@ public class MainApplication implements ActionListener, ListSelectionListener
 			if(local_memory.lastPseudonymeIsOk())
 			{
 				local_manager.broadcastConnected(local_memory.getPseudo());
+
+				local_interface.process_login(local_memory.getPseudo());
 				
 				//Donc on peut direct afficher l'applicationWindow:
 				local_state = AppState.CHATTING;
 			}
 		}
+		
+		//Now, the local_user could be checked as Active
+		local_interface.download_listOfActiveUsers(local_memory.getListOfActiveUsers());
 		
 		//parameters to make run the application
 		creation_listeners_VisualInterface();
@@ -115,28 +126,46 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	//format "11<>unicast<>IPSENDER<>PSEUDO"
 	public void sendActiveUser(String destAddress) throws UnknownHostException, IOException
 	{
-		InetAddress ipsender = local_manager.get_local_address();
-		int inPort = local_manager.get_inPort();
-		InetAddress ipreceiver = InetAddress.getByName(destAddress);
-		local_manager.sendMessage("11<>unicast<>" + ipsender.toString() + "<>" + local_memory.getPseudo(), ipreceiver, inPort);
+		if(local_state == AppState.CHATTING)
+		{
+			InetAddress ipsender = local_manager.get_local_address();
+			int inPort = local_manager.get_inPort();
+			InetAddress ipreceiver = InetAddress.getByName(destAddress);
+			local_manager.sendMessage("11<>unicast<>" + ipsender.toString() + "<>" + local_memory.getPseudo(), ipreceiver, inPort);
+		}
 	}
 	
 	public void addActiveUser(String ipAddress, String pseudonyme)
 	{
 		local_memory.updateListConnectedBroadcast(ipAddress, pseudonyme);
-		local_interface.showNewActiveUser(pseudonyme);
+		local_interface.showNewActiveUser(ipAddress, pseudonyme);
 	}
 	
 	public void modifyActiveUser(String ipAddress, String pseudonyme)
 	{
 		local_memory.updateListConnectedBroadcast(ipAddress, pseudonyme);
-		local_interface.showModificationActiveUser(pseudonyme);
+		local_interface.showModificationActiveUser(ipAddress, pseudonyme);
 	}
 	
 	public void deleteActiveUser(String ipAddress, String pseudonyme)
 	{
 		local_memory.deleteListConnectedBroadcast(ipAddress);
-		local_interface.removeActiveUser(pseudonyme);
+		local_interface.removeActiveUser(ipAddress);
+	}
+	
+	public void addReceivedMessage(String ipDistantAddress, String message)
+	{
+		String[] textInfo = message.split("<s>");
+		String strDate = textInfo[0];
+		String text = textInfo[1];
+		
+		for(int i = 2 ; i < textInfo.length ; i++)
+		{
+			text = text + "<s>" + textInfo[i];
+		}
+		
+		local_memory.addMessage(Origin.RECEIVED, ipDistantAddress, strDate, text);
+		local_interface.process_applyMessage(Origin.RECEIVED, ipDistantAddress, strDate, text);
 	}
 	
 	//a packet in the buffer
@@ -155,23 +184,6 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	
 	private void process_login(String validatedPseudo)
 	{
-		/*
-		 * local_manager :
-		 * - send broadcast update connexion/pseudo
-		 * 
-		 * local_memory :
-		 * - update pseudo
-		 * 
-		 * local_interface :
-		 * - fermer pseudowindow
-		 * - changer create_pseudowindow en modify_pseudowindow
-		 * - changer notre pseudo dans ApplicationWindow
-		 * - open ApplicationWindow
-		 * 
-		 * ici:
-		 * - changer state en CHATTING
-		 */
-		
 		local_manager.broadcastConnected(validatedPseudo);
 		
 		local_memory.modifyPseudonyme(validatedPseudo);
@@ -199,31 +211,29 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	{
 		//ATTENTION ATTENTION ATTENTION ATTETION
 		//penser a sauvegarder dans la base de donnée !!
-<<<<<<< HEAD
-		//et a eteindre le server ! les servers ?
-		//System.exit(0);
-=======
-	
+		
+		//envoyer le message de déconnexion 
+		local_manager.broadcastDisconnected();
+		
 		local_manager.closeServer();
 		
 		//fermer les threads
 		local_manager.stop();
 		processor_messages.interrupt();
-		
-		//envoyer le message de déconnnexion 
-		local_manager.broadcastDisconnected();
->>>>>>> 8c6ccf6092adf32d61cb96ece9d90d666d2722a3
+
+		System.exit(0);
 	}
 	
-	private void process_applyMessage(String wantedMessage, String distantAddress)
+	private void process_applySendMessage(String distantAddress, String strDate, String wantedMessage) throws IOException
 	{
-		local_interface.process_applyMessage();
+		String datedMessage = strDate + "<s>" + wantedMessage;
 		
-		local_manager.unicastSendChatMessage(wantedMessage, distantAddress);
+		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
 		
+		local_interface.process_applyMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
 		
-		
-		
+		local_memory.addMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
+		 
 	}
 	
 	//------------------- INTERACTIONS WITH USER -----------------------------
@@ -278,27 +288,32 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		}
 	}
 	
-	private void click_on_send_message_button(String distantAddress)
+	private void click_on_send_message_button(String distantAddress) throws IOException
 	{
+		Date now = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy 'at' HH:mm:ss");  
+        String strDate = dateFormat.format(now); 
+		
 		String wantedMessage = local_interface.getWrittenMessage();
-		String currentError = "";
 		int length = wantedMessage.length();
+		
 		if(wantedMessage.equals("")) 
 		{
-			currentError = "Impossible to send an empty message";
+			local_interface.process_applyErrorSending("Impossible to send an empty message");
 		}
 		else if(length > 500)
 		{
-			currentError = "Message too long";
-		}
-		
-		// next if the text is right, other faults
-		
+			local_interface.process_applyErrorSending("Message too long");
+		}		
 		else
 		{ 
-			process_applyMessage(wantedMessage, distantAddress);
+			process_applySendMessage(distantAddress, strDate, wantedMessage);
 		}
-		
+	}
+	
+	private void click_on_ExitCurrentChatButton()
+	{
+		local_interface.click_on_ExitCurrentChatButton();
 	}
 	
 	
@@ -314,8 +329,23 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		}
 		else if(e.getSource().equals(local_interface.getSendMessageButton())) 
 		{
-			String distantAddress = "NOT READY ATTENTION"; // ATTENTION!!!!!!!!!!!!!!!!!!!!!!!!
-			click_on_send_message_button(distantAddress);
+			String distantAddress = local_interface.get_currentChatAddress();
+			try 
+			{
+				click_on_send_message_button(distantAddress);
+			} 
+			catch (IOException e1) 
+			{
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource().equals(local_interface.getExitCurrentChatButton()))
+		{
+			click_on_ExitCurrentChatButton();
+		}
+		else if(e.getSource().equals(local_interface.getExitApplicationButton()))
+		{
+			process_shutDown();
 		}
 		
 	}

@@ -28,24 +28,30 @@ public class ProcessingThread implements Runnable
 		{
 			//refresh
 			listOfMessages = local_application.getActualListOfMessages();
-			try {
-				processMessageReceived(listOfMessages.get(0));
-			} catch (IOException e) {
-				e.printStackTrace();
+			
+			if(listOfMessages.size() > 0)
+			{
+				try {
+					processMessageReceived(listOfMessages.get(0));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				//supress message read
+				local_application.deleteOneMessage();
+				
+				//petite pause
+				try{
+					Thread.sleep(1);
+				}catch(InterruptedException a) {
+					//Arreter la Thread de maniere propre.
+					a.printStackTrace();
+					Thread.currentThread().interrupt();
+				}
 			}
-			
-			//supress message read
-			local_application.deleteOneMessage();
-			
-			//Arreter la Thread de maniere propre. 
-			try{
-				Thread.sleep(1);
-			}catch(InterruptedException a) {
-				a.printStackTrace();
-				Thread.currentThread().interrupt();
-			}
-			
+		
 		}
+		
 		
 	}
 	
@@ -55,16 +61,17 @@ public class ProcessingThread implements Runnable
 		String[] dataPacket = message.split("<>");
 		
 		String idPacketReceived = dataPacket[0];
-		String naturePacketReceived = dataPacket[1];
+		//String naturePacketReceived = dataPacket[1]; (not useful)
 		String ipSenderPacketReceived = dataPacket[2];
 		String textPacketReceived = dataPacket[3];
 		
 		//int state = local
 		if(idPacketReceived.equals("1"))
 		{
+			//if on est actif !!
 			local_application.sendActiveUser(ipSenderPacketReceived);
 		}
-		else if(idPacketReceived.equals("2"))
+		else if(idPacketReceived.equals("2") || idPacketReceived.equals("11"))
 		{
 			local_application.addActiveUser(ipSenderPacketReceived, textPacketReceived);
 		}
@@ -75,6 +82,10 @@ public class ProcessingThread implements Runnable
 		else if(idPacketReceived.equals("4"))
 		{
 			local_application.deleteActiveUser(ipSenderPacketReceived, textPacketReceived);
+		}
+		else if(idPacketReceived.equals("5"))
+		{
+			local_application.addReceivedMessage(ipSenderPacketReceived, textPacketReceived);
 		}
 	}
 }

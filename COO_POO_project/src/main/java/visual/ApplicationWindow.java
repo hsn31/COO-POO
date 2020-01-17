@@ -19,8 +19,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import network.*;
+import network.Message.Origin;
 
-public class ApplicationWindow implements ActionListener
+public class ApplicationWindow
 {
 
 	private JFrame main_window;
@@ -41,7 +42,9 @@ public class ApplicationWindow implements ActionListener
 	private ListModel<String> listActiveUsers;
 	
 	private JPanel centralChatsPanel;
+	private JPanel topChatPanel;
 	private JButton exitCurrentChatButton;
+	private JLabel chatWithLabel;
 	private ChatWindow currentChatPanel;
 	
 	//DESIGN
@@ -57,12 +60,14 @@ public class ApplicationWindow implements ActionListener
 	//<Key : AdresseIP, Value : total_conversation> => all the chat Panels open : max 50, 1000 on the network
 	private LinkedHashMap<String,String> listOfChats;
 	
-	public ApplicationWindow(LinkedHashMap<String,String> initialUsersList) throws FontFormatException, IOException
+	private String local_ipAddress;
+	private String currentChatVisibleAddress;
+	
+	public ApplicationWindow() throws FontFormatException, IOException
 	{
-		initialize_coding_parameters(initialUsersList);
+		initialize_coding_parameters();
 		
 		creation_elements();
-		creation_listeners();
 		
 		esthetic_parameters();
 		design_elements();
@@ -76,12 +81,13 @@ public class ApplicationWindow implements ActionListener
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
 	
-	private void initialize_coding_parameters(LinkedHashMap<String,String> initialList)
+	private void initialize_coding_parameters() throws UnknownHostException
 	{
-		listOfActiveUsers = new LinkedHashMap<String,String>();
-		listOfActiveUsers.putAll(initialList);
-		
+		listOfActiveUsers = new LinkedHashMap<String,String>();		
 		listOfChats = new LinkedHashMap<String,String>();
+		
+		local_ipAddress = InetAddress.getLocalHost().toString();
+		currentChatVisibleAddress = "";
 	}
 	
 	private void creation_elements() throws FontFormatException, IOException
@@ -105,20 +111,12 @@ public class ApplicationWindow implements ActionListener
 		listActiveUsers = new DefaultListModel<String>();
 		areaListActiveUsers = new JList<String>(listActiveUsers);
 		listScroller = new JScrollPane(areaListActiveUsers);
-		areaListActiveUsers.setAutoscrolls(true); //??????????????????????????????????????????????????
-		//ou ca ??? listScroller.setAutoscrolls(true); 
 		
 		centralChatsPanel = new JPanel();
+		topChatPanel = new JPanel();
 		exitCurrentChatButton = new JButton("\u00d7"); //croix du multiplié
+		chatWithLabel = new JLabel("You are chatting with: ");
 		currentChatPanel = new ChatWindow();
-	}
-	
-	private void creation_listeners()
-	{
-		
-		//listScroller ??
-		//button.addActionListener(this);
-		//sub_area.creation_listeners(this);
 	}
 	
 	private void esthetic_parameters() throws FontFormatException, IOException
@@ -137,6 +135,9 @@ public class ApplicationWindow implements ActionListener
 		
 		//JLabel.setForeground(design_palette.get_color(CreatedColor.DARK_BROWN_INTENSE));
 		//JLabel.setBackground(design_palette.get_color(CreatedColor.GOLD_YELLOW_INTENSE));
+		
+		exitCurrentChatButton.setVisible(false);
+		currentChatPanel.setVisible(false);
 		
 		//background window
 		main_window.setContentPane(wallpaper_area);
@@ -168,25 +169,26 @@ public class ApplicationWindow implements ActionListener
 		JLabel.setPreferredSize(new Dimension(main_width, 100));
 		button.setPreferredSize(new Dimension(130, 40));
 		*/
-		int x = 3;
 		
-		northPanel.setPreferredSize(new Dimension(x, x));
-		loginPanel.setPreferredSize(new Dimension(x, x));
-		pseudoLabel.setPreferredSize(new Dimension(x, x));
-		logoLabel.setPreferredSize(new Dimension(x, x));
-		modifyPseudoButton.setPreferredSize(new Dimension(x, x));
-		exitButton.setPreferredSize(new Dimension(x, x));
+		//northPanel.setPreferredSize(new Dimension(x, x));
+		//loginPanel.setPreferredSize(new Dimension(x, x));
+		//pseudoLabel.setPreferredSize(new Dimension(x, x));
+		logoLabel.setPreferredSize(new Dimension(70, 70));
+		//modifyPseudoButton.setPreferredSize(new Dimension(x, x));
+		//exitButton.setPreferredSize(new Dimension(x, x));
 		
-		eastPanel.setPreferredSize(new Dimension(x, x));
-		listScroller.setPreferredSize(new Dimension(x, x));
-		areaListActiveUsers.setPreferredSize(new Dimension(x, x));
+		//eastPanel.setPreferredSize(new Dimension(x, x));
+		//listScroller.setPreferredSize(new Dimension(x, x));
+		//areaListActiveUsers.setPreferredSize(new Dimension(x, x));
 		
-		centralChatsPanel.setPreferredSize(new Dimension(x, x));
-		exitCurrentChatButton.setPreferredSize(new Dimension(x, x));
+		//centralChatsPanel.setPreferredSize(new Dimension(x, x));
+		//topChatPanel.setPreferredSize(new Dimension(x, x));
+		exitCurrentChatButton.setPreferredSize(new Dimension(40, 40));
+		//chatWithLabel.setPreferredSize(new Dimension(x, x));
 		//currentChatPanel already done in constructor
 		
 		//main window
-		main_window.setSize(new Dimension(x, x)); //500 SUR 500 ???
+		main_window.setSize(new Dimension(500, 500)); //500 SUR 500 ???
 		main_window.setResizable(false); //??????
 	}
 	
@@ -195,21 +197,28 @@ public class ApplicationWindow implements ActionListener
 		main_window.setLayout(new BorderLayout());
 		
 		main_window.add(northPanel, BorderLayout.NORTH);
-		northPanel.add(loginPanel);
+		northPanel.setLayout(new BorderLayout());
+		
+		northPanel.add(loginPanel, BorderLayout.CENTER);
 		
 		loginPanel.setLayout(new BorderLayout());
 		loginPanel.add(pseudoLabel, BorderLayout.CENTER);
 		loginPanel.add(logoLabel, BorderLayout.WEST);
 		loginPanel.add(modifyPseudoButton, BorderLayout.SOUTH);
 		
-		northPanel.add(exitButton);
+		northPanel.add(exitButton, BorderLayout.EAST);
 		
 		main_window.add(eastPanel, BorderLayout.EAST);
 		eastPanel.add(listScroller);
 		listScroller.add(areaListActiveUsers);
 		
 		main_window.add(centralChatsPanel, BorderLayout.CENTER);
-		centralChatsPanel.add(exitCurrentChatButton);
+		centralChatsPanel.setLayout(new BorderLayout());
+		
+		centralChatsPanel.add(topChatPanel, BorderLayout.NORTH);
+		topChatPanel.add(exitCurrentChatButton);
+		topChatPanel.add(chatWithLabel);
+		centralChatsPanel.add(currentChatPanel, BorderLayout.CENTER);
 
 		main_window.pack(); //to keep all the size of the wallpaper
 	}
@@ -261,7 +270,25 @@ public class ApplicationWindow implements ActionListener
 		main_window.setVisible(false);
 	}
 	
-	//--------------------------- REFRESHING ACTIONS ------------------------------------------
+	//------------------------------- INFORMATION ------------------------------------------
+	
+	public String getWrittenMessage()
+	{
+		return currentChatPanel.getWrittenMessage();
+	}
+	
+	public String get_currentChatAddress()
+	{
+		return currentChatVisibleAddress;
+	}
+	
+	//--------------------------- REFRESHING/DISPLAYING ACTIONS ----------------------------
+	
+
+	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
+	{
+		listOfActiveUsers.putAll(initialList);
+	}
 	
 	public void modifyPseudo(String newPseudo)
 	{
@@ -273,46 +300,57 @@ public class ApplicationWindow implements ActionListener
 	{
 		if(listOfChats.containsKey(ipAddress))
 		{
-			
+			//
 		}
 		else
 		{
-			
+			//
 		}
-	}
-	
-	
-	//---------------------------Functions to manage the interaction with the user------------------------------
-	
-	
-	
-	private void clean_alert_message()
-	{
 		
+		currentChatVisibleAddress = ipAddress;
 	}
 	
-	
-	//------------------Management of interaction with the User and Listeners---------------------------------
-	
-	
-	public void actionPerformed(ActionEvent e) 
+	public void clean_errorMessage()
 	{
-		/*
-		if(e.getSource().equals(button))
-		{
-			try 
-			{
-				click_on_button();
-			} 
-			catch (InterruptedException e1) 
-			{
-				e1.printStackTrace();
-			}
-		}
-		*/
+		currentChatPanel.clean_errorMessage();
 	}
 	
+	public void display_errorMessage(String errorMessage)
+	{
+		currentChatPanel.display_errorMessage(errorMessage);
+	}
 	
+	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
+	{
+		if(nature == Origin.RECEIVED)
+		{
+			//
+		}
+		else
+		{
+			//
+		}
+	}
+	
+	public void process_applyErrorSending(String errorMessage)
+	{
+		//
+	}
+	
+	public void process_exitCurrentChat()
+	{
+		//
+	}
+	
+	public void enable_modifyButton()
+	{
+		modifyPseudoButton.setEnabled(true);
+	}
+	
+	public void disable_modifyButton()
+	{
+		modifyPseudoButton.setEnabled(false);
+	}
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -342,10 +380,6 @@ public class ApplicationWindow implements ActionListener
 			public void mouseReleased(MouseEvent e) {
 			}
 		});
-		
-
-
-	}
 
 	*/
 }

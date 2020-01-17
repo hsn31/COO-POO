@@ -19,8 +19,8 @@ import java.lang.String;
  * 
  * 
  * unicast => 
- *  	ID == 5  | message of chat : Text = message => relever le temps auquel on le reçoit
- * 		ID == 11 | answer to 1 => (IPaddress , pseudonyme) : Text = <IPsourcerequete> <requete> <answer>
+ *  	ID == 5  | message of chat : Text = Date + "<s>" + message
+ * 		ID == 11 | answer to 1 => (IPaddress , pseudonyme) : Text = pseudonyme
  * 
  * 
  * 
@@ -127,9 +127,9 @@ public class NetworkManager //implements Runnable
         outDgramSocket.send(outPacket);
     }
     
-    public void unicastSendChatMessage(String wantedMessage, String distantAddress)
+    public void unicastSendChatMessage(String wantedMessage, String distantAddress) throws IOException
     {
-    	InetAddress distantAddress2 = distantAddress; // type mismatch String InetAddress
+    	InetAddress distantAddress2 = InetAddress.getByName(distantAddress);
 		sendMessage(wantedMessage, distantAddress2, inPort);
     }
     
@@ -191,7 +191,7 @@ public class NetworkManager //implements Runnable
 	}
     
     
-    //------ Finished functions !!! ---------------------------------------------------------------------------------------
+   
     
     
     private List<InetAddress> listAllBroadcastAddresses() throws SocketException 

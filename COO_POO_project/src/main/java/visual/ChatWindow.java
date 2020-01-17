@@ -11,14 +11,13 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public class ChatWindow extends JPanel
 {
-	private JTextField text_area;
-	private JButton send_message;
 	private JScrollPane scrollbar;
 	private JPanel show_text;
 	
-	// do we need something like this if message is not fine?  
-	// private static JLabel labelError;
-	// ===> I don't think because we can display errors directly in the application window
+	private JPanel southPanel;
+	private JLabel labelError;
+	private JTextField text_area;
+	private JButton send_message;
 	
 	//DESIGN
 	//palette couleurs ?
@@ -45,10 +44,13 @@ public class ChatWindow extends JPanel
 	
 	private void creation_elements() throws FontFormatException, IOException
 	{
-		text_area = new JTextField();
-		send_message = new JButton("Send");
 		scrollbar = new JScrollPane();
 		show_text = new JPanel(); 
+		
+		southPanel = new JPanel(); 
+		labelError = new JLabel(""); 
+		text_area = new JTextField();
+		send_message = new JButton("Send");
 	}
 	
 	private void esthetic_parameters() throws FontFormatException, IOException
@@ -93,36 +95,31 @@ public class ChatWindow extends JPanel
 	private void fix_dimensions()
 	{
 		/*
-		JLabel.setPreferredSize(new Dimension(main_width, 100));
-		button.setPreferredSize(new Dimension(130, 40));
-		*/
+		scrollbar.setPreferredSize(new Dimension(130, 40));
+		show_text.setPreferredSize(new Dimension(130, 40));
+		
+		labelError.setPreferredSize(new Dimension(130, 40));
+		text_area.setPreferredSize(new Dimension(130, 40));
+		send_message.setPreferredSize(new Dimension(130, 40));
 		
 		//main window
-		this.setSize(new Dimension(1000, 700));
-		
+		this.setPreferredSize(new Dimension(130, 40));
+		*/
 	}
 	
 	private void add_and_layout()
-	{
-		/*
-		JPanel.add(button / JLabel); , BorderLayout.WEST);
+	{		
+		this.setLayout(new BorderLayout());
 		
-		//main window
+		this.add(scrollbar, BorderLayout.CENTER);
+		scrollbar.add(show_text);
 		
-		GridBagConstraints coord = new GridBagConstraints();
-		coord.gridx = 0 ;
-		coord.gridy = 0 ;
-		main_window.add(JLabel/JPanel, coord);
-		*/
+		this.add(southPanel, BorderLayout.SOUTH);
+		southPanel.setLayout(new BorderLayout());
 		
-
-
-		// 12.1 ADDED TEXT_AREA, SEND_MESSAGE, SCROLLBAR
-		this.setLayout(new GridBagLayout());
-		this.add(text_area);   
-		this.add(send_message);
-		this.add(scrollbar);
-		this.add(show_text);
+		southPanel.add(labelError, BorderLayout.NORTH);
+		southPanel.add(text_area, BorderLayout.CENTER);
+		southPanel.add(send_message, BorderLayout.EAST);
 	}
 	
 	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
@@ -145,11 +142,6 @@ public class ChatWindow extends JPanel
 		return send_message;
 	}
 	
-	public String getMessageInTextField() {
-		String message = text_area.getText();
-		return message;
-	}
-	
 	public void printMessage(String message) {
 		JLabel label_show_text = new JLabel();
 		
@@ -158,13 +150,25 @@ public class ChatWindow extends JPanel
 		
 	}
 	
-	public void cleanTextArea() 
+	public String getWrittenMessage()
+	{
+		return text_area.getText();
+	}
+	
+	//----------------------- ACTIONS ON DISPLAY -----------------------------------
+	
+	public void clean_TextArea() 
 	{
 		text_area.setText("");
 	}
 	
-	public String getWrittenMessage()
+	public void clean_errorMessage()
 	{
-		return text_area.getText();
+		labelError.setText("");
+	}
+	
+	public void display_errorMessage(String errorMessage)
+	{
+		labelError.setText(errorMessage);
 	}
 }
