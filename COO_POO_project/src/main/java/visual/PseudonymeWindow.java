@@ -155,6 +155,7 @@ public class PseudonymeWindow
 	public void showWindow()
 	{
 		main_window.setVisible(true);
+		System.out.println("TEST/ Pseudonyme: ");
 	}
 	
 	public void hideWindow()

@@ -248,6 +248,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		if(wantedPseudo.equals("")) 
 		{
 			currentError = "Impossible to login with an empty pseudo !";
+			System.out.println("TEST/ VisualInterface: ");
 		} 
 		else if(wantedPseudo.contains(" "))
 		{

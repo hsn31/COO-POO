@@ -33,6 +33,7 @@ public class VisualInterface implements ActionListener
 	public void openPseudonymeWindow()
 	{
 		pseudo_window.showWindow();
+		System.out.println("TEST/ VisualInterface: ");
 	}
 	
 	public void closePseudonymeWindow()
