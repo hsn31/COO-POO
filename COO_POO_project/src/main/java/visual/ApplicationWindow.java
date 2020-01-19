@@ -1,23 +1,10 @@
 package visual;
 
 import java.awt.*;
-import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
 import java.net.*;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.Map;
-
 import network.*;
 import network.Message.Origin;
 
