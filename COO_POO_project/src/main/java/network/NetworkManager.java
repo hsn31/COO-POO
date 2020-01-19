@@ -37,14 +37,14 @@ public class NetworkManager //implements Runnable
 	private String stringLocalAdress = local_address.getHostAddress().toString();
 	
 	//attributes to receive messages on a chat conversation (port fixed)
-    private DatagramSocket inDgramSocket = null; 
-    private DatagramPacket inPacket = null;
+    private DatagramSocket inDgramSocket = new DatagramSocket(); 
+    private DatagramPacket inPacket;
     private byte[] inBuffer;
     private int inPort;
     
     //attributes TO SEND from any port x, a message or a broadcast message
-    private DatagramSocket outDgramSocket = null; 
-    private DatagramPacket outPacket = null ;
+    private DatagramSocket outDgramSocket = new DatagramSocket(); 
+    //private DatagramPacket outPacket = null ;
     
     //attributes to receive the answer in broadcast (port x)
     private DatagramPacket inPacket_broadcast = null;
@@ -52,7 +52,7 @@ public class NetworkManager //implements Runnable
     
     private Thread receiver;
     
-    private ArrayList<String> global_buffer;
+    private ArrayList<String> global_buffer = new ArrayList<String>();
     
     public NetworkManager() throws SocketException, UnknownHostException
     {
@@ -123,7 +123,7 @@ public class NetworkManager //implements Runnable
     {
         byte[] buffer = message.getBytes();
  
-        outPacket = new DatagramPacket(buffer, buffer.length, broadcastAddress, inPort);
+        DatagramPacket outPacket = new DatagramPacket(buffer, buffer.length, broadcastAddress, inPort);
         outDgramSocket.send(outPacket);
     }
     
@@ -137,7 +137,7 @@ public class NetworkManager //implements Runnable
     {
         byte[] buffer = message.getBytes();
         
-        outPacket = new DatagramPacket(buffer, buffer.length, distantAddress, distantPort);
+        DatagramPacket outPacket = new DatagramPacket(buffer, buffer.length, distantAddress, distantPort);
         outDgramSocket.send(outPacket);
     }
     

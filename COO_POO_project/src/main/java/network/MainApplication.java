@@ -65,7 +65,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		processor_messages.start();
 		
 		//Envoi du broadcast d'ID <1> ATTENTION ATTENTION
-		//local_manager.broadcastGetActiveUser();
+		local_manager.broadcastGetActiveUser();
 		
 		//Attention, on fait une pause de 1000 millisecondes pour recevoir les broadcasts 
 		while(System.currentTimeMillis()<t1+Delta);
@@ -326,6 +326,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		else if(e.getSource().equals(local_interface.getExitPseudoButton())) 
 		{
 			click_on_exit_pseudonyme_button();
+			
 		}
 		else if(e.getSource().equals(local_interface.getSendMessageButton())) 
 		{
