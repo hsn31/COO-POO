@@ -108,7 +108,8 @@ public class PseudonymeWindow
 		*/
 		
 		//main window
-		main_window.setSize(new Dimension(850, 400));
+		//main_window.setSize(new Dimension(850, 400));
+		main_window.setPreferredSize(new Dimension(850, 400));
 		main_window.setResizable(false); //??????
 	}
 	

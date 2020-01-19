@@ -29,7 +29,7 @@ public class ProcessingThread implements Runnable
 			//refresh
 			listOfMessages = local_application.getActualListOfMessages();
 			
-			if(listOfMessages.size() > 0)
+			if(listOfMessages !=null && (listOfMessages.size() > 0))
 			{
 				try {
 					processMessageReceived(listOfMessages.get(0));

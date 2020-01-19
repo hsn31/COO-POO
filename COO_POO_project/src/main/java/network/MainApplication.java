@@ -20,7 +20,7 @@ import visual.VisualInterface;
 
 public class MainApplication implements ActionListener, ListSelectionListener
 {
-	private static final long Delta = 1000;
+	private final long Delta = 1000;
 	private NetworkManager local_manager;
 	private LocalMemory local_memory;
 	private VisualInterface local_interface;
@@ -64,8 +64,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		processor_messages = new Thread(new ProcessingThread(this));
 		processor_messages.start();
 		
-		//Envoi du broadcast d'ID <1>
-		local_manager.broadcastGetActiveUser();
+		//Envoi du broadcast d'ID <1> ATTENTION ATTENTION
+		//local_manager.broadcastGetActiveUser();
 		
 		//Attention, on fait une pause de 1000 millisecondes pour recevoir les broadcasts 
 		while(System.currentTimeMillis()<t1+Delta);

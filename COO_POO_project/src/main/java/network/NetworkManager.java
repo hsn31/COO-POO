@@ -33,21 +33,21 @@ import java.lang.String;
 public class NetworkManager //implements Runnable 
 {
     private boolean NetworkManagerActive = false;
-	private InetAddress local_address;
-	private String stringLocalAdress = local_address.toString();
+	private InetAddress local_address = InetAddress.getLocalHost();
+	private String stringLocalAdress = local_address.getHostAddress().toString();
 	
 	//attributes to receive messages on a chat conversation (port fixed)
-    private DatagramSocket inDgramSocket; 
-    private DatagramPacket inPacket;
+    private DatagramSocket inDgramSocket = null; 
+    private DatagramPacket inPacket = null;
     private byte[] inBuffer;
     private int inPort;
     
     //attributes TO SEND from any port x, a message or a broadcast message
-    private DatagramSocket outDgramSocket; 
-    private DatagramPacket outPacket;
+    private DatagramSocket outDgramSocket = null; 
+    private DatagramPacket outPacket = null ;
     
     //attributes to receive the answer in broadcast (port x)
-    private DatagramPacket inPacket_broadcast;
+    private DatagramPacket inPacket_broadcast = null;
     private byte[] inBuffer_broadcast;
     
     private Thread receiver;
@@ -59,7 +59,7 @@ public class NetworkManager //implements Runnable
 		this.NetworkManagerActive = true;
     	local_address = InetAddress.getLocalHost();
     	
-    	inPort = 2832;
+    	inPort = 2835;
     	inDgramSocket = new DatagramSocket(inPort);
 
         inBuffer = new byte[256];
