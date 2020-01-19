@@ -32,7 +32,7 @@ public class PseudonymeWindow
 		esthetic_parameters();
 		design_elements();
 		
-		main_window.setLocation(200, 0);
+		main_window.setLocation(450, 150);
 		main_window.setVisible(false);
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
@@ -109,7 +109,7 @@ public class PseudonymeWindow
 		
 		//main window
 		//main_window.setSize(new Dimension(850, 400));
-		main_window.setPreferredSize(new Dimension(850, 400));
+		main_window.setPreferredSize(new Dimension(400, 500));
 		main_window.setResizable(false); //??????
 	}
 	

@@ -178,7 +178,7 @@ public class ApplicationWindow
 		//currentChatPanel already done in constructor
 		
 		//main window
-		main_window.setSize(new Dimension(500, 500)); //500 SUR 500 ???!!!!!!!!!!!!!!!
+		main_window.setPreferredSize(new Dimension(500, 500)); //500 SUR 500 ???!!!!!!!!!!!!!!!
 		main_window.setResizable(false); //??????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	

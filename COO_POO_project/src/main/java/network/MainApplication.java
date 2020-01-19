@@ -268,6 +268,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 			{
 				process_login(wantedPseudo);
 				
+				local_interface.openApplicationWindow();
+				
 			}
 			else if(local_state == AppState.CHATTING)
 			{
