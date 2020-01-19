@@ -354,6 +354,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	//Appelé lors de la sélection des active users
 	public void valueChanged(ListSelectionEvent e) 
 	{
+		String pseudo_selected = local_interface.getObjectListActiveUsers().getSelectedValue();
+		
 		
 		
 	}

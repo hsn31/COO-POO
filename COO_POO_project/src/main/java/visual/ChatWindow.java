@@ -12,7 +12,8 @@ import java.io.IOException;
 public class ChatWindow extends JPanel
 {
 	private JScrollPane scrollbar;
-	private JPanel show_text;
+	private JPanel showTextPanel;
+	private JLabel textLabel;
 	
 	private JPanel southPanel;
 	private JLabel labelError;
@@ -45,7 +46,8 @@ public class ChatWindow extends JPanel
 	private void creation_elements() throws FontFormatException, IOException
 	{
 		scrollbar = new JScrollPane();
-		show_text = new JPanel(); 
+		showTextPanel = new JPanel();
+		textLabel = new JLabel("");
 		
 		southPanel = new JPanel(); 
 		labelError = new JLabel(""); 
@@ -96,7 +98,8 @@ public class ChatWindow extends JPanel
 	{
 		/*
 		scrollbar.setPreferredSize(new Dimension(130, 40));
-		show_text.setPreferredSize(new Dimension(130, 40));
+		showTextPanel.setPreferredSize(new Dimension(130, 40));
+		textLabel
 		
 		labelError.setPreferredSize(new Dimension(130, 40));
 		text_area.setPreferredSize(new Dimension(130, 40));
@@ -112,7 +115,8 @@ public class ChatWindow extends JPanel
 		this.setLayout(new BorderLayout());
 		
 		this.add(scrollbar, BorderLayout.CENTER);
-		scrollbar.add(show_text);
+		scrollbar.add(showTextPanel);
+		showTextPanel.add(textLabel);
 		
 		this.add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new BorderLayout());
@@ -142,14 +146,6 @@ public class ChatWindow extends JPanel
 		return send_message;
 	}
 	
-	public void printMessage(String message) {
-		JLabel label_show_text = new JLabel();
-		
-		label_show_text.setText(message);
-		show_text.add(label_show_text);
-		
-	}
-	
 	public String getWrittenMessage()
 	{
 		return text_area.getText();
@@ -171,4 +167,15 @@ public class ChatWindow extends JPanel
 	{
 		labelError.setText(errorMessage);
 	}
+	
+	public void process_exitCurrentChat()
+	{
+		//...
+	}
+	
+	public void showConversation(String totalText)
+	{
+		textLabel.setText(totalText);
+	}
+	
 }

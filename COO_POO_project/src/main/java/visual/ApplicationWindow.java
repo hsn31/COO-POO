@@ -26,7 +26,7 @@ public class ApplicationWindow
 	private JPanel eastPanel;
 	private JScrollPane listScroller;
 	private JList<String> areaListActiveUsers;
-	private ListModel<String> listActiveUsers;
+	private DefaultListModel<String> listActiveUsers;
 	
 	private JPanel centralChatsPanel;
 	private JPanel topChatPanel;
@@ -40,9 +40,9 @@ public class ApplicationWindow
 	//palette couleurs ?
 
 	
-	//coding_parameters :
+	//Coding_parameters :
 
-	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListMdodel
+	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListModel
 	private LinkedHashMap<String,String> listOfActiveUsers;
 	//<Key : AdresseIP, Value : total_conversation> => all the chat Panels open : max 50, 1000 on the network
 	private LinkedHashMap<String,String> listOfChats;
@@ -61,7 +61,7 @@ public class ApplicationWindow
 		
 		exitCurrentChatButton.setVisible(false);
 		
-		main_window.setLocation(200, 0); //!!
+		main_window.setLocation(200, 0); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		main_window.setVisible(false);
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 	}
@@ -97,6 +97,9 @@ public class ApplicationWindow
 		eastPanel = new JPanel();
 		listActiveUsers = new DefaultListModel<String>();
 		areaListActiveUsers = new JList<String>(listActiveUsers);
+		areaListActiveUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		areaListActiveUsers.setLayoutOrientation(JList.VERTICAL);
+		areaListActiveUsers.setVisibleRowCount(-1);
 		listScroller = new JScrollPane(areaListActiveUsers);
 		
 		centralChatsPanel = new JPanel();
@@ -175,8 +178,8 @@ public class ApplicationWindow
 		//currentChatPanel already done in constructor
 		
 		//main window
-		main_window.setSize(new Dimension(500, 500)); //500 SUR 500 ???
-		main_window.setResizable(false); //??????
+		main_window.setSize(new Dimension(500, 500)); //500 SUR 500 ???!!!!!!!!!!!!!!!
+		main_window.setResizable(false); //??????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	
 	private void add_and_layout()
@@ -210,7 +213,7 @@ public class ApplicationWindow
 		main_window.pack(); //to keep all the size of the wallpaper
 	}
 	
-	//--------------------------- Functions to manage the visual Interface / MainApplication ---------------------------------------
+	//---------- Functions to manage the visual Interface / MainApplication (BUTTONS AND LISTENERS)---------------------------------------
 	
 	
 	public JButton get_modifyPseudoButton()
@@ -233,6 +236,10 @@ public class ApplicationWindow
 		return exitCurrentChatButton;
 	}
 	
+	public JList<String> getObjectListActiveUsers()
+	{
+		return areaListActiveUsers;
+	}
 	
 	public void creation_listeners_appliWindow(MainApplication application, VisualInterface local_interface)
 	{
@@ -269,6 +276,18 @@ public class ApplicationWindow
 		return currentChatVisibleAddress;
 	}
 	
+	public boolean chatAlreadyDownloaded(String ipAddress)
+	{
+		return listOfChats.containsKey(ipAddress);
+	}
+	
+	//--------------------------- CHANGE VALUES OF DATA ------------------------------------
+	
+	public void create_openChat(String ipAddress)
+	{
+		listOfChats.put(ipAddress, "");
+	}
+	
 	//--------------------------- REFRESHING/DISPLAYING ACTIONS ----------------------------
 	
 
@@ -279,22 +298,71 @@ public class ApplicationWindow
 	
 	public void modifyPseudo(String newPseudo)
 	{
-		//JLabel.setText(newPseudo);
-		//aussi dans la list et dans le chat
+		pseudoLabel.setText(newPseudo);
+		
+		if(currentChatVisibleAddress.equals(local_ipAddress))
+		{
+			display_distantPseudoCurrentChat(newPseudo);
+		}
 	}
 	
 	public void showChatSelected(String ipAddress)
 	{
-		if(listOfChats.containsKey(ipAddress))
-		{
-			//
-		}
-		else
-		{
-			//
-		}
+		String totalText = "<html>" + listOfChats.get(ipAddress) + "</html>";
+		currentChatPanel.showConversation(totalText);
 		
+		if(!currentChatVisibleAddress.equals(ipAddress))
+		{
+			display_distantPseudoCurrentChat(listOfActiveUsers.get(ipAddress));
+		}
+
+		clean_errorMessage();
+		centralChatsPanel.setVisible(true);
 		currentChatVisibleAddress = ipAddress;
+	}
+
+	
+	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
+	{
+		if(listOfChats.containsKey(distantAddress))
+		{
+			String balise = "<hr>";
+			
+			if(nature == Origin.RECEIVED)
+			{
+				balise = "<hr align=\"left\" color =\"#4664B5\">";
+			}
+			else if(nature == Origin.SENT)
+			{
+				//#0066FF
+				balise = "<hr align=\"right\" color =\"#0066FF\">";
+			}
+			
+			String txtDate = balise + strDate + "</hr>";
+			String txtMessage = balise + message + "</hr>";
+			String txtConversation = listOfChats.get(distantAddress) + "<br><br>" + txtDate + "<br>" + txtMessage;
+			
+			listOfChats.replace(distantAddress, txtConversation);
+			
+			if(currentChatVisibleAddress.equals(distantAddress))
+			{
+				showChatSelected(distantAddress);
+			}
+		}
+	}
+	
+	public void process_exitCurrentChat()
+	{
+		centralChatsPanel.setVisible(false);
+		display_distantPseudoCurrentChat("");
+		currentChatPanel.process_exitCurrentChat();
+	}
+	
+	//---------------little Actions  ---------------------------------------------
+	
+	private void display_distantPseudoCurrentChat(String pseudo)
+	{
+		chatWithLabel.setText("You are chatting with: " + pseudo);
 	}
 	
 	public void clean_errorMessage()
@@ -307,28 +375,6 @@ public class ApplicationWindow
 		currentChatPanel.display_errorMessage(errorMessage);
 	}
 	
-	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
-	{
-		if(nature == Origin.RECEIVED)
-		{
-			//
-		}
-		else
-		{
-			//
-		}
-	}
-	
-	public void process_applyErrorSending(String errorMessage)
-	{
-		//
-	}
-	
-	public void process_exitCurrentChat()
-	{
-		//
-	}
-	
 	public void enable_modifyButton()
 	{
 		modifyPseudoButton.setEnabled(true);
@@ -338,7 +384,50 @@ public class ApplicationWindow
 	{
 		modifyPseudoButton.setEnabled(false);
 	}
+
 	
+	//---------------Modifications from received messages among network --------------------
+	
+	public void showNewActiveUser(String ipAddress, String pseudonyme)
+	{
+		listOfActiveUsers.put(ipAddress, pseudonyme);
+		listActiveUsers.addElement(pseudonyme);
+		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
+		//
+		//refresh ?????????????????????????????????????????????????????????????????
+	}
+	
+	public void showModificationActiveUser(String ipAddress, String pseudonyme)
+	{
+		listActiveUsers.removeElement(listOfActiveUsers.get(ipAddress));
+		listOfActiveUsers.replace(ipAddress, pseudonyme);
+		listActiveUsers.addElement(pseudonyme);
+		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
+		//
+		//refresh ?????????????????????????????????????????????????????????????????
+		
+		if(currentChatVisibleAddress.equals(ipAddress))
+		{
+			display_distantPseudoCurrentChat(pseudonyme);
+		}
+	}
+	
+	public void removeActiveUser(String ipAddress)
+	{
+		listActiveUsers.removeElement(listOfActiveUsers.get(ipAddress));
+		listOfActiveUsers.remove(ipAddress);
+		listOfChats.remove(ipAddress);
+		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
+		//
+		//refresh ?????????????????????????????????????????????????????????????????
+		
+		if(currentChatVisibleAddress.equals(ipAddress))
+		{
+			process_exitCurrentChat();
+		}
+	}
+	
+
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	

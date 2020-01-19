@@ -14,8 +14,7 @@ public class VisualInterface implements ActionListener
 {
 	
 	ApplicationWindow main_window;
-	//une seule fenêtre pour deux utilisation
-	PseudonymeWindow pseudo_window;
+	PseudonymeWindow pseudo_window; //une seule fenêtre pour deux utilisations
 	
 	public VisualInterface() throws FontFormatException, IOException
 	{
@@ -28,7 +27,7 @@ public class VisualInterface implements ActionListener
 		main_window.download_listOfActiveUsers(initialList);
 	}
 	
-	//---------------Methods pas sur de les garder -----------------------------------------
+	//--------------- open and close windows -----------------------------------------
 	
 	
 	public void openPseudonymeWindow()
@@ -89,6 +88,11 @@ public class VisualInterface implements ActionListener
 		return main_window.get_exitCurrentChatButton();
 	}
 	
+	public JList<String> getObjectListActiveUsers()
+	{
+		return main_window.getObjectListActiveUsers();
+	}
+	
 	//--------------- OTHER INFORMATIONS ---------------------------------------------
 	
 	public String getWrittenPseudonyme()
@@ -121,7 +125,8 @@ public class VisualInterface implements ActionListener
 		pseudo_window.changeTo_ModifyWindow();
 		
 		main_window.modifyPseudo(validatedPseudo);
-		//main_window sera afficher après avoir enregistré l'utilisateur local dans la liste des active users
+		//main_window sera afficher après avoir enregistré l'utilisateur local 
+		//dans la liste des active users
 	}
 	
 	public void process_modifyPseudo(String validatedPseudo)
@@ -146,31 +151,33 @@ public class VisualInterface implements ActionListener
 	
 	public void process_applyErrorSending(String errorMessage)
 	{
-		main_window.process_applyErrorSending(errorMessage);
+		main_window.display_errorMessage(errorMessage);
 	}
+	
+	//---------------Modifications from received messages among network --------------------
 	
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
-		
+		main_window.showNewActiveUser(ipAddress, pseudonyme);
 	}
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
-		
+		main_window.showModificationActiveUser(ipAddress, pseudonyme);
 	}
 	
 	public void removeActiveUser(String ipAddress)
 	{
-		//suppress in window application
-		//close windows chat
+		main_window.removeActiveUser(ipAddress);
 	}
+	
+	//---------------Actions from events on visual ---------------------------------------------
 	
 	public void click_on_ExitCurrentChatButton()
 	{
 		main_window.process_exitCurrentChat();
 	}
 
-	//------------------------------------------------------------------------------------
 	
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -179,6 +186,18 @@ public class VisualInterface implements ActionListener
 			pseudo_window.showWindow();
 			main_window.disable_modifyButton();
 		}
+	}
+	
+	//-------------When click on active user list
+	
+	public boolean chatAlreadyDownloaded(String ipAddress)
+	{
+		return main_window.chatAlreadyDownloaded(ipAddress);
+	}
+	
+	public void create_openChat(String ipAddress)
+	{
+		main_window.create_openChat(ipAddress);
 	}
 		
 }
