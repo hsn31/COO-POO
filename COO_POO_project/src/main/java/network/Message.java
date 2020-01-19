@@ -4,8 +4,8 @@ package network;
 public class Message 
 {
 
-	private String text;
-	private String date;
+	private String text ="";
+	private String date ="";
 	private Origin nature;
 	
 	public enum Origin

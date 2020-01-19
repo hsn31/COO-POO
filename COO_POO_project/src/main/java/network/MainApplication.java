@@ -71,7 +71,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		while(System.currentTimeMillis()<t1+Delta);
 		
 		//Test de la liste des utilisateurs. 
-		System.out.println("NOMBRE D'UTILISATEURS"+Integer.toString(local_memory.checkActiveUserAmount()));
+		System.out.println("TEST/ NOMBRE D'UTILISATEURS : "+Integer.toString(local_memory.checkActiveUserAmount()));
 		
 		local_state = AppState.LOGIN;
 		
@@ -85,6 +85,8 @@ public class MainApplication implements ActionListener, ListSelectionListener
 				
 				//Donc on peut direct afficher l'applicationWindow:
 				local_state = AppState.CHATTING;
+				
+				System.out.println("TEST/ Dans la boucle LastPseudoOK : ");
 			}
 		}
 		
@@ -98,6 +100,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		if(local_state == AppState.LOGIN)
 		{
 			local_interface.openPseudonymeWindow();
+			System.out.println("TEST/ local_state = login ");
 		}
 		else if(local_state == AppState.CHATTING)
 		{

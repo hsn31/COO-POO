@@ -16,8 +16,8 @@ import network.Message.Origin;
 public class Account {
 	
 	private boolean createdLastConnection; //pour savoir comment démarrer l'application
-	private String pseudonyme;
-	private String ipAdress;
+	private String pseudonyme="";
+	private String ipAdress ="";
 	
 	private LinkedHashMap<String, Chat> ListOfChat; //string = distantIpAddress
 	

@@ -9,7 +9,7 @@ public class ProcessingThread implements Runnable
 	private boolean interrupted=false;
 	
 	private MainApplication local_application;
-	private ArrayList<String> listOfMessages;
+	private ArrayList<String> listOfMessages = new ArrayList<String>();
 	
 	public ProcessingThread(MainApplication application)
 	{
