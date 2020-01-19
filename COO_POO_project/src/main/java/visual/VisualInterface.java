@@ -135,6 +135,7 @@ public class VisualInterface implements ActionListener
 		pseudo_window.hideWindow();
 		pseudo_window.clean_window();
 		
+		main_window.enable_modifyButton();
 		main_window.modifyPseudo(validatedPseudo);
 	}
 	
