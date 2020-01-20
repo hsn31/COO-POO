@@ -28,6 +28,9 @@ public class ApplicationWindow
 	
 	private JPanel eastPanel;
 	private JScrollPane listScroller;
+	
+	//TEST
+	private JComboBox<LinkedHashMap<String,String>> test ;
 	private JList<String> areaListActiveUsers;
 	private DefaultListModel<String> listActiveUsers;
 	
@@ -46,7 +49,7 @@ public class ApplicationWindow
 	//Coding_parameters :
 
 	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListModel
-	private LinkedHashMap<String,String> listOfActiveUsers;
+	private LinkedHashMap<String, String> listOfActiveUsers;
 	//<Key : AdresseIP, Value : total_conversation> => all the chat Panels open : max 50, 1000 on the network
 	private LinkedHashMap<String,String> listOfChats;
 	
@@ -101,14 +104,17 @@ public class ApplicationWindow
 		
 		eastPanel = new JPanel();
 		listActiveUsers = new DefaultListModel<String>();
-		areaListActiveUsers = new JList<String>(listActiveUsers);
+		//areaListActiveUsers = new JList<String>(listActiveUsers);
+		areaListActiveUsers = new JList<String>();
 		
 		areaListActiveUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		areaListActiveUsers.setLayoutOrientation(JList.VERTICAL);
 		areaListActiveUsers.setVisibleRowCount(-1);
 		
-		listScroller = new JScrollPane(areaListActiveUsers);
-		
+		//listScroller = new JScrollPane(areaListActiveUsers);
+		test = new JComboBox<LinkedHashMap<String,String>>();
+		test.addItem(listOfActiveUsers);
+				
 		centralChatsPanel = new JPanel();
 		topChatPanel = new JPanel();
 		exitCurrentChatButton = new JButton("\u00d7"); //croix du multiplié
@@ -206,8 +212,11 @@ public class ApplicationWindow
 		northPanel.add(exitButton, BorderLayout.EAST);
 		
 		main_window.add(eastPanel, BorderLayout.EAST);
-		eastPanel.add(listScroller);
-		listScroller.add(areaListActiveUsers);
+		eastPanel.add(test);
+
+		//eastPanel.add(listScroller);
+		//listScroller.add(areaListActiveUsers);
+	
 		
 		main_window.add(centralChatsPanel, BorderLayout.CENTER);
 		centralChatsPanel.setLayout(new BorderLayout());
@@ -413,13 +422,16 @@ public class ApplicationWindow
 		for(int i = 0; i<l.size(); i++)
 		{
 			listActiveUsers.add(i, l.get(i));//.addElement(pseudonyme);
+			System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers " + l.get(i) );
 		}
+	
 		
-		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers " + listActiveUsers );
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listActiveUsers );
 		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme );
 		
 		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
-		//
+	
+		
 		//refresh ?????????????????????????????????????????????????????????????????
 	}
 	
