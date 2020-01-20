@@ -327,6 +327,7 @@ public class ApplicationWindow
 		CoordUser cu = listOfActiveUsers.get(place);
 		cu.chat_downloaded = true;
 		listOfActiveUsers.set(place, cu);
+		System.out.println("TEST/ ApplicationWindow create_openChat" + place + cu);
 		
 		refresh_comboBox();
 	}
@@ -339,6 +340,9 @@ public class ApplicationWindow
 		initialList.forEach((k,v)->
 		{
 			listOfActiveUsers.add(new CoordUser(k, v));
+			
+			
+			System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + k + v);
 		});
 		
 		//Test 
@@ -361,6 +365,7 @@ public class ApplicationWindow
 		CoordUser cu = listOfActiveUsers.get(place);
 		cu.pseudo = newPseudo;
 		listOfActiveUsers.set(place, cu);
+		System.out.println("TEST/ ApplicationWindow modifyPseudo" + place + cu);
 	}
 	
 	public void showChatSelected(String ipAddress)
@@ -480,9 +485,18 @@ public class ApplicationWindow
 	{
 		listBox.removeAllItems();
 		
+		System.out.println("*********************************************************");
+		System.out.println("refresh_comboBox " + listOfActiveUsers);
+		System.out.println("refresh_comboBox " + listOfActiveUsers.size());
+		System.out.println("*********************************************************");
+		
 		for(int i = 0 ; i < listOfActiveUsers.size() ; i++)
 		{
 			listBox.addItem(listOfActiveUsers.get(i));
+			
+			System.out.println("*********************************************************");
+			System.out.println("listBox " + listBox);
+			System.out.println("*********************************************************");
 		}
 	}
 	
@@ -502,6 +516,7 @@ public class ApplicationWindow
 		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 		listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
 		
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser" + ipAddress + pseudonyme);
 		refresh_comboBox();
 	
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers "  + listOfActiveUsers );

@@ -323,6 +323,7 @@ public class MainApplication implements ActionListener
 	
 	private void process_selectionActiveUser(JComboBox<CoordUser> object)
 	{
+		if (((CoordUser)object.getSelectedItem())!=null) {
 		String ipAddress = ((CoordUser)object.getSelectedItem()).ip;
 		//object.getSelectedIndex();
 		
@@ -334,6 +335,7 @@ public class MainApplication implements ActionListener
 		}
 		
 		local_interface.openChatExisting(ipAddress);
+		}
 	}
 	
 	
