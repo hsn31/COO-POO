@@ -26,30 +26,75 @@ public class ApplicationWindow
 	private JButton modifyPseudoButton;
 	private JButton exitButton;
 	
-	private JPanel eastPanel;
-	private JScrollPane listScroller;
-	
-	//TEST
-	private JComboBox<LinkedHashMap<String,String>> test ;
-	private JList<String> areaListActiveUsers;
-	private DefaultListModel<String> listActiveUsers;
-	
 	private JPanel centralChatsPanel;
 	private JPanel topChatPanel;
 	private JButton exitCurrentChatButton;
 	private JLabel chatWithLabel;
+	private JComboBox<CoordUser> listBox;
 	private ChatWindow currentChatPanel;
 	
 	//DESIGN
 	private ImageIcon wallpaper;
 	private ImageIcon logo;
-	//palette couleurs ?
 
 	
 	//Coding_parameters :
+	
+	public class CoordUser extends Object
+	{
+		public String ip;
+		public String pseudo;
+		public boolean chat_downloaded;
+		
+		public CoordUser(String address, String name)
+		{
+			ip = address;
+			pseudo = name;
+			chat_downloaded = false;
+		}
+		
+		public String toString()
+		{
+			String result = pseudo;
+			
+			if(chat_downloaded)
+			{
+				result = result + " (Open)";
+			}
+			
+			return result;
+		}
+		
+		public boolean equals(CoordUser cu)
+		{
+			return (cu.ip.equals(this.ip) || cu.pseudo.equals(this.pseudo));
+		}
+	}
+	
+	public class ListCoord extends ArrayList<CoordUser>
+	{
+		private static final long serialVersionUID = 1L; //mandatory by default
 
-	//<Key : AdresseIP, Value : Pseudo> => same index than in DefaultListModel
-	private LinkedHashMap<String, String> listOfActiveUsers;
+		public int indexOf(CoordUser cu)
+		{
+			int result = -1;
+			int index = 0;
+			
+			while(index<this.size() && result==-1)
+			{
+				if(this.get(index).equals(cu))
+				{
+					result = index;
+				}
+				
+				index++;
+			}
+		
+			return result;
+		}
+	}
+	
+	private ListCoord listOfActiveUsers;
 	//<Key : AdresseIP, Value : total_conversation> => all the chat Panels open : max 50, 1000 on the network
 	private LinkedHashMap<String,String> listOfChats;
 	
@@ -65,10 +110,9 @@ public class ApplicationWindow
 		esthetic_parameters();
 		design_elements();
 		
-		exitCurrentChatButton.setVisible(false);
-		
-		main_window.setLocation(200, 0); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		main_window.setLocation(200, 100); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		main_window.setVisible(false);
+		disable_exitCurrentChatButton();
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 	}
 	
@@ -76,10 +120,10 @@ public class ApplicationWindow
 	
 	private void initialize_coding_parameters() throws UnknownHostException
 	{
-		listOfActiveUsers = new LinkedHashMap<String,String>();		
+		listOfActiveUsers = new ListCoord();
 		listOfChats = new LinkedHashMap<String,String>();
 		
-		local_ipAddress = InetAddress.getLocalHost().toString();
+		local_ipAddress = InetAddress.getLocalHost().getHostAddress().toString();
 		currentChatVisibleAddress = "";
 	}
 	
@@ -101,24 +145,12 @@ public class ApplicationWindow
 		logoLabel = new JLabel(logo);
 		modifyPseudoButton = new JButton("Modify your pseudo");
 		exitButton = new JButton("Exit");
-		
-		eastPanel = new JPanel();
-		listActiveUsers = new DefaultListModel<String>();
-		//areaListActiveUsers = new JList<String>(listActiveUsers);
-		areaListActiveUsers = new JList<String>();
-		
-		areaListActiveUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		areaListActiveUsers.setLayoutOrientation(JList.VERTICAL);
-		areaListActiveUsers.setVisibleRowCount(-1);
-		
-		//listScroller = new JScrollPane(areaListActiveUsers);
-		test = new JComboBox<LinkedHashMap<String,String>>();
-		test.addItem(listOfActiveUsers);
-				
+			
 		centralChatsPanel = new JPanel();
 		topChatPanel = new JPanel();
 		exitCurrentChatButton = new JButton("\u00d7"); //croix du multiplié
 		chatWithLabel = new JLabel("You are chatting with: ");
+		listBox = new JComboBox<CoordUser>();
 		currentChatPanel = new ChatWindow();
 	}
 	
@@ -137,10 +169,6 @@ public class ApplicationWindow
 		//button.setBackground(design_palette.get_color(CreatedColor.WHITE));
 		
 		//JLabel.setForeground(design_palette.get_color(CreatedColor.DARK_BROWN_INTENSE));
-		eastPanel.setBackground(Color.BLUE);
-		
-		exitCurrentChatButton.setVisible(false);
-		currentChatPanel.setVisible(false);
 		
 		//background window
 		main_window.setContentPane(wallpaper_area);
@@ -180,14 +208,11 @@ public class ApplicationWindow
 		//modifyPseudoButton.setPreferredSize(new Dimension(x, x));
 		//exitButton.setPreferredSize(new Dimension(x, x));
 		
-		eastPanel.setPreferredSize(new Dimension(100, 300));
-		//listScroller.setPreferredSize(new Dimension(x, x));
-		//areaListActiveUsers.setPreferredSize(new Dimension(x, x));
-		
 		//centralChatsPanel.setPreferredSize(new Dimension(x, x));
 		//topChatPanel.setPreferredSize(new Dimension(x, x));
-		exitCurrentChatButton.setPreferredSize(new Dimension(40, 40));
+		exitCurrentChatButton.setPreferredSize(new Dimension(50, 20));
 		//chatWithLabel.setPreferredSize(new Dimension(x, x));
+		listBox.setPreferredSize(new Dimension(200, 20));
 		//currentChatPanel already done in constructor
 		
 		//main window
@@ -210,20 +235,14 @@ public class ApplicationWindow
 		loginPanel.add(modifyPseudoButton, BorderLayout.SOUTH);
 		
 		northPanel.add(exitButton, BorderLayout.EAST);
-		
-		main_window.add(eastPanel, BorderLayout.EAST);
-		eastPanel.add(test);
 
-		//eastPanel.add(listScroller);
-		//listScroller.add(areaListActiveUsers);
-	
-		
 		main_window.add(centralChatsPanel, BorderLayout.CENTER);
 		centralChatsPanel.setLayout(new BorderLayout());
 		
 		centralChatsPanel.add(topChatPanel, BorderLayout.NORTH);
 		topChatPanel.add(exitCurrentChatButton);
 		topChatPanel.add(chatWithLabel);
+		topChatPanel.add(listBox);
 		centralChatsPanel.add(currentChatPanel, BorderLayout.CENTER);
 
 		main_window.pack(); //to keep all the size of the wallpaper
@@ -252,15 +271,15 @@ public class ApplicationWindow
 		return exitCurrentChatButton;
 	}
 	
-	public JList<String> getObjectListActiveUsers()
+	public JComboBox<CoordUser> getObjectListActiveUsers()
 	{
-		return areaListActiveUsers;
+		return listBox;
 	}
 	
 	public void creation_listeners_appliWindow(MainApplication application, VisualInterface local_interface)
 	{
 		exitButton.addActionListener(application);
-		areaListActiveUsers.addListSelectionListener(application);
+		listBox.addActionListener(application);
 		currentChatPanel.creation_listener_sendButton(application);
 		exitCurrentChatButton.addActionListener(application);
 		
@@ -299,9 +318,14 @@ public class ApplicationWindow
 	
 	//--------------------------- CHANGE VALUES OF DATA ------------------------------------
 	
-	public void create_openChat(String ipAddress)
+	public void create_openChat(String ipAddress, String history)
 	{
-		listOfChats.put(ipAddress, "");
+		listOfChats.put(ipAddress, history);
+		
+		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
+		CoordUser cu = listOfActiveUsers.get(place);
+		cu.chat_downloaded = true;
+		listOfActiveUsers.set(place, cu);
 	}
 	
 	//--------------------------- REFRESHING/DISPLAYING ACTIONS ----------------------------
@@ -309,7 +333,10 @@ public class ApplicationWindow
 
 	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
 	{
-		listOfActiveUsers.putAll(initialList);
+		initialList.forEach((k,v)->
+		{
+			listOfActiveUsers.add(new CoordUser(k, v));
+		});
 		
 		//Test 
 		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: listofActiveUsers ");
@@ -325,24 +352,26 @@ public class ApplicationWindow
 			display_distantPseudoCurrentChat(newPseudo);
 		}
 		
-		showModificationActiveUser(local_ipAddress, newPseudo);
+		int place = listOfActiveUsers.indexOf(new CoordUser(local_ipAddress, ""));
+		CoordUser cu = listOfActiveUsers.get(place);
+		cu.pseudo = newPseudo;
+		listOfActiveUsers.set(place, cu);
 	}
 	
 	public void showChatSelected(String ipAddress)
 	{
+		//already existing !!
 		String totalText = "<html>" + listOfChats.get(ipAddress) + "</html>";
 		currentChatPanel.showConversation(totalText);
 		
-		System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers " + currentChatPanel);
-		
 		if(!currentChatVisibleAddress.equals(ipAddress))
 		{
-			display_distantPseudoCurrentChat(listOfActiveUsers.get(ipAddress));
+			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
+			display_distantPseudoCurrentChat(listOfActiveUsers.get(place).pseudo);
 			System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers ");
 		}
 
 		clean_errorMessage();
-		centralChatsPanel.setVisible(true);
 		currentChatVisibleAddress = ipAddress;
 	}
 
@@ -378,16 +407,25 @@ public class ApplicationWindow
 	
 	public void process_exitCurrentChat()
 	{
-		centralChatsPanel.setVisible(false);
+		listOfChats.remove(currentChatVisibleAddress);
+		disable_exitCurrentChatButton();
 		display_distantPseudoCurrentChat("");
 		currentChatPanel.process_exitCurrentChat();
+		currentChatVisibleAddress = "";
 	}
 	
 	//---------------little Actions  ---------------------------------------------
 	
 	private void display_distantPseudoCurrentChat(String pseudo)
 	{
-		chatWithLabel.setText("You are chatting with: " + pseudo);
+		if(pseudo.equals(""))
+		{
+			chatWithLabel.setText("You are not chatting");
+		}
+		else
+		{
+			chatWithLabel.setText("You are chatting with: ");
+		}
 	}
 	
 	public void clean_errorMessage()
@@ -409,41 +447,50 @@ public class ApplicationWindow
 	{
 		modifyPseudoButton.setEnabled(false);
 	}
+	
+	public void enable_exitCurrentChatButton()
+	{
+		exitCurrentChatButton.setEnabled(true);
+	}
+	
+	public void disable_exitCurrentChatButton()
+	{
+		exitCurrentChatButton.setEnabled(false);
+	}
 
 	
 	//---------------Modifications from received messages among network --------------------
 	
+	private void refresh_comboBox()
+	{
+		listBox.removeAllItems();
+		
+		for(int i = 0 ; i < listOfActiveUsers.size() ; i++)
+		{
+			listBox.addItem(listOfActiveUsers.get(i));
+		}
+	}
+	
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
-		listOfActiveUsers.put(ipAddress, pseudonyme);
+		listOfActiveUsers.add(new CoordUser(ipAddress, pseudonyme));
 		
-		listActiveUsers = new DefaultListModel<String>();
-		ArrayList<String> l = new ArrayList<String>(listOfActiveUsers.values());
-		for(int i = 0; i<l.size(); i++)
-		{
-			listActiveUsers.add(i, l.get(i));//.addElement(pseudonyme);
-			System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers " + l.get(i) );
-		}
-	
+		refresh_comboBox();
 		
-		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listActiveUsers );
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers);
 		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme );
 		
-		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
-	
-		
-		//refresh ?????????????????????????????????????????????????????????????????
 	}
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
-		listActiveUsers.removeElement(listOfActiveUsers.get(ipAddress));
-		listOfActiveUsers.replace(ipAddress, pseudonyme);
-		listActiveUsers.addElement(pseudonyme);
-		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers "  + listActiveUsers );
-		//
-		//refresh ?????????????????????????????????????????????????????????????????
+		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
+		listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
+		
+		refresh_comboBox();
+	
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers "  + listOfActiveUsers );
+		
 		
 		if(currentChatVisibleAddress.equals(ipAddress))
 		{
@@ -453,50 +500,17 @@ public class ApplicationWindow
 	
 	public void removeActiveUser(String ipAddress)
 	{
-		listActiveUsers.removeElement(listOfActiveUsers.get(ipAddress));
-		listOfActiveUsers.remove(ipAddress);
+		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
+		listOfActiveUsers.remove(place);
 		listOfChats.remove(ipAddress);
-		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
-		//
-		//refresh ?????????????????????????????????????????????????????????????????
+		
+		refresh_comboBox();
 		
 		if(currentChatVisibleAddress.equals(ipAddress))
 		{
 			process_exitCurrentChat();
 		}
 	}
-	
-
-	
-	//////////////////////////////////////////////////////////////////////////////////////
-	
-	/*
-	
-		jListConnectedUser.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				jListConnectedUser.setSelectionForeground(Color.BLACK);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-		});
-
-	*/
 	
 	
 	//Debugging Permet d'afficher les valeurs de LinkedHashMap. 
@@ -509,9 +523,12 @@ public class ApplicationWindow
 	Iterator<String> itr = c.iterator();
 
 	System.out.println("--------------------Affichage des valeurs de la LinkedHashMap---------------------");
+	/*
 	//itérer la collection et afficher le résultat
 	while(itr.hasNext())
 	System.out.println(itr.next());
+	*/
+	System.out.println(initialList.toString());
 	
 	System.out.println("-----------------FIN DE L'AFFICHAGE--------------");
 	}

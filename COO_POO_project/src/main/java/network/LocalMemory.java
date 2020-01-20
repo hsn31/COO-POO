@@ -19,11 +19,13 @@ public class LocalMemory
 	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
 	private Account local_account;
 	
-	//HistoryManager => database !!
+	private HistoryManager local_history;
 	
 	public LocalMemory()
 	{
 		listOfActiveUsers = new LinkedHashMap<String,String>();
+		
+		local_history = new HistoryManager();
 		
 		//récupérer dans database données pour:
 		boolean database_say_account_exists = false;

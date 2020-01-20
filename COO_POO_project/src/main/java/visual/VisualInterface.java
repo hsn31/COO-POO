@@ -5,8 +5,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import network.*;
 import network.Message.Origin;
+import visual.ApplicationWindow.CoordUser;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 
@@ -89,7 +92,7 @@ public class VisualInterface implements ActionListener
 		return main_window.get_exitCurrentChatButton();
 	}
 	
-	public JList<String> getObjectListActiveUsers()
+	public JComboBox<CoordUser> getObjectListActiveUsers()
 	{
 		return main_window.getObjectListActiveUsers();
 	}
@@ -120,7 +123,7 @@ public class VisualInterface implements ActionListener
 		pseudo_window.clean_areaEnterPseudonyme();
 	}
 	
-	public void process_login(String validatedPseudo)
+	public void process_login(String validatedPseudo) throws UnknownHostException
 	{
 		pseudo_window.hideWindow();
 		pseudo_window.changeTo_ModifyWindow();
@@ -130,13 +133,14 @@ public class VisualInterface implements ActionListener
 		//dans la liste des active users
 	}
 	
-	public void process_modifyPseudo(String validatedPseudo)
+	public void process_modifyPseudo(String validatedPseudo) throws UnknownHostException
 	{
 		pseudo_window.hideWindow();
 		pseudo_window.clean_window();
 		
 		main_window.enable_modifyButton();
 		main_window.modifyPseudo(validatedPseudo);
+		main_window.showModificationActiveUser(InetAddress.getLocalHost().toString(), validatedPseudo);
 	}
 	
 	public void process_cancelModifyPseudo()
@@ -161,7 +165,6 @@ public class VisualInterface implements ActionListener
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
 		main_window.showNewActiveUser(ipAddress, pseudonyme);
-		System.out.println("TEST/ VisualInterface showNewActiveUser: listofActiveUsers ");
 	}
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
@@ -198,9 +201,14 @@ public class VisualInterface implements ActionListener
 		return main_window.chatAlreadyDownloaded(ipAddress);
 	}
 	
-	public void create_openChat(String ipAddress)
+	public void create_openChat(String ipAddress, String history)
 	{
-		main_window.create_openChat(ipAddress);
+		main_window.create_openChat(ipAddress, history);
+	}
+	
+	public void openChatExisting(String ipAddress)
+	{
+		main_window.showChatSelected(ipAddress);
 	}
 		
 }

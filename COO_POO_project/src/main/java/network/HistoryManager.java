@@ -18,6 +18,11 @@ public class HistoryManager {
 	private Date connectDate;
 	private String fileName;
 	
+	public HistoryManager()
+	{
+		
+	}
+	
 	public History createHistory(String id, String fileName, Date connectDate)
 	{
 		return new History(this.id, this.fileName, this.connectDate);

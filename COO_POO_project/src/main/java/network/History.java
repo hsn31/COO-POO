@@ -10,8 +10,6 @@ public class History {
 	
 	//persistence des données avec un fichier txt 
 	
-	//--Pour commencer, on verra apres pour JDBC et Cie
-	
 	private FileWriter file;
 	private File fileHistory;
 	private Date sessionDate;

@@ -31,8 +31,6 @@ public class ChatWindow extends JPanel
 		
 		esthetic_parameters();
 		design_elements();
-		
-		this.setVisible(true);
 	}
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
@@ -170,12 +168,15 @@ public class ChatWindow extends JPanel
 	
 	public void process_exitCurrentChat()
 	{
-		//...
+		clean_TextArea();
+		clean_errorMessage();
+		text_area.setEnabled(false);
 	}
 	
 	public void showConversation(String totalText)
 	{
 		textLabel.setText(totalText);
+		text_area.setEnabled(true);
 	}
 	
 }

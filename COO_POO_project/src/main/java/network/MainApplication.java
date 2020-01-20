@@ -5,20 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JComboBox;
 
 import network.Message.Origin;
+import visual.ApplicationWindow.CoordUser;
 import visual.VisualInterface;
 
-public class MainApplication implements ActionListener, ListSelectionListener
+public class MainApplication implements ActionListener
 {
 	private final long Delta = 1000;
 	private NetworkManager local_manager;
@@ -185,7 +184,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	
 	//------------------- SUB METHODS : INTERACTIONS WITH USER --------------
 	
-	private void process_login(String validatedPseudo)
+	private void process_login(String validatedPseudo) throws UnknownHostException
 	{
 		local_manager.broadcastConnected(validatedPseudo);
 		
@@ -196,7 +195,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		local_state = AppState.CHATTING;
 	}
 	
-	private void process_modifyPseudo(String validatedPseudo)
+	private void process_modifyPseudo(String validatedPseudo) throws UnknownHostException
 	{
 		local_manager.broadcastUpdatePseudo(validatedPseudo);
 		
@@ -241,7 +240,7 @@ public class MainApplication implements ActionListener, ListSelectionListener
 	
 	//------------------- INTERACTIONS WITH USER -----------------------------
 	
-	private void click_on_validate_pseudonyme_button()
+	private void click_on_validate_pseudonyme_button() throws UnknownHostException
 	{
 		String wantedPseudo = local_interface.getWrittenPseudonyme();
 		String currentError = "";
@@ -322,12 +321,34 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		local_interface.click_on_ExitCurrentChatButton();
 	}
 	
+	private void process_selectionActiveUser(JComboBox<CoordUser> object)
+	{
+		String ipAddress = ((CoordUser)object.getSelectedItem()).ip;
+		//object.getSelectedIndex();
+		
+		
+		if(!local_interface.chatAlreadyDownloaded(ipAddress))
+		{
+			String htmlHistory = "";//local_memory.downloadChatHTMLHistory(ipAddress);
+			local_interface.create_openChat(ipAddress, htmlHistory);
+		}
+		
+		local_interface.openChatExisting(ipAddress);
+	}
+	
 	
 	public void actionPerformed(ActionEvent e){
 		
 		if(e.getSource().equals(local_interface.getValidatePseudoButton())) 
 		{
-			click_on_validate_pseudonyme_button();
+			try 
+			{
+				click_on_validate_pseudonyme_button();
+			} 
+			catch (UnknownHostException e1) 
+			{
+				e1.printStackTrace();
+			}
 		}
 		else if(e.getSource().equals(local_interface.getExitPseudoButton())) 
 		{
@@ -354,16 +375,10 @@ public class MainApplication implements ActionListener, ListSelectionListener
 		{
 			process_shutDown();
 		}
-		
-	}
-
-	
-	//Appelé lors de la sélection des active users
-	public void valueChanged(ListSelectionEvent e) 
-	{
-		String pseudo_selected = local_interface.getObjectListActiveUsers().getSelectedValue();
-		
-		
+		else if(e.getSource().equals(local_interface.getObjectListActiveUsers()))
+		{
+			process_selectionActiveUser(local_interface.getObjectListActiveUsers());
+		}
 		
 	}
 }
