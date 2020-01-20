@@ -326,6 +326,8 @@ public class ApplicationWindow
 		CoordUser cu = listOfActiveUsers.get(place);
 		cu.chat_downloaded = true;
 		listOfActiveUsers.set(place, cu);
+		
+		refresh_comboBox();
 	}
 	
 	//--------------------------- REFRESHING/DISPLAYING ACTIONS ----------------------------
@@ -341,6 +343,8 @@ public class ApplicationWindow
 		//Test 
 		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: listofActiveUsers ");
 		debugging(initialList);
+		
+		refresh_comboBox();
 	}
 	
 	public void modifyPseudo(String newPseudo)
