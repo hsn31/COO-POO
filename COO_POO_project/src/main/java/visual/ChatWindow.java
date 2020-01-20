@@ -179,4 +179,13 @@ public class ChatWindow extends JPanel
 		text_area.setEnabled(true);
 	}
 	
+	public void enable_sendButton()
+	{
+		send_message.setEnabled(true);
+	}
+	
+	public void disable_sendButton()
+	{
+		send_message.setEnabled(false);
+	}
 }

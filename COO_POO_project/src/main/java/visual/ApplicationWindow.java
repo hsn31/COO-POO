@@ -113,6 +113,7 @@ public class ApplicationWindow
 		main_window.setLocation(200, 100); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		main_window.setVisible(false);
 		disable_exitCurrentChatButton();
+		disable_sendButton();
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 	}
 	
@@ -460,6 +461,16 @@ public class ApplicationWindow
 	public void disable_exitCurrentChatButton()
 	{
 		exitCurrentChatButton.setEnabled(false);
+	}
+	
+	public void enable_sendButton()
+	{
+		currentChatPanel.enable_sendButton();
+	}
+	
+	public void disable_sendButton()
+	{
+		currentChatPanel.disable_sendButton();
 	}
 
 	
