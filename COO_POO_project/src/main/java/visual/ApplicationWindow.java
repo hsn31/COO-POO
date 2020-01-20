@@ -389,6 +389,7 @@ public class ApplicationWindow
 	
 	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
+		System.out.println("process_applyMessage ");
 		if(listOfChats.containsKey(distantAddress))
 		{
 			String balise = "<hr>";
@@ -411,6 +412,7 @@ public class ApplicationWindow
 			
 			if(currentChatVisibleAddress.equals(distantAddress))
 			{
+				//System.out.println("s" + distantAddress);
 				showChatSelected(distantAddress);
 			}
 		}

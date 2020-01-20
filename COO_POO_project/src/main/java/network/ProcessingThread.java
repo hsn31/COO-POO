@@ -60,7 +60,14 @@ public class ProcessingThread implements Runnable
 	public void processMessageReceived(String message) throws UnknownHostException, IOException
 	{
 		String[] dataPacket = message.split("<>");
+		System.out.print("Message =START  " + message + " END");
 		
+		//String idPacketReceived = dataPacket[0];
+		//System.out.print("test " + idPacketReceived);
+		
+		if (dataPacket.length >= 2) {
+			
+		System.out.print("2222222222222222222222222");
 		String idPacketReceived = dataPacket[0];
 		//String naturePacketReceived = dataPacket[1]; (not useful)
 		String ipSenderPacketReceived = dataPacket[2];
@@ -94,6 +101,8 @@ public class ProcessingThread implements Runnable
 		else if(idPacketReceived.equals("5"))
 		{
 			local_application.addReceivedMessage(ipSenderPacketReceived, textPacketReceived);
+			System.out.print("Process_5");
+		}
 		}
 	}
 }

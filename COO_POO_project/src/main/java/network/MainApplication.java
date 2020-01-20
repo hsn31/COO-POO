@@ -147,9 +147,7 @@ public class MainApplication implements ActionListener
 	{
 		local_memory.updateListConnectedBroadcast(ipAddress, pseudonyme);
 		local_interface.showModificationActiveUser(ipAddress, pseudonyme);
-		
-		System.out.print("-------------------------------------");
-		System.out.print(ipAddress);
+
 	}
 	
 	public void deleteActiveUser(String ipAddress, String pseudonyme)
