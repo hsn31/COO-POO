@@ -59,7 +59,7 @@ public class NetworkManager //implements Runnable
 		this.NetworkManagerActive = true;
     	local_address = InetAddress.getLocalHost();
     	
-    	inPort = 2835;
+    	inPort = 2834;
     	inDgramSocket = new DatagramSocket(inPort);
 
         inBuffer = new byte[256];

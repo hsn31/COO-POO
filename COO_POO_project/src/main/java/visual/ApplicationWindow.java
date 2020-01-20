@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.IOException;
 import javax.swing.*;
 import java.net.*;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import network.*;
 import network.Message.Origin;
@@ -80,8 +82,10 @@ public class ApplicationWindow
 	private void creation_elements() throws FontFormatException, IOException
 	{
 		//DESIGN
-		wallpaper = new ImageIcon("wallpaper_application.jpg");
-		logo = new ImageIcon("logo_local_user.jpg");
+		java.net.URL imgUrlWallpaper = getClass().getResource("wallpaper_application.jpg");
+		wallpaper = new ImageIcon(imgUrlWallpaper);
+		java.net.URL imgUrlLogo = getClass().getResource("logo_local_user.jpg");
+		logo = new ImageIcon(imgUrlLogo);
 		
 		//MAIN WINDOW
 		main_window = new JFrame("Zone de clavardage");
@@ -294,6 +298,10 @@ public class ApplicationWindow
 	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
 	{
 		listOfActiveUsers.putAll(initialList);
+		
+		//Test 
+		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: listofActiveUsers ");
+		debugging(initialList);
 	}
 	
 	public void modifyPseudo(String newPseudo)
@@ -311,9 +319,12 @@ public class ApplicationWindow
 		String totalText = "<html>" + listOfChats.get(ipAddress) + "</html>";
 		currentChatPanel.showConversation(totalText);
 		
+		System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers " + currentChatVisibleAddress.equals(ipAddress));
+		
 		if(!currentChatVisibleAddress.equals(ipAddress))
 		{
 			display_distantPseudoCurrentChat(listOfActiveUsers.get(ipAddress));
+			System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers ");
 		}
 
 		clean_errorMessage();
@@ -392,6 +403,8 @@ public class ApplicationWindow
 	{
 		listOfActiveUsers.put(ipAddress, pseudonyme);
 		listActiveUsers.addElement(pseudonyme);
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ");
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme );
 		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
 		//
 		//refresh ?????????????????????????????????????????????????????????????????
@@ -402,7 +415,8 @@ public class ApplicationWindow
 		listActiveUsers.removeElement(listOfActiveUsers.get(ipAddress));
 		listOfActiveUsers.replace(ipAddress, pseudonyme);
 		listActiveUsers.addElement(pseudonyme);
-		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
+		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers ");
 		//
 		//refresh ?????????????????????????????????????????????????????????????????
 		
@@ -458,4 +472,22 @@ public class ApplicationWindow
 		});
 
 	*/
+	
+	
+	//Debugging Permet d'afficher les valeurs de LinkedHashMap. 
+	
+	public void debugging (LinkedHashMap<String,String> initialList) {
+	// Affecter les valeurs à une collection
+	Collection c = initialList.values();
+
+	//Créer un itérateur sur la collection
+	Iterator itr = c.iterator();
+
+	System.out.println("--------------------Affichage des valeurs de la LinkedHashMap---------------------");
+	//itérer la collection et afficher le résultat
+	while(itr.hasNext())
+	System.out.println(itr.next());
+	
+	System.out.println("-----------------FIN DE L'AFFICHAGE--------------");
+	}
 }
