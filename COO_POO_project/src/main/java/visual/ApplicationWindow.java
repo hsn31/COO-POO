@@ -482,10 +482,6 @@ public class ApplicationWindow
 		for(int i = 0 ; i < listOfActiveUsers.size() ; i++)
 		{
 			listBox.addItem(listOfActiveUsers.get(i));
-			
-			System.out.println("*********************************************************");
-			System.out.println("listBox " + listBox);
-			System.out.println("*********************************************************");
 		}
 	}
 	

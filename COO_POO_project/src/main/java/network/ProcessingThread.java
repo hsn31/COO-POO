@@ -1,6 +1,7 @@
 package network;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -66,20 +67,22 @@ public class ProcessingThread implements Runnable
 		String textPacketReceived = dataPacket[3];
 		
 		//int state = local
-		if(idPacketReceived.equals("1"))
+		if(idPacketReceived.equals("1") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())) )
 		{
 			//if on est actif !!
 			local_application.sendActiveUser(ipSenderPacketReceived);
 		}
-		else if(idPacketReceived.equals("2") || idPacketReceived.equals("11"))
+		else if((idPacketReceived.equals("2") || idPacketReceived.equals("11") )&& !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())))
 		{
 			local_application.addActiveUser(ipSenderPacketReceived, textPacketReceived);
+			System.out.print("Process");
+			System.out.print(InetAddress.getLocalHost().getHostAddress().toString());
 		}
-		else if(idPacketReceived.equals("3"))
+		else if(idPacketReceived.equals("3") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())))
 		{
 			local_application.modifyActiveUser(ipSenderPacketReceived, textPacketReceived);
 		}
-		else if(idPacketReceived.equals("4"))
+		else if(idPacketReceived.equals("4") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())))
 		{
 			local_application.deleteActiveUser(ipSenderPacketReceived, textPacketReceived);
 		}
