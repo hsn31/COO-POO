@@ -131,7 +131,7 @@ public class NetworkManager //implements Runnable
     public void unicastSendChatMessage(String wantedMessage, String distantAddress) throws IOException
     {
     	InetAddress distantAddress2 = InetAddress.getByName(distantAddress);
-		sendMessage(wantedMessage, distantAddress2, inPort);
+		sendMessage("5<>unicast<>"+distantAddress2+"<>"+wantedMessage, distantAddress2, inPort);
     }
     
     public void sendMessage(String message, InetAddress distantAddress, int distantPort) throws IOException
