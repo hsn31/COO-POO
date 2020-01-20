@@ -169,8 +169,6 @@ public class ChatWindow extends JPanel
 	public void process_exitCurrentChat()
 	{
 		clean_TextArea();
-		clean_errorMessage();
-		text_area.setEnabled(false);
 	}
 	
 	public void showConversation(String totalText)
@@ -187,5 +185,15 @@ public class ChatWindow extends JPanel
 	public void disable_sendButton()
 	{
 		send_message.setEnabled(false);
+	}
+	
+	public void enable_textArea()
+	{
+		text_area.setEnabled(true);
+	}
+	
+	public void disable_textArea()
+	{
+		text_area.setEnabled(false);
 	}
 }

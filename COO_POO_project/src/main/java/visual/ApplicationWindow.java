@@ -112,8 +112,7 @@ public class ApplicationWindow
 		
 		main_window.setLocation(200, 100); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		main_window.setVisible(false);
-		disable_exitCurrentChatButton();
-		disable_sendButton();
+		disable_chatArea();
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 	}
 	
@@ -380,7 +379,9 @@ public class ApplicationWindow
 			display_distantPseudoCurrentChat(listOfActiveUsers.get(place).pseudo);
 			System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers ");
 		}
-
+		
+		enable_chatArea();
+		
 		clean_errorMessage();
 		currentChatVisibleAddress = ipAddress;
 	}
@@ -418,8 +419,8 @@ public class ApplicationWindow
 	public void process_exitCurrentChat()
 	{
 		listOfChats.remove(currentChatVisibleAddress);
-		disable_exitCurrentChatButton();
-		display_distantPseudoCurrentChat("");
+		disable_chatArea();
+	
 		currentChatPanel.process_exitCurrentChat();
 		currentChatVisibleAddress = "";
 	}
@@ -458,24 +459,20 @@ public class ApplicationWindow
 		modifyPseudoButton.setEnabled(false);
 	}
 	
-	public void enable_exitCurrentChatButton()
-	{
-		exitCurrentChatButton.setEnabled(true);
-	}
-	
-	public void disable_exitCurrentChatButton()
-	{
-		exitCurrentChatButton.setEnabled(false);
-	}
-	
-	public void enable_sendButton()
+	public void enable_chatArea()
 	{
 		currentChatPanel.enable_sendButton();
+		exitCurrentChatButton.setEnabled(true);
+		currentChatPanel.enable_textArea();
 	}
 	
-	public void disable_sendButton()
+	public void disable_chatArea()
 	{
 		currentChatPanel.disable_sendButton();
+		exitCurrentChatButton.setEnabled(false);
+		display_distantPseudoCurrentChat("");
+		clean_errorMessage();
+		currentChatPanel.disable_textArea();
 	}
 
 	
