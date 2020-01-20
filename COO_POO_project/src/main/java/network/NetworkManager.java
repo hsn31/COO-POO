@@ -34,7 +34,8 @@ public class NetworkManager //implements Runnable
 {
     private boolean NetworkManagerActive = false;
 	private InetAddress local_address = InetAddress.getLocalHost();
-	private String stringLocalAdress = local_address.getHostAddress().toString();
+	private String stringLocalAdress = InetAddress.getLocalHost().getHostAddress().toString();
+	
 	
 	//attributes to receive messages on a chat conversation (port fixed)
     private DatagramSocket inDgramSocket = new DatagramSocket(); 
