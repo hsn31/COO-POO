@@ -507,10 +507,13 @@ public class ApplicationWindow
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + ipAddress + pseudonyme);
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + local_ipAddress);
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser  /2 " + listOfActiveUsers);
 		
+		if (!(ipAddress.equals(local_ipAddress))){
 		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 		listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
+		}
 		
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /3 " + ipAddress + pseudonyme);
 		refresh_comboBox();

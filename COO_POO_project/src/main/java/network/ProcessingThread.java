@@ -66,6 +66,11 @@ public class ProcessingThread implements Runnable
 		String ipSenderPacketReceived = dataPacket[2];
 		String textPacketReceived = dataPacket[3];
 		
+		System.out.print("-------------------------------------------------------------------------------------------------");
+		System.out.print(ipSenderPacketReceived);
+		System.out.print(InetAddress.getLocalHost().getHostAddress().toString());
+		System.out.print("---------------------------------------------------------------------------------------------------");
+		
 		//int state = local
 		if(idPacketReceived.equals("1") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())) )
 		{
