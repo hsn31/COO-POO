@@ -509,13 +509,16 @@ public class ApplicationWindow
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + ipAddress + pseudonyme);
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser  /2 " + listOfActiveUsers);
+		
 		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 		listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
 		
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser" + ipAddress + pseudonyme);
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /3 " + ipAddress + pseudonyme);
 		refresh_comboBox();
 	
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers "  + listOfActiveUsers );
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers  / 4 "  + listOfActiveUsers );
 		
 		
 		if(currentChatVisibleAddress.equals(ipAddress))
