@@ -377,6 +377,7 @@ public class MainApplication implements ActionListener
 		}
 		else if(e.getSource().equals(local_interface.getObjectListActiveUsers()))
 		{
+			//attention
 			process_selectionActiveUser(local_interface.getObjectListActiveUsers());
 		}
 		
