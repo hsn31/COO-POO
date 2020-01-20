@@ -319,7 +319,7 @@ public class ApplicationWindow
 		String totalText = "<html>" + listOfChats.get(ipAddress) + "</html>";
 		currentChatPanel.showConversation(totalText);
 		
-		System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers " + currentChatVisibleAddress.equals(ipAddress));
+		System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers " + currentChatPanel);
 		
 		if(!currentChatVisibleAddress.equals(ipAddress))
 		{

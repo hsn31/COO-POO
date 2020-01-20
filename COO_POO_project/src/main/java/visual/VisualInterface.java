@@ -161,6 +161,7 @@ public class VisualInterface implements ActionListener
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
 		main_window.showNewActiveUser(ipAddress, pseudonyme);
+		System.out.println("TEST/ VisualInterface showNewActiveUser: listofActiveUsers ");
 	}
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)

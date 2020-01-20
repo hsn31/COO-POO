@@ -42,7 +42,8 @@ public class PseudonymeWindow
 	private void creation_elements() throws FontFormatException, IOException
 	{
 		//DESIGN
-		wallpaper = new ImageIcon("wallpaper_pseudonyme.jpg");
+		java.net.URL imgUrlWallpaper = getClass().getResource("wallpaper_application.jpg");
+		wallpaper = new ImageIcon(imgUrlWallpaper);
 		
 		//MAIN WINDOW
 		titleWindow = "Chat Application - Login step";
