@@ -140,7 +140,7 @@ public class VisualInterface implements ActionListener
 		
 		main_window.enable_modifyButton();
 		main_window.modifyPseudo(validatedPseudo);
-		main_window.showModificationActiveUser(InetAddress.getLocalHost().toString(), validatedPseudo);
+		main_window.showModificationActiveUser(InetAddress.getLocalHost().getHostAddress().toString(), validatedPseudo);
 	}
 	
 	public void process_cancelModifyPseudo()
