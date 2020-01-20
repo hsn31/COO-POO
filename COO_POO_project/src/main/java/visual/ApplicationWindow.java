@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 import javax.swing.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -101,9 +102,11 @@ public class ApplicationWindow
 		eastPanel = new JPanel();
 		listActiveUsers = new DefaultListModel<String>();
 		areaListActiveUsers = new JList<String>(listActiveUsers);
+		
 		areaListActiveUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		areaListActiveUsers.setLayoutOrientation(JList.VERTICAL);
 		areaListActiveUsers.setVisibleRowCount(-1);
+		
 		listScroller = new JScrollPane(areaListActiveUsers);
 		
 		centralChatsPanel = new JPanel();
@@ -128,7 +131,7 @@ public class ApplicationWindow
 		//button.setBackground(design_palette.get_color(CreatedColor.WHITE));
 		
 		//JLabel.setForeground(design_palette.get_color(CreatedColor.DARK_BROWN_INTENSE));
-		//JLabel.setBackground(design_palette.get_color(CreatedColor.GOLD_YELLOW_INTENSE));
+		eastPanel.setBackground(Color.BLUE);
 		
 		exitCurrentChatButton.setVisible(false);
 		currentChatPanel.setVisible(false);
@@ -171,7 +174,7 @@ public class ApplicationWindow
 		//modifyPseudoButton.setPreferredSize(new Dimension(x, x));
 		//exitButton.setPreferredSize(new Dimension(x, x));
 		
-		//eastPanel.setPreferredSize(new Dimension(x, x));
+		eastPanel.setPreferredSize(new Dimension(100, 300));
 		//listScroller.setPreferredSize(new Dimension(x, x));
 		//areaListActiveUsers.setPreferredSize(new Dimension(x, x));
 		
@@ -312,6 +315,8 @@ public class ApplicationWindow
 		{
 			display_distantPseudoCurrentChat(newPseudo);
 		}
+		
+		showModificationActiveUser(local_ipAddress, newPseudo);
 	}
 	
 	public void showChatSelected(String ipAddress)
@@ -402,10 +407,18 @@ public class ApplicationWindow
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
 		listOfActiveUsers.put(ipAddress, pseudonyme);
-		listActiveUsers.addElement(pseudonyme);
-		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ");
+		
+		listActiveUsers = new DefaultListModel<String>();
+		ArrayList<String> l = new ArrayList<String>(listOfActiveUsers.values());
+		for(int i = 0; i<l.size(); i++)
+		{
+			listActiveUsers.add(i, l.get(i));//.addElement(pseudonyme);
+		}
+		
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers " + listActiveUsers );
 		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme );
-		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
+		
+		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
 		//
 		//refresh ?????????????????????????????????????????????????????????????????
 	}
@@ -416,7 +429,7 @@ public class ApplicationWindow
 		listOfActiveUsers.replace(ipAddress, pseudonyme);
 		listActiveUsers.addElement(pseudonyme);
 		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers ");
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers "  + listActiveUsers );
 		//
 		//refresh ?????????????????????????????????????????????????????????????????
 		
@@ -431,7 +444,7 @@ public class ApplicationWindow
 		listActiveUsers.removeElement(listOfActiveUsers.get(ipAddress));
 		listOfActiveUsers.remove(ipAddress);
 		listOfChats.remove(ipAddress);
-		//areaListActiveUsers.setModel(listActiveUsers); ????? /!\ ca annule la selection precedente
+		areaListActiveUsers.setModel(listActiveUsers); //????? /!\ ca annule la selection precedente
 		//
 		//refresh ?????????????????????????????????????????????????????????????????
 		
@@ -478,10 +491,10 @@ public class ApplicationWindow
 	
 	public void debugging (LinkedHashMap<String,String> initialList) {
 	// Affecter les valeurs à une collection
-	Collection c = initialList.values();
+	Collection<String> c = initialList.values();
 
 	//Créer un itérateur sur la collection
-	Iterator itr = c.iterator();
+	Iterator<String> itr = c.iterator();
 
 	System.out.println("--------------------Affichage des valeurs de la LinkedHashMap---------------------");
 	//itérer la collection et afficher le résultat
