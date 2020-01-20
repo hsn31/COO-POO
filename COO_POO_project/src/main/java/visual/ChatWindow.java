@@ -173,7 +173,9 @@ public class ChatWindow extends JPanel
 	
 	public void showConversation(String totalText)
 	{
+		showTextPanel.remove(textLabel);
 		textLabel.setText(totalText);
+		showTextPanel.add(textLabel);
 		text_area.setEnabled(true);
 	}
 	
