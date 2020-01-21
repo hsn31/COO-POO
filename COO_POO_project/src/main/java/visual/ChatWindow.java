@@ -11,9 +11,11 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public class ChatWindow extends JPanel
 {
+	private JEditorPane textLabel;
+	private JViewport transparent_background;
 	private JScrollPane scrollbar;
-	private JPanel showTextPanel;
-	private JLabel textLabel;
+	private JPanel text_areaPanel;
+	
 	
 	private JPanel southPanel;
 	private JLabel labelError;
@@ -43,9 +45,18 @@ public class ChatWindow extends JPanel
 	
 	private void creation_elements() throws FontFormatException, IOException
 	{
+		textLabel = new JEditorPane();
+		textLabel.setText("");
+		textLabel.setEditable(false);
+		textLabel.setContentType("text/html");
+		
+		transparent_background = new JViewport();
+		transparent_background.setView(textLabel);
+		
 		scrollbar = new JScrollPane();
-		showTextPanel = new JPanel();
-		textLabel = new JLabel("");
+		scrollbar.setViewport(transparent_background);
+		
+		text_areaPanel = new JPanel();
 		
 		southPanel = new JPanel(); 
 		labelError = new JLabel(""); 
@@ -70,6 +81,20 @@ public class ChatWindow extends JPanel
 		//JLabel.setForeground(design_palette.get_color(CreatedColor.DARK_BROWN_INTENSE));
 		//JLabel.setBackground(design_palette.get_color(CreatedColor.GOLD_YELLOW_INTENSE));
 		
+		scrollbar.setOpaque(true);
+		scrollbar.setBackground(Color.GREEN);
+		
+		//text_areaPanel.setOpaque(false);
+		Color BleuClair = new Color(138, 175, 255);
+		Color BleuTresTresClair = new Color(208, 223, 254);
+		
+		text_areaPanel.setBackground(BleuTresTresClair);
+		
+		textLabel.setOpaque(true);
+		textLabel.setBackground(BleuClair);
+		
+		transparent_background.setOpaque(false);
+		scrollbar.setOpaque(false);
 	}
 	
 	private void text_design() throws FontFormatException, IOException
@@ -94,8 +119,10 @@ public class ChatWindow extends JPanel
 	
 	private void fix_dimensions()
 	{
+		scrollbar.setPreferredSize(new Dimension(480, 310));
+		
 		/*
-		scrollbar.setPreferredSize(new Dimension(130, 40));
+		
 		showTextPanel.setPreferredSize(new Dimension(130, 40));
 		textLabel
 		
@@ -112,9 +139,8 @@ public class ChatWindow extends JPanel
 	{		
 		this.setLayout(new BorderLayout());
 		
-		this.add(scrollbar, BorderLayout.CENTER);
-		scrollbar.add(showTextPanel);
-		showTextPanel.add(textLabel);
+		text_areaPanel.add(scrollbar);
+		this.add(text_areaPanel, BorderLayout.CENTER);
 		
 		this.add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new BorderLayout());
@@ -173,10 +199,17 @@ public class ChatWindow extends JPanel
 	
 	public void showConversation(String totalText)
 	{
-		showTextPanel.remove(textLabel);
+		textLabel.setVisible(false);
 		textLabel.setText(totalText);
-		showTextPanel.add(textLabel);
 		text_area.setEnabled(true);
+		textLabel.setVisible(true);
+	}
+	
+	public void hideConversation()
+	{
+		textLabel.setVisible(false);
+		textLabel.setText("");
+		textLabel.setVisible(true);
 	}
 	
 	public void enable_sendButton()

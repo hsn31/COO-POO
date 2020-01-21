@@ -110,7 +110,7 @@ public class ApplicationWindow
 		esthetic_parameters();
 		design_elements();
 		
-		main_window.setLocation(200, 100); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		main_window.setLocation(425, 150);
 		main_window.setVisible(false);
 		disable_chatArea();
 		main_window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
@@ -392,21 +392,23 @@ public class ApplicationWindow
 		System.out.println("process_applyMessage ");
 		if(listOfChats.containsKey(distantAddress))
 		{
-			String balise = "<hr>";
+			String balise = "<p>";
 			
 			if(nature == Origin.RECEIVED)
 			{
-				balise = "<hr align=\"left\" color =\"#4664B5\">";
+				//blanc : #FFFFFF
+				balise = "<p color =#FFFFFF>";
 			}
 			else if(nature == Origin.SENT)
 			{
-				//#0066FF
-				balise = "<hr align=\"right\" color =\"#0066FF\">";
+				//bleu : #0066FF
+				balise = "<p color =#0066FF>";
 			}
 			
-			String txtDate = balise + strDate + "</hr>";
-			String txtMessage = balise + message + "</hr>";
-			String txtConversation = listOfChats.get(distantAddress) + "<br><br>" + txtDate + "<br>" + txtMessage;
+			String txtDate = balise + strDate + "</p>";
+			String txtMessage = balise + message + "</p>";
+			//les balises p sautent déjà une ligne
+			String txtConversation = listOfChats.get(distantAddress) + "<br>" + txtDate + txtMessage;
 			
 			listOfChats.replace(distantAddress, txtConversation);
 			
@@ -421,6 +423,12 @@ public class ApplicationWindow
 	public void process_exitCurrentChat()
 	{
 		listOfChats.remove(currentChatVisibleAddress);
+		
+		int place = listOfActiveUsers.indexOf(new CoordUser(currentChatVisibleAddress, ""));
+		CoordUser cu = listOfActiveUsers.get(place);
+		cu.chat_downloaded = false;
+		listOfActiveUsers.set(place, cu);
+		
 		disable_chatArea();
 	
 		currentChatPanel.process_exitCurrentChat();
@@ -466,6 +474,8 @@ public class ApplicationWindow
 		currentChatPanel.enable_sendButton();
 		exitCurrentChatButton.setEnabled(true);
 		currentChatPanel.enable_textArea();
+		//---------------TEST -------------------------
+		currentChatPanel.showConversation("<html> bravo ca écrit <br> <p color=#FF0000> toutes mes félicitations !! </p> <p color=#FFFFFF> received </p> <br> <p color=#0066FF> sent </p> <p color=#0066FF> bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbb </p> </html>");
 	}
 	
 	public void disable_chatArea()
@@ -475,6 +485,7 @@ public class ApplicationWindow
 		display_distantPseudoCurrentChat("");
 		clean_errorMessage();
 		currentChatPanel.disable_textArea();
+		currentChatPanel.hideConversation();
 	}
 
 	
@@ -512,9 +523,10 @@ public class ApplicationWindow
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + local_ipAddress);
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser  /2 " + listOfActiveUsers);
 		
-		if (!(ipAddress.equals(local_ipAddress))){
-		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
-		listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
+		if (!(ipAddress.equals(local_ipAddress)))
+		{
+			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
+			listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
 		}
 		
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /3 " + ipAddress + pseudonyme);
