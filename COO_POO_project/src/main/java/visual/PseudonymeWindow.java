@@ -52,8 +52,10 @@ public class PseudonymeWindow
 		wallpaper_area = new JLabel(wallpaper);
 		
 		//new : JPanel JButton JLabel par zone dans la frame
-		
-        labelInfo = new JLabel("Welcome. Please enter your pseudonyme", JLabel.CENTER);
+		String welcomeText = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" + "Welcome";
+		String askingText = "&emsp;&emsp;&emsp;" + "Please enter your pseudonyme";
+		String totalText = "<html>" + welcomeText + "<br>" + askingText + "</html>";
+        labelInfo = new JLabel(totalText);
         labelError = new JLabel("");
         
         areaEnterPseudonyme = new JTextField();
@@ -79,7 +81,7 @@ public class PseudonymeWindow
 		//JLabel.setBackground(design_palette.get_color(CreatedColor.GOLD_YELLOW_INTENSE));
 		
 		//background window
-		//main_window.setContentPane(wallpaper_area);
+		main_window.setContentPane(wallpaper_area);
 	}
 	
 	private void text_design() throws FontFormatException, IOException
@@ -109,8 +111,6 @@ public class PseudonymeWindow
 		button.setPreferredSize(new Dimension(130, 40));
 		*/
 		
-		wallpaper_area.setPreferredSize(new Dimension(40, 40));
-		
 		//main window
 		//main_window.setSize(new Dimension(850, 400));
 		main_window.setPreferredSize(new Dimension(400, 500));
@@ -120,7 +120,6 @@ public class PseudonymeWindow
 	private void add_and_layout()
 	{
 		main_window.setLayout(new GridLayout(0, 1));
-		main_window.add(wallpaper_area, BorderLayout.CENTER);
 		main_window.add(labelInfo);   
 		main_window.add(labelError);
 		main_window.add(areaEnterPseudonyme);
