@@ -100,6 +100,11 @@ public class NetworkManager //implements Runnable
         
         String message = new String(inPacket.getData(), 0, inPacket.getLength());
         
+		//Test 
+        System.out.println("************************TEST/ receiveMessage()********************* /n");
+		System.out.println("TEST/ receiveMessage() : " + message);
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
+        
         save_message(message);
     }
     

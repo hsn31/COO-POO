@@ -162,6 +162,8 @@ public class MainApplication implements ActionListener
 		String strDate = textInfo[0];
 		String text = textInfo[1];
 		
+		System.out.println("************************TEST/ addReceivedMessage MainApplication********************* /n");
+		
 		for(int i = 2 ; i < textInfo.length ; i++)
 		{
 			text = text + "<s>" + textInfo[i];
