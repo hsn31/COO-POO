@@ -530,6 +530,7 @@ public class ApplicationWindow
 		
 		if ((ipAddress!= null) && !(ipAddress.equals(local_ipAddress)))
 		{
+			//ATTENTION ATTENTION PROBLEME DOWNLOAD BOOLEAN
 			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 			listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
 		}
