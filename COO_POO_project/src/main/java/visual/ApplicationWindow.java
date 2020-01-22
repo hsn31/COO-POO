@@ -526,7 +526,7 @@ public class ApplicationWindow
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + local_ipAddress);
 		System.out.println("TEST/ ApplicationWindow showModificationActiveUser  /2 " + listOfActiveUsers);
 		
-		if (!(ipAddress.equals(local_ipAddress)))
+		if ((ipAddress!= null) && !(ipAddress.equals(local_ipAddress)))
 		{
 			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 			listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
