@@ -199,7 +199,9 @@ public class MainApplication implements ActionListener
 	//------------------- SUB METHODS : INTERACTIONS WITH USER --------------
 	
 	private void process_login(String validatedPseudo) throws UnknownHostException
+
 	{
+		System.out.println("************************TEST/ process_login********************* " + "\n");
 		local_manager.broadcastConnected(validatedPseudo);
 		
 		local_memory.modifyPseudonyme(validatedPseudo);

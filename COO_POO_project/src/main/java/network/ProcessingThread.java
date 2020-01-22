@@ -88,6 +88,7 @@ public class ProcessingThread implements Runnable
 		System.out.print("-------------------------------------------------------------------------------------------------");
 		System.out.print(ipSenderPacketReceived + "\n");
 		System.out.print(idPacketReceived + "\n");
+		System.out.print(idPacketReceived.equals("2") + "\n");
 		System.out.print(stringlocal_address);
 		System.out.print("---------------------------------------------------------------------------------------------------");
 		
