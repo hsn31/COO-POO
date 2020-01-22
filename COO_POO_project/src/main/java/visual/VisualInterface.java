@@ -153,6 +153,7 @@ public class VisualInterface implements ActionListener
 	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
 		main_window.process_applyMessage(nature, distantAddress, strDate, message);
+		
 	}
 	
 	public void process_applyErrorSending(String errorMessage)
@@ -169,6 +170,7 @@ public class VisualInterface implements ActionListener
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
+		System.out.print("LOCALMEMORY UPDATE"+ "showModificationActiveUser"+ "\n");
 		main_window.showModificationActiveUser(ipAddress, pseudonyme);
 	}
 	

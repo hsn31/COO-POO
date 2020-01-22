@@ -145,6 +145,8 @@ public class MainApplication implements ActionListener
 	
 	public void modifyActiveUser(String ipAddress, String pseudonyme)
 	{
+		System.out.print("MAIN APPLICATION UPDATE"+ "\n");
+		
 		local_memory.updateListConnectedBroadcast(ipAddress, pseudonyme);
 		local_interface.showModificationActiveUser(ipAddress, pseudonyme);
 
@@ -233,9 +235,9 @@ public class MainApplication implements ActionListener
 	{
 		String datedMessage = strDate + "<s>" + wantedMessage;
 		
-		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
-		
 		local_interface.process_applyMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
+		
+		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
 		
 		local_memory.addMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
 		 

@@ -373,12 +373,12 @@ public class ApplicationWindow
 		String totalText = "<html>" + listOfChats.get(ipAddress) + "</html>";
 		currentChatPanel.showConversation(totalText);
 		
-		if(!currentChatVisibleAddress.equals(ipAddress))
-		{
+		//if(!currentChatVisibleAddress.equals(ipAddress))
+		//{
 			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 			display_distantPseudoCurrentChat(listOfActiveUsers.get(place).pseudo);
 			System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers ");
-		}
+		//}
 		
 		enable_chatArea();
 		
@@ -392,6 +392,7 @@ public class ApplicationWindow
 		System.out.println("process_applyMessage ");
 		if(listOfChats.containsKey(distantAddress))
 		{
+			System.out.println("process_applyMessage Dans la boucle ?"+listOfChats.containsKey(distantAddress) + "\n");
 			String balise = "<p>";
 			
 			if(nature == Origin.RECEIVED)
@@ -414,6 +415,8 @@ public class ApplicationWindow
 			
 			if(currentChatVisibleAddress.equals(distantAddress))
 			{
+				System.out.println("process_applyMessage variable"+currentChatVisibleAddress + "\n");
+				System.out.println("process_applyMessage variable"+currentChatVisibleAddress.equals(distantAddress) + "\n");
 				//System.out.println("s" + distantAddress);
 				showChatSelected(distantAddress);
 			}
@@ -475,7 +478,7 @@ public class ApplicationWindow
 		exitCurrentChatButton.setEnabled(true);
 		currentChatPanel.enable_textArea();
 		//---------------TEST -------------------------
-		currentChatPanel.showConversation("<html> bravo ca écrit <br> <p color=#FF0000> toutes mes félicitations !! </p> <p color=#FFFFFF> received </p> <br> <p color=#0066FF> sent </p> <p color=#0066FF> bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbb </p> </html>");
+		//currentChatPanel.showConversation("<html> bravo ca écrit <br> <p color=#FF0000> toutes mes félicitations !! </p> <p color=#FFFFFF> received </p> <br> <p color=#0066FF> sent </p> <p color=#0066FF> bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbb </p> </html>");
 	}
 	
 	public void disable_chatArea()

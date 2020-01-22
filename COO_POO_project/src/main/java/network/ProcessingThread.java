@@ -41,6 +41,7 @@ public class ProcessingThread implements Runnable
 			{
 				try {
 					processMessageReceived(listOfMessages.get(0));
+				      System.out.println("************************inside the processingThread********************* /n");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -107,8 +108,9 @@ public class ProcessingThread implements Runnable
 		}
 		else if(idPacketReceived.equals("5"))
 		{
+			System.out.print("Process_5_Start"+"/n");
 			local_application.addReceivedMessage(ipSenderPacketReceived, textPacketReceived);
-			System.out.print("Process_5"+"/n");
+			System.out.print("Process_5_END"+"/n");
 		}
 		}
 	}
