@@ -32,11 +32,9 @@ import java.lang.String;
 //Network manager n'a plus besoin d'etre thread => processing thread liée a main application
 public class NetworkManager //implements Runnable 
 {
-    private boolean NetworkManagerActive = false;
-	private InetAddress local_address = InetAddress.getLocalHost();
-	private String stringLocalAdress = InetAddress.getLocalHost().getHostAddress().toString();
-	private String stringB = TESTAddress();
-	
+    //private boolean NetworkManagerActive = false;
+	private InetAddress local_address;
+	private String stringLocalAdress;
 	
 	//attributes to receive messages on a chat conversation (port fixed)
     private DatagramSocket inDgramSocket = new DatagramSocket(); 
@@ -58,9 +56,10 @@ public class NetworkManager //implements Runnable
     
     public NetworkManager() throws SocketException, UnknownHostException
     {
-		this.NetworkManagerActive = true;
-    	local_address = InetAddress.getLocalHost();
-    	
+		//this.NetworkManagerActive = true;
+		stringLocalAdress = TESTAddress();
+		local_address = InetAddress.getByName(stringLocalAdress);
+				
     	inPort = 2834;
     	inDgramSocket = new DatagramSocket(inPort);
 
@@ -93,6 +92,11 @@ public class NetworkManager //implements Runnable
     public InetAddress get_local_address()
     {
     	return local_address;
+    }
+    
+    public String get_stringlocal_address()
+    {
+    	return stringLocalAdress;
     }
     
     public void receiveMessage() throws IOException
@@ -220,7 +224,7 @@ public class NetworkManager //implements Runnable
         }
         
         System.out.println("************************TEST/ NETWORKMANAGER LIST of Brodcast*********************" + "\n");
-		System.out.println("TEST/ broadcastList : " + broadcastList + stringB+ "\n");
+		System.out.println("TEST/ broadcastList : " + broadcastList + stringLocalAdress + "\n");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\n");
         
         return broadcastList;
@@ -260,7 +264,7 @@ public class NetworkManager //implements Runnable
     
     public void closeServer()
     {
-		this.NetworkManagerActive = false;
+		//this.NetworkManagerActive = false;
         outDgramSocket.close();
         inDgramSocket.close();
 		System.out.println("Server NetworkManager successfully closed");

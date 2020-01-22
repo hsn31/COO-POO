@@ -34,13 +34,23 @@ public class MainApplication implements ActionListener
 	
 	private AppState local_state;
 	
+	private String stringlocal_address;
+	
 	//------------------ CONSTRUCTOR AND TEST ------------------------------------------
 	
 	public MainApplication() throws FontFormatException, IOException
 	{
-		local_memory = new LocalMemory();
-		local_interface = new VisualInterface();
 		local_manager = new NetworkManager();
+		
+		//transmission de l'adresse locale dans toute l'application
+		//en meme temps que la création des classes
+		stringlocal_address = local_manager.get_stringlocal_address();
+		
+		local_memory = new LocalMemory(stringlocal_address);
+		local_interface = new VisualInterface(stringlocal_address);
+		processor_messages = new Thread(new ProcessingThread(this, stringlocal_address));
+		
+		//end transmission
 		
 		long t1 = System.currentTimeMillis();
 		 
@@ -60,7 +70,6 @@ public class MainApplication implements ActionListener
 		*/
 		
 		//Lancement des Threads
-		processor_messages = new Thread(new ProcessingThread(this));
 		processor_messages.start();
 		
 		//Envoi du broadcast d'ID <1> ATTENTION ATTENTION

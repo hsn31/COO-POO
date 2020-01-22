@@ -101,9 +101,9 @@ public class ApplicationWindow
 	private String local_ipAddress;
 	private String currentChatVisibleAddress;
 	
-	public ApplicationWindow() throws FontFormatException, IOException
+	public ApplicationWindow(String stringlocal_address) throws FontFormatException, IOException
 	{
-		initialize_coding_parameters();
+		initialize_coding_parameters(stringlocal_address);
 		
 		creation_elements();
 		
@@ -118,12 +118,12 @@ public class ApplicationWindow
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
 	
-	private void initialize_coding_parameters() throws UnknownHostException
+	private void initialize_coding_parameters(String local_address) throws UnknownHostException
 	{
 		listOfActiveUsers = new ListCoord();
 		listOfChats = new LinkedHashMap<String,String>();
 		
-		local_ipAddress = InetAddress.getLocalHost().getHostAddress().toString();
+		local_ipAddress = local_address;
 		currentChatVisibleAddress = "";
 	}
 	

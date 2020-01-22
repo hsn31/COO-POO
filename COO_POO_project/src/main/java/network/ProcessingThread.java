@@ -10,16 +10,20 @@ public class ProcessingThread implements Runnable
 	private boolean interrupted=false;
 	
 	private MainApplication local_application;
+	private String stringlocal_address;
+	
 	private ArrayList<String> listOfMessages = new ArrayList<String>();
 	
-	public ProcessingThread(MainApplication application)
+	public ProcessingThread(MainApplication application, String local_address)
 	{
 		local_application = application;
+		stringlocal_address = local_address;
 	}
 	
 	public void interrupt(){
 	    interrupted = true;
 	 }
+	
 	
 	public void run() 
 	{
@@ -84,28 +88,28 @@ public class ProcessingThread implements Runnable
 		System.out.print("-------------------------------------------------------------------------------------------------");
 		System.out.print(ipSenderPacketReceived + "\n");
 		System.out.print(idPacketReceived + "\n");
-		System.out.print(InetAddress.getLocalHost().getHostAddress().toString());
+		System.out.print(stringlocal_address);
 		System.out.print("---------------------------------------------------------------------------------------------------");
 		
 		//int state = local
 		// !
-		if(idPacketReceived.equals("1") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())) )
+		if(idPacketReceived.equals("1") && !(ipSenderPacketReceived.equals(stringlocal_address)) )
 		{
 			//if on est actif !!
 			local_application.sendActiveUser(ipSenderPacketReceived);
 		} //!
-		else if((idPacketReceived.equals("2") || idPacketReceived.equals("11") )&& !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())))
+		else if((idPacketReceived.equals("2") || idPacketReceived.equals("11") )&& !(ipSenderPacketReceived.equals(stringlocal_address)))
 		{
 			local_application.addActiveUser(ipSenderPacketReceived, textPacketReceived);
 			System.out.print("ProcessingThread :=> processMessageReceived + Process"+ "idPacketReceived.equals(\"2\")");
-			System.out.print(InetAddress.getLocalHost().getHostAddress().toString());
+			System.out.print(stringlocal_address);
 		} //!
-		else if(idPacketReceived.equals("3") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())))
+		else if(idPacketReceived.equals("3") && !(ipSenderPacketReceived.equals(stringlocal_address)))
 		{
 			System.out.print("ProcessingThread :=> processMessageReceived =====3"+ "/n");
 			local_application.modifyActiveUser(ipSenderPacketReceived, textPacketReceived);
 		}// !
-		else if(idPacketReceived.equals("4") && !(ipSenderPacketReceived.equals(InetAddress.getLocalHost().getHostAddress().toString())))
+		else if(idPacketReceived.equals("4") && !(ipSenderPacketReceived.equals(stringlocal_address)))
 		{
 			local_application.deleteActiveUser(ipSenderPacketReceived, textPacketReceived);
 		}

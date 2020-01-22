@@ -18,12 +18,14 @@ public class LocalMemory
 	
 	//L'utilisateur local : qui contient toutes ses infos personnelles (ex: chats)
 	private Account local_account;
+	private String stringlocal_address;
 	
 	private HistoryManager local_history;
 	
-	public LocalMemory()
+	public LocalMemory(String local_address)
 	{
 		listOfActiveUsers = new LinkedHashMap<String,String>();
+		stringlocal_address = local_address;
 		
 		local_history = new HistoryManager();
 		
@@ -33,32 +35,17 @@ public class LocalMemory
 		if(database_say_account_exists)
 		{
 			//String last_pseudo = getLastPseudoFromDataBase();
-			createAccountFromDatabase(getLocalIp(), "last_pseudo");
+			createAccountFromDatabase(stringlocal_address, "last_pseudo");
 		}
 		else
 		{
-			createNewAccount(getLocalIp(), "sera_changé_apres");
+			createNewAccount(stringlocal_address, "sera_changé_apres");
 		}
 	}
 	
 	
 	//-------------------------------------------------------------------------------------
 	
-	//renvoi l'adresse IP de la machine locale sur le réseau -TESTOK
-	public String getLocalIp() 
-	{
-        String adresseIPLocale = null ;
-
-        try{
-           InetAddress inetadr = InetAddress.getLocalHost();
-           //adresse ip sur le réseau
-           adresseIPLocale = (String) inetadr.getHostAddress();
-        } catch (UnknownHostException e) {
-               e.printStackTrace();
-        }
-        
-        return adresseIPLocale;
-	}
 	
 	public LinkedHashMap<String,String> getListOfActiveUsers()
 	{
@@ -142,7 +129,7 @@ public class LocalMemory
 	public boolean lastPseudonymeIsOk()
 	{
 		LinkedHashMap<String,String> list_ActiveUsers_withoutLocal = listOfActiveUsers;
-		list_ActiveUsers_withoutLocal.remove(getLocalIp());
+		list_ActiveUsers_withoutLocal.remove(stringlocal_address);
 
 		return !(list_ActiveUsers_withoutLocal.containsValue(local_account.getPseudo()));
 	}
