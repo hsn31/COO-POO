@@ -79,7 +79,7 @@ public class MainApplication implements ActionListener
 		while(System.currentTimeMillis()<t1+Delta);
 		
 		//Test de la liste des utilisateurs. 
-		System.out.println("TEST/ NOMBRE D'UTILISATEURS : "+Integer.toString(local_memory.checkActiveUserAmount()));
+		System.out.println("TEST/ NOMBRE D'UTILISATEURS : "+Integer.toString(local_memory.checkActiveUserAmount())+ "\n");
 		
 		local_state = AppState.LOGIN;
 		
@@ -94,7 +94,7 @@ public class MainApplication implements ActionListener
 				//Donc on peut direct afficher l'applicationWindow:
 				local_state = AppState.CHATTING;
 				
-				System.out.println("TEST/ Dans la boucle LastPseudoOK : ");
+				System.out.println("TEST/ Dans la boucle LastPseudoOK : " + "\n");
 			}
 		}
 		
@@ -108,7 +108,7 @@ public class MainApplication implements ActionListener
 		if(local_state == AppState.LOGIN)
 		{
 			local_interface.openPseudonymeWindow();
-			System.out.println("TEST/ local_state = login ");
+			System.out.println("TEST/ local_state = login " + "\n");
 		}
 		else if(local_state == AppState.CHATTING)
 		{
@@ -173,7 +173,7 @@ public class MainApplication implements ActionListener
 		String strDate = textInfo[0];
 		String text = textInfo[1];
 		
-		System.out.println("************************TEST/ addReceivedMessage MainApplication********************* /n");
+		System.out.println("************************TEST/ addReceivedMessage MainApplication********************* " + "\n");
 		
 		for(int i = 2 ; i < textInfo.length ; i++)
 		{
@@ -261,7 +261,7 @@ public class MainApplication implements ActionListener
 		if(wantedPseudo.equals("")) 
 		{
 			currentError = "Impossible to login with an empty pseudo !";
-			System.out.println("TEST/ VisualInterface: ");
+			System.out.println("TEST/ VisualInterface: " + "\n");
 		} 
 		else if(wantedPseudo.contains(" "))
 		{

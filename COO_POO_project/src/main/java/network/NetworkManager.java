@@ -106,9 +106,9 @@ public class NetworkManager //implements Runnable
         String message = new String(inPacket.getData(), 0, inPacket.getLength());
         
 		//Test 
-        System.out.println("************************TEST/ receiveMessage()********************* /n");
+        System.out.println("************************TEST/ receiveMessage()********************* "+ "\n");
 		System.out.println("TEST/ receiveMessage() : " + message);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\n");
         
         save_message(message);
     }
@@ -141,7 +141,7 @@ public class NetworkManager //implements Runnable
     public void unicastSendChatMessage(String wantedMessage, String distantAddress) throws IOException
     {
     	InetAddress distantAddress2 = InetAddress.getByName(distantAddress);
-		sendMessage("5<>unicast<>"+distantAddress2+"<>"+wantedMessage, distantAddress2, inPort);
+		sendMessage("5<>unicast<>"+distantAddress+"<>"+wantedMessage, distantAddress2, inPort);
     }
     
     public void sendMessage(String message, InetAddress distantAddress, int distantPort) throws IOException
@@ -267,7 +267,7 @@ public class NetworkManager //implements Runnable
 		//this.NetworkManagerActive = false;
         outDgramSocket.close();
         inDgramSocket.close();
-		System.out.println("Server NetworkManager successfully closed");
+		System.out.println("Server NetworkManager successfully closed" + "\n");
     }
     
    

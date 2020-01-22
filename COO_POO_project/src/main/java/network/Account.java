@@ -79,14 +79,22 @@ public class Account {
 	public void registerMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
 		//System.out.println("*******RegisterMessage ACCOUNT*************************"+ ListOfChat);
-		if (!(ListOfChat.isEmpty())) {
-		if(!ListOfChat.containsKey(distantAddress))
-		{
+		
+		//Pour éviter les erreurs. 
+		if((ListOfChat.isEmpty() || !ListOfChat.containsKey(distantAddress)))
+		{	
+			//test
+			if (ListOfChat.isEmpty() ) {
+			System.out.println("*******RegisterMessage ACCOUNT*************************"+ ListOfChat + "\n");
+			}
+			
 			ListOfChat.put(distantAddress, new Chat(distantAddress));
-		}
-		
-		
-		ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
+			ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
+			
+		}else {
+			
+			ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
+			
 		}
 	}
 	
