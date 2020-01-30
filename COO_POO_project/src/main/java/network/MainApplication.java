@@ -139,10 +139,10 @@ public class MainApplication implements ActionListener
 	{
 		if(local_state == AppState.CHATTING)
 		{
-			InetAddress ipsender = local_manager.get_local_address();
+			String ipsender = local_manager.get_stringlocal_address();
 			int inPort = local_manager.get_inPort();
 			InetAddress ipreceiver = InetAddress.getByName(destAddress);
-			local_manager.sendMessage("11<>unicast<>" + ipsender.toString() + "<>" + local_memory.getPseudo(), ipreceiver, inPort);
+			local_manager.sendMessage("11<>unicast<>" + ipsender + "<>" + local_memory.getPseudo(), ipreceiver, inPort);
 		}
 	}
 	
