@@ -460,6 +460,8 @@ public class ApplicationWindow
 			
 			listOfChats.replace(distantAddress, txtConversation);
 			
+			System.out.println("process_applyMessage listOfChats : \n"+listOfChats + "\n\n");
+			
 			if(currentChatVisibleAddress.equals(distantAddress))
 			{
 				System.out.println("process_applyMessage variable"+currentChatVisibleAddress + "\n");

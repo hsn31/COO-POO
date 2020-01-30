@@ -151,7 +151,7 @@ public class NetworkManager //implements Runnable
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\n");
 		
     	InetAddress distantAddress2 = InetAddress.getByName(distantAddress);
-		sendMessage("5<>unicast<>"+distantAddress+"<>"+wantedMessage, distantAddress2, inPort);
+		sendMessage("5<>unicast<>"+stringLocalAdress+"<>"+wantedMessage, distantAddress2, inPort);
     }
     
     public void sendMessage(String message, InetAddress distantAddress, int distantPort) throws IOException
