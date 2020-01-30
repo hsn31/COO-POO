@@ -35,9 +35,9 @@ public class ProcessingThread implements Runnable
 			listOfMessages = local_application.getActualListOfMessages();
 			
 			if (!(listOfMessages.isEmpty())){
-	        System.out.println("************************TEST/ getActualListOfMessages()********************* /n");
+	        System.out.println("************************TEST/ getActualListOfMessages()*********************" +"\n");
 			System.out.println("TEST/ getActualListOfMessages() : " + listOfMessages);
-			System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++/n");
+			System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+"\n");
 			}
 			//test
 			
@@ -45,7 +45,7 @@ public class ProcessingThread implements Runnable
 			{
 				try {
 					processMessageReceived(listOfMessages.get(0));
-				      System.out.println("************************inside the processingThread********************* /n");
+				      System.out.println("************************inside the processingThread*********************"+"\n");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -72,14 +72,14 @@ public class ProcessingThread implements Runnable
 	public void processMessageReceived(String message) throws UnknownHostException, IOException
 	{
 		String[] dataPacket = message.split("<>");
-		System.out.print("ProcessingThread :=> processMessageReceived + Message =START  " + message + " END" + "/n");
+		System.out.print("ProcessingThread :=> processMessageReceived + Message =START  " + message + " END" + "\n");
 		
 		//String idPacketReceived = dataPacket[0];
 		//System.out.print("test " + idPacketReceived);
 		
 		if (dataPacket.length >= 2) {
 			
-		System.out.print("ProcessingThread :=> processMessageReceived"+ "/n");
+		System.out.print("ProcessingThread :=> processMessageReceived"+ "\n");
 		String idPacketReceived = dataPacket[0];
 		//String naturePacketReceived = dataPacket[1]; (not useful)
 		String ipSenderPacketReceived = dataPacket[2];
@@ -102,12 +102,12 @@ public class ProcessingThread implements Runnable
 		else if((idPacketReceived.equals("2") || idPacketReceived.equals("11") )&& !(ipSenderPacketReceived.equals(stringlocal_address)))
 		{
 			local_application.addActiveUser(ipSenderPacketReceived, textPacketReceived);
-			System.out.print("ProcessingThread :=> processMessageReceived + Process"+ "idPacketReceived.equals(\"2\")");
+			System.out.print("ProcessingThread :=> processMessageReceived + Process"+ "idPacketReceived.equals(\"2\")" + "\n");
 			System.out.print(stringlocal_address);
 		} //!
 		else if(idPacketReceived.equals("3") && !(ipSenderPacketReceived.equals(stringlocal_address)))
 		{
-			System.out.print("ProcessingThread :=> processMessageReceived =====3"+ "/n");
+			System.out.print("ProcessingThread :=> processMessageReceived =====3"+ "\n");
 			local_application.modifyActiveUser(ipSenderPacketReceived, textPacketReceived);
 		}// !
 		else if(idPacketReceived.equals("4") && !(ipSenderPacketReceived.equals(stringlocal_address)))
@@ -116,9 +116,9 @@ public class ProcessingThread implements Runnable
 		}
 		else if(idPacketReceived.equals("5"))
 		{
-			System.out.print("Process_5_Start"+"/n");
+			System.out.print("Process_5_Start"+"\n");
 			local_application.addReceivedMessage(ipSenderPacketReceived, textPacketReceived);
-			System.out.print("Process_5_END"+"/n");
+			System.out.print("Process_5_END"+"\n");
 		}
 		}
 	}
