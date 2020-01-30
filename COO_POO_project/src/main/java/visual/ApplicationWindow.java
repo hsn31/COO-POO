@@ -376,8 +376,12 @@ public class ApplicationWindow
 
 	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
 	{
+<<<<<<< HEAD
 		
 		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers:  " + listOfActiveUsers + "\n");
+=======
+		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + listOfActiveUsers + " number "+ listOfActiveUsers.size() + "\n");
+>>>>>>> ae8003cdc03f32b2d40c6f85d992a03a45cabc3e
 		initialList.forEach((k,v)->
 		{
 			if(!listOfActiveUsers.contains(new CoordUser(k, "")))
@@ -558,6 +562,15 @@ public class ApplicationWindow
 	
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
+<<<<<<< HEAD
+=======
+		
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers+ "\n");
+		
+		listOfActiveUsers.add(new CoordUser(ipAddress, pseudonyme));
+		
+		refresh_comboBox();
+>>>>>>> ae8003cdc03f32b2d40c6f85d992a03a45cabc3e
 		
 			System.out.println("************************** showNewActiveUser déb *******************************"+ "\n");
 			System.out.println("listOfActiveUsers : " + listOfActiveUsers);
