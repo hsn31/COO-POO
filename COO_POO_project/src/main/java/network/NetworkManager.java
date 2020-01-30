@@ -145,6 +145,11 @@ public class NetworkManager //implements Runnable
     
     public void unicastSendChatMessage(String wantedMessage, String distantAddress) throws IOException
     {
+    	//Test 
+        System.out.println("************************TEST/ unicastSendChatMessage()********************* "+ "\n");
+		System.out.println("TEST/ unicastSendChatMessage() : wantedMessage = " + wantedMessage + " & distantAddress = "+ distantAddress);
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\n");
+		
     	InetAddress distantAddress2 = InetAddress.getByName(distantAddress);
 		sendMessage("5<>unicast<>"+distantAddress+"<>"+wantedMessage, distantAddress2, inPort);
     }
