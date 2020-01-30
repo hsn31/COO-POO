@@ -451,6 +451,9 @@ public class ApplicationWindow
 			{
 				//bleu : #0066FF
 				balise = "<p color =#0066FF>";
+				
+				currentChatPanel.clean_TextArea();
+				currentChatPanel.clean_errorMessage();
 			}
 			
 			String txtDate = balise + strDate + "</p>";
