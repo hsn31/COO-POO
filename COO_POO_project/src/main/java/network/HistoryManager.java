@@ -14,31 +14,28 @@ import java.util.*;
  
 public class HistoryManager {
     
-    private String id;
-	private Date connectDate;
-	private String fileName;
+
+    private LinkedList<History> memoryConversation;
 	
-	public HistoryManager()
-	{
-		
-	}
+    public HistoryManager()
+    {
+    	memoryConversation = new LinkedList<History>();
+    }
 	
-	public History createHistory(String id, String fileName, Date connectDate)
+	public void createHistory(String fileName)
 	{
-		return new History(this.id, this.fileName, this.connectDate);
+		memoryConversation.add(new History(fileName));
 	}
     
-	public void run() {
-		System.out.println("History Messages Started");
-	}
 	
 	public ArrayList<String> listAllHist()
 	{
 		ArrayList<String> listHist = new ArrayList<String>();
 		
-		File repertoire = new File("histories");
+		File repertoire = new File("histories/");
+		System.out.println("HistoryManager listAllHist() : IsDirectory : " + repertoire.isDirectory() + "\n");
 		
-		String liste[] = repertoire.list();
+		String liste[] = repertoire.list(); 
 		
 		if (liste != null) {         
 		    for (int i = 0; i < liste.length; i++) {
@@ -58,6 +55,7 @@ public class HistoryManager {
 			
 		try{
 			lecteurAvecBuffer = new BufferedReader(new FileReader(fileHist));
+			
 		while ((ligne = lecteurAvecBuffer.readLine()) != null){
 		  	listHist.add(ligne);
 			}
@@ -68,22 +66,36 @@ public class HistoryManager {
    
 		return listHist;
 	}
+
+	public boolean needNewHistory(String ip_address_history) 
+	{
+		boolean result = true;
 		
-    private LinkedList<String> memoryMessages;
-    
-    HistoryManager(String new_id)
-    {
-        id = new_id;
-        memoryMessages = new LinkedList<String>();
-    }
-    
-    public void registerMessage(String message)
-    {
-        memoryMessages.add(message);
-    }
-    
-    public String getId()
-    {
-        return id;
-    }
+		for(int i = 0 ; i < memoryConversation.size(); i++)
+		{
+			if(memoryConversation.get(i).getFileName().equals(ip_address_history))
+			{
+				result = false;
+			}
+		}
+		
+		return result;
+	}
+
+	public void updateHistory(String id, String messages_to_update_history) 
+	{
+		for(int i = 0 ; i < memoryConversation.size(); i++)
+		{
+			memoryConversation.get(i).updateHistory(messages_to_update_history);
+		}
+	}
+
+	public void closeHistories() 
+	{
+		for(int i = 0 ; i < memoryConversation.size(); i++)
+		{
+			memoryConversation.get(i).closeHistory();
+		}
+	}
+
 }

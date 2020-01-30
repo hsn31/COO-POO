@@ -56,15 +56,12 @@ public class NetworkManager //implements Runnable
     
     public NetworkManager() throws SocketException, UnknownHostException
     {
-    	local_address = InetAddress.getLocalHost();
-    	
-    	inPort = 2833;
 
 		//this.NetworkManagerActive = true;
 		stringLocalAdress = TESTAddress();
 		local_address = InetAddress.getByName(stringLocalAdress);
 				
-    	inPort = 2834;
+    	inPort = 2835;
 
     	inDgramSocket = new DatagramSocket(inPort);
 

@@ -32,32 +32,56 @@ public class Account {
 		return this.pseudonyme;
 	}
 	
-	//Retourne le Chat en lien avec ce DistantID
-	public Chat getChatHistory(String distant) {
-		Chat temp= null;
+	public ArrayList<String> getDistantChat(){
+		
+		ArrayList<String> addresses_chats = new ArrayList<String>();
+		
+		ListOfChat.forEach((k,v)->
+		{
+			addresses_chats.add(k);
+		});
+		
+		return addresses_chats;
+	}
 	
-		for (int i=0; i<this.ListOfChat.size(); i++) {
-			if ((this.ListOfChat.get(i).getDistantId()).equals(distant)) {
-				temp =this.ListOfChat.get(i);
+	//Retourne le Chat en lien avec ce DistantID
+	public String getChatHistory(String distant) 
+	{
+		String temp= "";
+		
+		System.out.println("*******getChatHistory ACCOUNT*************************"+ ListOfChat + "\n");
+		
+		for (int i=0; i<ListOfChat.size(); i++) 
+		{
+			System.out.println("*******getChatHistory ACCOUNT.... distant = "+  distant);
+			
+			if ((ListOfChat.get(i).getDistantId()).equals(distant)) 
+			{
+				temp = ListOfChat.get(i).getHistory();
 			}
 		}
+		
 		return temp;
 	}
 	
-	//retourne la liste des messages en lien avec ce DistantID
-	public ArrayList<Message> getChatMessageHistory(String distant) 
+	public String getChatHTMLHistory(String id) 
 	{
-		ArrayList<Message> temp=new ArrayList<Message>();
+		String temp= "";
 		
-		for (int i=0; i<this.ListOfChat.size(); i++) 
+		for (int i=0; i<ListOfChat.size(); i++) 
 		{
-			if ((this.ListOfChat.get(i).getDistantId()).equals(distant)) 
+			if ((ListOfChat.get(i).getDistantId()).equals(id)) 
 			{
-				temp =this.ListOfChat.get(i).getListOfMessage();
+				temp = ListOfChat.get(i).getHTMLHistory();
 			}
 		}
-
+		
 		return temp;
+	}
+	
+	public boolean chatIsCreated(String id)
+	{
+		return ListOfChat.containsKey(id);
 	}
 	
 	
@@ -78,22 +102,26 @@ public class Account {
 	
 	public void registerMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
-		//System.out.println("*******RegisterMessage ACCOUNT*************************"+ ListOfChat);
+		System.out.println("*******RegisterMessage ACCOUNT*************************"+ ListOfChat);
 		
 		//Pour éviter les erreurs. 
 		if((ListOfChat.isEmpty() || !ListOfChat.containsKey(distantAddress)))
 		{	
+			System.out.println("INSIDE IF \n");
 			//test
 			if (ListOfChat.isEmpty() ) {
-			System.out.println("*******RegisterMessage ACCOUNT*************************"+ ListOfChat + "\n");
+			System.out.println("INSIDE IF second if \n");
 			}
 			
 			ListOfChat.put(distantAddress, new Chat(distantAddress));
-			ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
+			ListOfChat.put(distantAddress, ListOfChat.get(distantAddress).AddMessage(nature, strDate, message));
+			
+			System.out.println("les messages : \n " + ListOfChat.get(distantAddress).getHistory());
 			
 		}else {
 			
-			ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
+			//ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
+			ListOfChat.put(distantAddress, ListOfChat.get(distantAddress).AddMessage(nature, strDate, message));
 			
 		}
 	}

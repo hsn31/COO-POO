@@ -12,24 +12,21 @@ public class History {
 	
 	private FileWriter file;
 	private File fileHistory;
-	private Date sessionDate;
-	private String id;
 	private String fileName;
 	
-	public History(String id, String fileName, Date connectDate)
+	
+	//ID = PSEUDO DU DISTANT -  FILENAME ->ADRESSE IP DU DISTANT
+	public History(String fileName)
 	{
-		this.sessionDate = connectDate;
-		this.id = id;
 		this.fileName = fileName;
 		
 		// persistance des données avec fichiers texte
 		
-		this.fileHistory = new File("History/"+fileName);
+		this.fileHistory = new File("histories/"+fileName);
 
 		try{
 			file = new FileWriter(fileHistory, true);
-			file.write("Pseudo :" + id + "\n");
-			file.write("Date of the previous conversation :" + sessionDate.toString() + "\n");
+			file.write("Date of the previous conversation :" + new Date() + "\n");
 			file.flush();
 			
 		} catch (IOException e){
@@ -38,6 +35,13 @@ public class History {
 		}
 	}
 	
+	public String getFileName()
+	{
+		return fileName;
+	}
+	
+	
+	//Un message est du format 	"S <>strDate <> message \n" OU "R<>strDate <> message \n"
 	public synchronized void updateHistory(String message) {
 		
 		try{

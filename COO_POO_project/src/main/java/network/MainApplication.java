@@ -72,7 +72,7 @@ public class MainApplication implements ActionListener
 		//Lancement des Threads
 		processor_messages.start();
 		
-		//Envoi du broadcast d'ID <1> ATTENTION ATTENTION
+		//Envoi du broadcast d'ID <1>
 		local_manager.broadcastGetActiveUser();
 		
 		//Attention, on fait une pause de 1000 millisecondes pour recevoir les broadcasts 
@@ -227,8 +227,8 @@ public class MainApplication implements ActionListener
 	
 	private void process_shutDown()
 	{
-		//ATTENTION ATTENTION ATTENTION ATTETION
-		//penser a sauvegarder dans la base de donnée !!
+		//sauvegarde dans la base de donnée !!
+		local_memory.saveHistory();
 		
 		//envoyer le message de déconnexion 
 		local_manager.broadcastDisconnected();
@@ -346,7 +346,7 @@ public class MainApplication implements ActionListener
 		
 		if(!local_interface.chatAlreadyDownloaded(ipAddress))
 		{
-			String htmlHistory = "";//local_memory.downloadChatHTMLHistory(ipAddress);
+			String htmlHistory = local_memory.downloadChatHTMLHistory(ipAddress);
 			local_interface.create_openChat(ipAddress, htmlHistory);
 		}
 		
@@ -387,11 +387,13 @@ public class MainApplication implements ActionListener
 		}
 		else if(e.getSource().equals(local_interface.getExitCurrentChatButton()))
 		{
+			//attention
 			click_on_ExitCurrentChatButton();
 		}
 		else if(e.getSource().equals(local_interface.getExitApplicationButton()))
 		{
 			process_shutDown();
+			
 		}
 		else if(e.getSource().equals(local_interface.getObjectListActiveUsers()))
 		{

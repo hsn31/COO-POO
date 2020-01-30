@@ -432,6 +432,24 @@ public class ApplicationWindow
 	}
 
 	
+	//Un message est de la forme : String balise = "<p>";
+	/*
+	if(nature.equals(Origin.RECEIVED))
+	{
+		//blanc : #FFFFFF
+		balise = "<p color =#FFFFFF>";
+	}
+	else if(nature.equals(Origin.SENT))
+	{
+		//bleu : #0066FF
+		balise = "<p color =#0066FF>";
+	}
+	
+	String txtDate = balise + strDate + "</p>";
+	String txtMessage = balise + message + "</p>";
+	
+	*/
+	
 	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
 		System.out.println("process_applyMessage " + distantAddress + " " + nature);

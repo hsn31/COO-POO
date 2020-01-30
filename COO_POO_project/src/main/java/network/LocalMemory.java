@@ -148,4 +148,88 @@ public class LocalMemory
 	{
 		local_account.registerMessage(nature, distantAddress, strDate, message);
 	}
+
+
+	public void saveHistory() 
+	{
+		ArrayList<String> list = local_account.getDistantChat();
+		
+		for (int i =0; i< local_account.getDistantChat().size(); i++ ) 
+		{
+			String id = list.get(i);
+			
+			if (local_history.needNewHistory(id)) 
+			{
+				local_history.createHistory(id);
+			}
+			
+			String messages_to_update_history = local_account.getChatHistory(id);
+			
+			local_history.updateHistory(id, messages_to_update_history);
+			
+		}
+		
+		local_history.closeHistories();
+	}
+
+
+	public String downloadChatHTMLHistory(String ipAddress) 
+	{
+		String precedent_history = "";
+		String recent_history = "";
+		
+		ArrayList<String> list = local_account.getDistantChat();
+		
+		for (int i =0; i< local_account.getDistantChat().size(); i++ ) 
+		{
+			String id = list.get(i);
+			
+			if(id == ipAddress)
+			{
+				if (!local_history.needNewHistory(id)) 
+				{
+					ArrayList<String> history_from_doc = local_history.readHistory(ipAddress);
+					
+					for(int j = 0 ; j < history_from_doc.size() ; j++)
+					{
+						String line = history_from_doc.get(j);
+						String beginning = line.split(":")[0];
+						
+						if(!line.equals("") && !beginning.equals("Date of the previous conversation ") && !beginning.equals("End of the conversation "))
+						{
+							String [] values = line.split("<>");
+							String strOrigin = values[0];
+							String strDate = values[1];
+							String message = values[2];
+							
+							String balise = "<p>";
+							
+							if(strOrigin.equals("R"))
+							{
+								//blanc : #FFFFFF
+								balise = "<p color =#FFFFFF>";
+							}
+							else if(strOrigin.equals("S"))
+							{
+								//bleu : #0066FF
+								balise = "<p color =#0066FF>";
+							}
+							
+							String txtDate = balise + strDate + "</p>";
+							String txtMessage = balise + message + "</p>";
+	
+							precedent_history = precedent_history + "<br>" + txtDate + txtMessage;
+						}
+					}
+				}
+				
+				if(local_account.chatIsCreated(id))
+				{
+					recent_history = local_account.getChatHTMLHistory(id);
+				}
+			}
+		}
+		
+		return precedent_history + recent_history;
+	}
 }
