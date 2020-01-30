@@ -101,9 +101,9 @@ public class ApplicationWindow
 	private String local_ipAddress;
 	private String currentChatVisibleAddress;
 	
-	public ApplicationWindow() throws FontFormatException, IOException
+	public ApplicationWindow(String stringlocal_address) throws FontFormatException, IOException
 	{
-		initialize_coding_parameters();
+		initialize_coding_parameters(stringlocal_address);
 		
 		creation_elements();
 		
@@ -118,12 +118,12 @@ public class ApplicationWindow
 	
 	//------------------------- DIVISION OF PSEUDONYME WINDOW CONSTRUCTOR -------------------------------------------
 	
-	private void initialize_coding_parameters() throws UnknownHostException
+	private void initialize_coding_parameters(String local_address) throws UnknownHostException
 	{
 		listOfActiveUsers = new ListCoord();
 		listOfChats = new LinkedHashMap<String,String>();
 		
-		local_ipAddress = InetAddress.getLocalHost().getHostAddress().toString();
+		local_ipAddress = local_address;
 		currentChatVisibleAddress = "";
 	}
 	
@@ -326,7 +326,7 @@ public class ApplicationWindow
 		CoordUser cu = listOfActiveUsers.get(place);
 		cu.chat_downloaded = true;
 		listOfActiveUsers.set(place, cu);
-		System.out.println("TEST/ ApplicationWindow create_openChat" + place + cu);
+		System.out.println("TEST/ ApplicationWindow create_openChat" + place + cu + "\n");
 		
 		refresh_comboBox();
 	}
@@ -341,11 +341,11 @@ public class ApplicationWindow
 			listOfActiveUsers.add(new CoordUser(k, v));
 			
 			
-			System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + k + v);
+			System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + k + v + "\n");
 		});
 		
 		//Test 
-		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: listofActiveUsers ");
+		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: listofActiveUsers " + "\n");
 		debugging(initialList);
 		
 		refresh_comboBox();
@@ -364,7 +364,7 @@ public class ApplicationWindow
 		CoordUser cu = listOfActiveUsers.get(place);
 		cu.pseudo = newPseudo;
 		listOfActiveUsers.set(place, cu);
-		System.out.println("TEST/ ApplicationWindow modifyPseudo" + place + cu);
+		System.out.println("TEST/ ApplicationWindow modifyPseudo" + place + cu + "\n");
 	}
 	
 	public void showChatSelected(String ipAddress)
@@ -373,12 +373,12 @@ public class ApplicationWindow
 		String totalText = "<html>" + listOfChats.get(ipAddress) + "</html>";
 		currentChatPanel.showConversation(totalText);
 		
-		if(!currentChatVisibleAddress.equals(ipAddress))
-		{
+		//if(!currentChatVisibleAddress.equals(ipAddress))
+		//{
 			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 			display_distantPseudoCurrentChat(listOfActiveUsers.get(place).pseudo);
-			System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers ");
-		}
+			System.out.println("TEST/ ApplicationWindow showChatSelected: listofActiveUsers " + "\n");
+		//}
 		
 		enable_chatArea();
 		
@@ -389,17 +389,20 @@ public class ApplicationWindow
 	
 	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
-		System.out.println("process_applyMessage ");
+		System.out.println("process_applyMessage " + distantAddress + " " + nature);
+		
 		if(listOfChats.containsKey(distantAddress))
 		{
+			System.out.println("process_applyMessage Dans la boucle ?"+listOfChats.containsKey(distantAddress) + "\n");
 			String balise = "<p>";
 			
-			if(nature == Origin.RECEIVED)
+			if(nature.equals(Origin.RECEIVED))
 			{
+				System.out.println("process_applyMessage COULEUR"+ "\n");
 				//blanc : #FFFFFF
 				balise = "<p color =#FFFFFF>";
 			}
-			else if(nature == Origin.SENT)
+			else if(nature.equals(Origin.SENT))
 			{
 				//bleu : #0066FF
 				balise = "<p color =#0066FF>";
@@ -414,6 +417,8 @@ public class ApplicationWindow
 			
 			if(currentChatVisibleAddress.equals(distantAddress))
 			{
+				System.out.println("process_applyMessage variable"+currentChatVisibleAddress + "\n");
+				System.out.println("process_applyMessage variable"+currentChatVisibleAddress.equals(distantAddress) + "\n");
 				//System.out.println("s" + distantAddress);
 				showChatSelected(distantAddress);
 			}
@@ -475,7 +480,7 @@ public class ApplicationWindow
 		exitCurrentChatButton.setEnabled(true);
 		currentChatPanel.enable_textArea();
 		//---------------TEST -------------------------
-		currentChatPanel.showConversation("<html> bravo ca écrit <br> <p color=#FF0000> toutes mes félicitations !! </p> <p color=#FFFFFF> received </p> <br> <p color=#0066FF> sent </p> <p color=#0066FF> bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbb </p> </html>");
+		//currentChatPanel.showConversation("<html> bravo ca écrit <br> <p color=#FF0000> toutes mes félicitations !! </p> <p color=#FFFFFF> received </p> <br> <p color=#0066FF> sent </p> <p color=#0066FF> bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbbbbbbbbbbbbbb bbbbbbbbbbb </p> </html>");
 	}
 	
 	public void disable_chatArea()
@@ -495,10 +500,10 @@ public class ApplicationWindow
 	{
 		listBox.removeAllItems();
 		
-		System.out.println("*********************************************************");
+		System.out.println("*********************************************************"+ "\n");
 		System.out.println("refresh_comboBox " + listOfActiveUsers);
 		System.out.println("refresh_comboBox " + listOfActiveUsers.size());
-		System.out.println("*********************************************************");
+		System.out.println("*********************************************************"+ "\n");
 		
 		for(int i = 0 ; i < listOfActiveUsers.size() ; i++)
 		{
@@ -512,27 +517,28 @@ public class ApplicationWindow
 		
 		refresh_comboBox();
 		
-		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers);
-		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme );
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers+ "\n");
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme + "\n");
 		
 	}
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + ipAddress + pseudonyme);
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + local_ipAddress);
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser  /2 " + listOfActiveUsers);
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + ipAddress + pseudonyme+ "\n");
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /1  " + local_ipAddress+ "\n");
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser  /2 " + listOfActiveUsers+ "\n");
 		
-		if (!(ipAddress.equals(local_ipAddress)))
+		if ((ipAddress!= null) && !(ipAddress.equals(local_ipAddress)))
 		{
+			//ATTENTION ATTENTION PROBLEME DOWNLOAD BOOLEAN
 			int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
 			listOfActiveUsers.set(place, new CoordUser(ipAddress, pseudonyme));
 		}
 		
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /3 " + ipAddress + pseudonyme);
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser /3 " + ipAddress + pseudonyme+ "\n");
 		refresh_comboBox();
 	
-		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers  / 4 "  + listOfActiveUsers );
+		System.out.println("TEST/ ApplicationWindow showModificationActiveUser: listofActiveUsers  / 4 "  + listOfActiveUsers + "\n");
 		
 		
 		if(currentChatVisibleAddress.equals(ipAddress))
@@ -565,7 +571,7 @@ public class ApplicationWindow
 	//Créer un itérateur sur la collection
 	Iterator<String> itr = c.iterator();
 
-	System.out.println("--------------------Affichage des valeurs de la LinkedHashMap---------------------");
+	System.out.println("--------------------Affichage des valeurs de la LinkedHashMap---------------------"+ "\n");
 	/*
 	//itérer la collection et afficher le résultat
 	while(itr.hasNext())
@@ -573,6 +579,6 @@ public class ApplicationWindow
 	*/
 	System.out.println(initialList.toString());
 	
-	System.out.println("-----------------FIN DE L'AFFICHAGE--------------");
+	System.out.println("-----------------FIN DE L'AFFICHAGE--------------"+ "\n");
 	}
 }

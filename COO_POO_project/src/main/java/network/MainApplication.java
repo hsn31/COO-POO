@@ -34,13 +34,23 @@ public class MainApplication implements ActionListener
 	
 	private AppState local_state;
 	
+	private String stringlocal_address;
+	
 	//------------------ CONSTRUCTOR AND TEST ------------------------------------------
 	
 	public MainApplication() throws FontFormatException, IOException
 	{
-		local_memory = new LocalMemory();
-		local_interface = new VisualInterface();
 		local_manager = new NetworkManager();
+		
+		//transmission de l'adresse locale dans toute l'application
+		//en meme temps que la création des classes
+		stringlocal_address = local_manager.get_stringlocal_address();
+		
+		local_memory = new LocalMemory(stringlocal_address);
+		local_interface = new VisualInterface(stringlocal_address);
+		processor_messages = new Thread(new ProcessingThread(this, stringlocal_address));
+		
+		//end transmission
 		
 		long t1 = System.currentTimeMillis();
 		 
@@ -60,7 +70,6 @@ public class MainApplication implements ActionListener
 		*/
 		
 		//Lancement des Threads
-		processor_messages = new Thread(new ProcessingThread(this));
 		processor_messages.start();
 		
 		//Envoi du broadcast d'ID <1> ATTENTION ATTENTION
@@ -70,7 +79,7 @@ public class MainApplication implements ActionListener
 		while(System.currentTimeMillis()<t1+Delta);
 		
 		//Test de la liste des utilisateurs. 
-		System.out.println("TEST/ NOMBRE D'UTILISATEURS : "+Integer.toString(local_memory.checkActiveUserAmount()));
+		System.out.println("TEST/ NOMBRE D'UTILISATEURS : "+Integer.toString(local_memory.checkActiveUserAmount())+ "\n");
 		
 		local_state = AppState.LOGIN;
 		
@@ -85,7 +94,7 @@ public class MainApplication implements ActionListener
 				//Donc on peut direct afficher l'applicationWindow:
 				local_state = AppState.CHATTING;
 				
-				System.out.println("TEST/ Dans la boucle LastPseudoOK : ");
+				System.out.println("TEST/ Dans la boucle LastPseudoOK : " + "\n");
 			}
 		}
 		
@@ -99,7 +108,7 @@ public class MainApplication implements ActionListener
 		if(local_state == AppState.LOGIN)
 		{
 			local_interface.openPseudonymeWindow();
-			System.out.println("TEST/ local_state = login ");
+			System.out.println("TEST/ local_state = login " + "\n");
 		}
 		else if(local_state == AppState.CHATTING)
 		{
@@ -145,6 +154,8 @@ public class MainApplication implements ActionListener
 	
 	public void modifyActiveUser(String ipAddress, String pseudonyme)
 	{
+		System.out.print("MAIN APPLICATION UPDATE"+ "\n");
+		
 		local_memory.updateListConnectedBroadcast(ipAddress, pseudonyme);
 		local_interface.showModificationActiveUser(ipAddress, pseudonyme);
 
@@ -161,6 +172,8 @@ public class MainApplication implements ActionListener
 		String[] textInfo = message.split("<s>");
 		String strDate = textInfo[0];
 		String text = textInfo[1];
+		
+		System.out.println("************************TEST/ addReceivedMessage MainApplication********************* " + "\n");
 		
 		for(int i = 2 ; i < textInfo.length ; i++)
 		{
@@ -186,7 +199,9 @@ public class MainApplication implements ActionListener
 	//------------------- SUB METHODS : INTERACTIONS WITH USER --------------
 	
 	private void process_login(String validatedPseudo) throws UnknownHostException
+
 	{
+		System.out.println("************************TEST/ process_login********************* " + "\n");
 		local_manager.broadcastConnected(validatedPseudo);
 		
 		local_memory.modifyPseudonyme(validatedPseudo);
@@ -231,9 +246,9 @@ public class MainApplication implements ActionListener
 	{
 		String datedMessage = strDate + "<s>" + wantedMessage;
 		
-		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
-		
 		local_interface.process_applyMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
+		
+		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
 		
 		local_memory.addMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
 		 
@@ -248,7 +263,7 @@ public class MainApplication implements ActionListener
 		if(wantedPseudo.equals("")) 
 		{
 			currentError = "Impossible to login with an empty pseudo !";
-			System.out.println("TEST/ VisualInterface: ");
+			System.out.println("TEST/ VisualInterface: " + "\n");
 		} 
 		else if(wantedPseudo.contains(" "))
 		{

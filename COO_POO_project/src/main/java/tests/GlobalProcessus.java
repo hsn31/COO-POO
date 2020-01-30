@@ -46,7 +46,8 @@ public class GlobalProcessus {
         try
         {
             iduser = Integer.parseInt(args[2]);
-
+            //System.out.println("le mode est: " + TESTAddress());
+            
             System.out.println("le mode est: " + args[0]);
             System.out.println("le port est: " + args[1]);
             System.out.println("l'id user est: " + args[2]);

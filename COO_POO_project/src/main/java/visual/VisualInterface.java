@@ -16,13 +16,15 @@ import java.util.*;
 public class VisualInterface implements ActionListener
 {
 	
-	ApplicationWindow main_window;
-	PseudonymeWindow pseudo_window; //une seule fenêtre pour deux utilisations
+	private ApplicationWindow main_window;
+	private PseudonymeWindow pseudo_window; //une seule fenêtre pour deux utilisations
 	
-	public VisualInterface() throws FontFormatException, IOException
+	private String stringlocal_address;
+	
+	public VisualInterface(String stringlocal_address) throws FontFormatException, IOException
 	{
 		pseudo_window = new PseudonymeWindow();
-		main_window = new ApplicationWindow();
+		main_window = new ApplicationWindow(stringlocal_address);
 	}
 	
 	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
@@ -140,7 +142,7 @@ public class VisualInterface implements ActionListener
 		
 		main_window.enable_modifyButton();
 		main_window.modifyPseudo(validatedPseudo);
-		main_window.showModificationActiveUser(InetAddress.getLocalHost().getHostAddress().toString(), validatedPseudo);
+		main_window.showModificationActiveUser(stringlocal_address, validatedPseudo);
 	}
 	
 	public void process_cancelModifyPseudo()
@@ -153,6 +155,7 @@ public class VisualInterface implements ActionListener
 	public void process_applyMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
 		main_window.process_applyMessage(nature, distantAddress, strDate, message);
+		
 	}
 	
 	public void process_applyErrorSending(String errorMessage)
@@ -169,6 +172,7 @@ public class VisualInterface implements ActionListener
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
 	{
+		System.out.print("LOCALMEMORY UPDATE"+ "showModificationActiveUser"+ "\n");
 		main_window.showModificationActiveUser(ipAddress, pseudonyme);
 	}
 	

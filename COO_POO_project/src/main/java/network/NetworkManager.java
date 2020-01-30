@@ -32,10 +32,9 @@ import java.lang.String;
 //Network manager n'a plus besoin d'etre thread => processing thread liée a main application
 public class NetworkManager //implements Runnable 
 {
-    private boolean NetworkManagerActive = false;
-	private InetAddress local_address = InetAddress.getLocalHost();
-	private String stringLocalAdress = InetAddress.getLocalHost().getHostAddress().toString();
-	
+    //private boolean NetworkManagerActive = false;
+	private InetAddress local_address;
+	private String stringLocalAdress;
 	
 	//attributes to receive messages on a chat conversation (port fixed)
     private DatagramSocket inDgramSocket = new DatagramSocket(); 
@@ -57,10 +56,18 @@ public class NetworkManager //implements Runnable
     
     public NetworkManager() throws SocketException, UnknownHostException
     {
+<<<<<<< HEAD
 		this.NetworkManagerActive = true;
     	local_address = InetAddress.getLocalHost();
     	
     	inPort = 2833;
+=======
+		//this.NetworkManagerActive = true;
+		stringLocalAdress = TESTAddress();
+		local_address = InetAddress.getByName(stringLocalAdress);
+				
+    	inPort = 2834;
+>>>>>>> 50ac1d25a02e6bdd1e491c12a51ed0473d5ce1b5
     	inDgramSocket = new DatagramSocket(inPort);
 
         inBuffer = new byte[256];
@@ -94,11 +101,21 @@ public class NetworkManager //implements Runnable
     	return local_address;
     }
     
+    public String get_stringlocal_address()
+    {
+    	return stringLocalAdress;
+    }
+    
     public void receiveMessage() throws IOException
     {
     	inDgramSocket.receive(inPacket);
         
         String message = new String(inPacket.getData(), 0, inPacket.getLength());
+        
+		//Test 
+        System.out.println("************************TEST/ receiveMessage()********************* "+ "\n");
+		System.out.println("TEST/ receiveMessage() : " + message);
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\n");
         
         save_message(message);
     }
@@ -131,7 +148,7 @@ public class NetworkManager //implements Runnable
     public void unicastSendChatMessage(String wantedMessage, String distantAddress) throws IOException
     {
     	InetAddress distantAddress2 = InetAddress.getByName(distantAddress);
-		sendMessage("5<>unicast<>"+distantAddress2+"<>"+wantedMessage, distantAddress2, inPort);
+		sendMessage("5<>unicast<>"+distantAddress+"<>"+wantedMessage, distantAddress2, inPort);
     }
     
     public void sendMessage(String message, InetAddress distantAddress, int distantPort) throws IOException
@@ -212,16 +229,52 @@ public class NetworkManager //implements Runnable
               .filter(Objects::nonNull)
               .forEach(broadcastList::add);
         }
+        
+        System.out.println("************************TEST/ NETWORKMANAGER LIST of Brodcast*********************" + "\n");
+		System.out.println("TEST/ broadcastList : " + broadcastList + stringLocalAdress + "\n");
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + "\n");
+        
         return broadcastList;
+    }
+    
+    private String TESTAddress() throws SocketException 
+    {
+    	String ip = null;
+    	try {
+    	    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+    	    while (interfaces.hasMoreElements()) {
+    	        NetworkInterface iface = interfaces.nextElement();
+    	        // filters out 127.0.0.1 and inactive interfaces
+    	        if (iface.isLoopback() || !iface.isUp())
+    	            continue;
+
+    	        Enumeration<InetAddress> addresses = iface.getInetAddresses();
+    	        while(addresses.hasMoreElements()) {
+    	            InetAddress addr = addresses.nextElement();
+
+    	            // *EDIT*
+    	            if (addr instanceof Inet6Address) continue;
+
+    	            ip = addr.getHostAddress();
+    	          
+    	            System.out.println(iface.getDisplayName() + " " + ip);
+    	        
+    	        	}
+    	    }
+    	} catch (SocketException e) {
+    	    throw new RuntimeException(e);
+    	}
+    	
+    	return ip;
     }
     
     
     public void closeServer()
     {
-		this.NetworkManagerActive = false;
+		//this.NetworkManagerActive = false;
         outDgramSocket.close();
         inDgramSocket.close();
-		System.out.println("Server NetworkManager successfully closed");
+		System.out.println("Server NetworkManager successfully closed" + "\n");
     }
     
    
