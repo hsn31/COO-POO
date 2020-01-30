@@ -336,6 +336,7 @@ public class ApplicationWindow
 
 	public void download_listOfActiveUsers(LinkedHashMap<String,String> initialList)
 	{
+		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + listOfActiveUsers + " number "+ listOfActiveUsers.size() + "\n");
 		initialList.forEach((k,v)->
 		{
 			listOfActiveUsers.add(new CoordUser(k, v));
@@ -513,6 +514,9 @@ public class ApplicationWindow
 	
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
+		
+		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers+ "\n");
+		
 		listOfActiveUsers.add(new CoordUser(ipAddress, pseudonyme));
 		
 		refresh_comboBox();
