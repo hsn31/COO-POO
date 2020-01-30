@@ -97,11 +97,9 @@ public class LocalMemory
 	public void updateListConnectedBroadcast(String ipAddress, String pseudonyme)
 	{
 		System.out.print("LOCALMEMORY UPDATE"+ listOfActiveUsers+ "\n");
-<<<<<<< HEAD
-		System.out.print("LOCALMEMORY UPDATE"+ listOfActiveUsers+"\n");
-=======
 
->>>>>>> 33df70937a7fc4c0bf7e26214bcf40eee12171e1
+		System.out.print("LOCALMEMORY UPDATE"+ listOfActiveUsers+"\n");
+		
 		if (listOfActiveUsers.containsKey(ipAddress)){
 			listOfActiveUsers.replace(ipAddress, pseudonyme);
 		}else {
