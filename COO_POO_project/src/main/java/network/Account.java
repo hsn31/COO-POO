@@ -45,6 +45,8 @@ public class Account {
 	}
 	
 	//Retourne le Chat en lien avec ce DistantID
+	
+	//ATTENTION PB ICI
 	public String getChatHistory(String distant) 
 	{
 		String temp= "";
@@ -55,7 +57,7 @@ public class Account {
 		{
 			System.out.println("*******getChatHistory ACCOUNT.... distant = "+  distant);
 			
-			if ((ListOfChat.get(i).getDistantId()).equals(distant)) 
+			if (!(ListOfChat.get(i)==null) && (ListOfChat.get(i).getDistantId()).equals(distant)) 
 			{
 				temp = ListOfChat.get(i).getHistory();
 			}
@@ -64,13 +66,14 @@ public class Account {
 		return temp;
 	}
 	
+	//ATTENTION PB ICI
 	public String getChatHTMLHistory(String id) 
 	{
 		String temp= "";
 		
 		for (int i=0; i<ListOfChat.size(); i++) 
 		{
-			if ((ListOfChat.get(i).getDistantId()).equals(id)) 
+			if (!(ListOfChat.get(i)==null) && (ListOfChat.get(i).getDistantId()).equals(id)) 
 			{
 				temp = ListOfChat.get(i).getHTMLHistory();
 			}

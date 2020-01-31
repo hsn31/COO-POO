@@ -85,12 +85,12 @@ public class ProcessingThread implements Runnable
 		String ipSenderPacketReceived = dataPacket[2];
 		String textPacketReceived = dataPacket[3];
 		
-		System.out.print("-------------------------------------------------------------------------------------------------");
+		System.out.print("-------------------------------------------------------------------------------------------------" + "\n");
 		System.out.print(ipSenderPacketReceived + "\n");
 		System.out.print(idPacketReceived + "\n");
 		System.out.print(idPacketReceived.equals("2") + "\n");
 		System.out.print(stringlocal_address);
-		System.out.print("---------------------------------------------------------------------------------------------------");
+		System.out.print("---------------------------------------------------------------------------------------------------" + "\n");
 		
 		//int state = local
 		// !
