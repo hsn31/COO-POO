@@ -45,41 +45,44 @@ public class Account {
 	}
 	
 	//Retourne le Chat en lien avec ce DistantID
-	
+	String temp= "";
 	//ATTENTION PB ICI
 	public String getChatHistory(String distant) 
 	{
-		String temp= "";
+		temp= "";
 		
 		System.out.println("*******getChatHistory ACCOUNT*************************"+ ListOfChat + "\n");
-		
-		for (int i=0; i<ListOfChat.size(); i++) 
+				
+		ListOfChat.forEach((k,v)->
 		{
 			System.out.println("*******getChatHistory ACCOUNT.... distant = "+  distant);
 			
-			if (!(ListOfChat.get(i)==null) && (ListOfChat.get(i).getDistantId()).equals(distant)) 
+			if (!(k==null) && k.equals(distant)) 
 			{
-				temp = ListOfChat.get(i).getHistory();
+				temp = v.getHistory();
 			}
-		}
+		});
 		
 		return temp;
 	}
 	
+	String tempHtml= "";
 	//ATTENTION PB ICI
 	public String getChatHTMLHistory(String id) 
 	{
-		String temp= "";
+		tempHtml= "";
 		
-		for (int i=0; i<ListOfChat.size(); i++) 
+		ListOfChat.forEach((k,v)->
 		{
-			if (!(ListOfChat.get(i)==null) && (ListOfChat.get(i).getDistantId()).equals(id)) 
+			System.out.println("*******getChatHTMLHistory ACCOUNT.... distant = "+  id);
+			
+			if (!(k==null) && k.equals(id)) 
 			{
-				temp = ListOfChat.get(i).getHTMLHistory();
+				tempHtml = v.getHTMLHistory();
 			}
-		}
+		});
 		
-		return temp;
+		return tempHtml;
 	}
 	
 	public boolean chatIsCreated(String id)

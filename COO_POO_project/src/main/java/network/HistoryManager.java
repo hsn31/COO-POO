@@ -20,6 +20,7 @@ public class HistoryManager {
     public HistoryManager()
     {
     	memoryConversation = new LinkedList<History>();
+    	new File("histories/").mkdir();
     }
 	
 	public void createHistory(String fileName)
