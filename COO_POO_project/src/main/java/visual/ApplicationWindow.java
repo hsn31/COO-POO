@@ -69,12 +69,45 @@ public class ApplicationWindow
 		{
 			return (cu.ip.equals(this.ip) || cu.pseudo.equals(this.pseudo));
 		}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + getEnclosingInstance().hashCode();
+		result = prime * result + (chat_downloaded ? 1231 : 1237);
+		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
+		result = prime * result + ((pseudo == null) ? 0 : pseudo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CoordUser other = (CoordUser) obj;
+		if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+			return false;
+
+		return (other.ip.equals(this.ip) || other.pseudo.equals(this.pseudo));
+	}
+
+	private ApplicationWindow getEnclosingInstance() {
+		return ApplicationWindow.this;
+	}
+	
 	}
 	
 	public class ListCoord extends ArrayList<CoordUser>
 	{
 		private static final long serialVersionUID = 1L; //mandatory by default
 
+		/*
 		public int indexOf(CoordUser cu)
 		{
 			int result = -1;
@@ -92,6 +125,7 @@ public class ApplicationWindow
 		
 			return result;
 		}
+		*/
 	}
 	
 	private ListCoord listOfActiveUsers;
@@ -320,6 +354,11 @@ public class ApplicationWindow
 	
 	public void create_openChat(String ipAddress, String history)
 	{
+		System.out.println("************************** create_openChat déb *******************************"+ "\n");
+		System.out.println("listOfActiveUsers : " + listOfActiveUsers + "\n");
+		System.out.println("size : " + listOfActiveUsers.size()+ "\n");
+		System.out.println("ajout du chat de : " + ipAddress + "\n");
+		
 		listOfChats.put(ipAddress, history);
 		
 		int place = listOfActiveUsers.indexOf(new CoordUser(ipAddress, ""));
@@ -329,6 +368,7 @@ public class ApplicationWindow
 		System.out.println("TEST/ ApplicationWindow create_openChat" + place + cu + "\n");
 		
 		refresh_comboBox();
+		System.out.println("************************** create_openChat fin *******************************"+ "\n");
 	}
 	
 	//--------------------------- REFRESHING/DISPLAYING ACTIONS ----------------------------
@@ -341,6 +381,7 @@ public class ApplicationWindow
 		{
 			if(!listOfActiveUsers.contains(new CoordUser(k, "")))
 			{
+				System.out.println("dans le if du download_listOfActiveUsers: k= "+ k + " et bool= " + !listOfActiveUsers.contains(new CoordUser(k, "")) + "\n");
 				listOfActiveUsers.add(new CoordUser(k, v));
 			}
 			
@@ -348,7 +389,7 @@ public class ApplicationWindow
 		});
 		
 		//Test 
-		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: listofActiveUsers " + "\n");
+		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers: "+ listOfActiveUsers + "\n");
 		debugging(initialList);
 		
 		refresh_comboBox();
@@ -409,6 +450,9 @@ public class ApplicationWindow
 			{
 				//bleu : #0066FF
 				balise = "<p color =#0066FF>";
+				
+				currentChatPanel.clean_TextArea();
+				currentChatPanel.clean_errorMessage();
 			}
 			
 			String txtDate = balise + strDate + "</p>";
@@ -417,6 +461,8 @@ public class ApplicationWindow
 			String txtConversation = listOfChats.get(distantAddress) + "<br>" + txtDate + txtMessage;
 			
 			listOfChats.replace(distantAddress, txtConversation);
+			
+			System.out.println("process_applyMessage listOfChats : \n"+listOfChats + "\n");
 			
 			if(currentChatVisibleAddress.equals(distantAddress))
 			{
@@ -517,15 +563,23 @@ public class ApplicationWindow
 	public void showNewActiveUser(String ipAddress, String pseudonyme)
 	{
 		
-		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers+ "\n");
-		
+		System.out.println("************************** showNewActiveUser déb *******************************"+ "\n");
+		System.out.println("listOfActiveUsers : " + listOfActiveUsers + "\n");
+		System.out.println("size : " + listOfActiveUsers.size() + "\n");
+		System.out.println("ajout de : " + ipAddress + " ,  " + pseudonyme + "\n");
+
+		if(!listOfActiveUsers.contains(new CoordUser(ipAddress, "")))
+		{
+		System.out.println("dans le if du shownewActiveUser" + "\n");
 		listOfActiveUsers.add(new CoordUser(ipAddress, pseudonyme));
-		
+		}
+
 		refresh_comboBox();
-		
+
 		System.out.println("TEST/ ApplicationWindow showNewActiveUser: listofActiveUsers ....." + listOfActiveUsers+ "\n");
 		System.out.println("TEST/ ApplicationWindow showNewActiveUser: IP = " + ipAddress + " PSEUDO = " + pseudonyme + "\n");
-		
+
+		System.out.println("************************** showNewActiveUser fin *******************************"+ "\n");
 	}
 	
 	public void showModificationActiveUser(String ipAddress, String pseudonyme)
