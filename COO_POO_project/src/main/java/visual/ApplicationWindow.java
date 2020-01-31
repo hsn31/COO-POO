@@ -339,8 +339,10 @@ public class ApplicationWindow
 		System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + listOfActiveUsers + " number "+ listOfActiveUsers.size() + "\n");
 		initialList.forEach((k,v)->
 		{
-			listOfActiveUsers.add(new CoordUser(k, v));
-			
+			if(!listOfActiveUsers.contains(new CoordUser(k, "")))
+			{
+				listOfActiveUsers.add(new CoordUser(k, v));
+			}
 			
 			System.out.println("TEST/ ApplicationWindow download_listOfActiveUsers" + k + v + "\n");
 		});
