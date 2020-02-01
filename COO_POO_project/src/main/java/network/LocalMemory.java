@@ -175,14 +175,22 @@ public class LocalMemory
 
 	public String downloadChatHTMLHistory(String ipAddress) 
 	{
+		String precedent_history = download_PrecedentChatHTMLHistory(ipAddress);
+		String recent_history = download_RecentChatHTMLHistory(ipAddress);
+		
+		return precedent_history + recent_history;
+	}
+	
+	
+	private String download_PrecedentChatHTMLHistory(String ipAddress)
+	{
 		String precedent_history = "";
-		String recent_history = "";
 		
-		ArrayList<String> list = local_account.getDistantChat();
+		ArrayList<String> filesExisting = local_history.listAllHist();
 		
-		for (int i =0; i< local_account.getDistantChat().size(); i++ ) 
+		for (int i =0; i< filesExisting.size() ; i++ ) 
 		{
-			String id = list.get(i);
+			String id = filesExisting.get(i);
 			
 			if(id == ipAddress)
 			{
@@ -197,39 +205,59 @@ public class LocalMemory
 						
 						if(!line.equals("") && !beginning.equals("Date of the previous conversation ") && !beginning.equals("End of the conversation "))
 						{
-							String [] values = line.split("<>");
-							String strOrigin = values[0];
-							String strDate = values[1];
-							String message = values[2];
-							
-							String balise = "<p>";
-							
-							if(strOrigin.equals("R"))
-							{
-								//blanc : #FFFFFF
-								balise = "<p color =#FFFFFF>";
-							}
-							else if(strOrigin.equals("S"))
-							{
-								//bleu : #0066FF
-								balise = "<p color =#0066FF>";
-							}
-							
-							String txtDate = balise + strDate + "</p>";
-							String txtMessage = balise + message + "</p>";
+							String htmlLine = historyLine_toHtml(line);
 	
-							precedent_history = precedent_history + "<br>" + txtDate + txtMessage;
+							precedent_history = precedent_history + "<br>" + htmlLine;
 						}
 					}
-				}
-				
-				if(local_account.chatIsCreated(id))
-				{
-					recent_history = local_account.getChatHTMLHistory(id);
 				}
 			}
 		}
 		
-		return precedent_history + recent_history;
+		return precedent_history;
+	}
+	
+	private String historyLine_toHtml(String line)
+	{
+		String [] values = line.split("<>");
+		String strOrigin = values[0];
+		String strDate = values[1];
+		String message = values[2];
+		
+		String balise = "<p>";
+		
+		if(strOrigin.equals("R"))
+		{
+			//blanc : #FFFFFF
+			balise = "<p color =#FFFFFF>";
+		}
+		else if(strOrigin.equals("S"))
+		{
+			//bleu : #0066FF
+			balise = "<p color =#0066FF>";
+		}
+		
+		String txtDate = balise + strDate + "</p>";
+		String txtMessage = balise + message + "</p>";
+		
+		return txtDate + txtMessage;
+	}
+	
+	private String download_RecentChatHTMLHistory(String ipAddress)
+	{
+		String recent_history = "";
+		ArrayList<String> list = local_account.getDistantChat();
+		
+		for (int i =0; i< list.size(); i++ ) 
+		{
+			String id = list.get(i);
+			
+			if(local_account.chatIsCreated(id))
+			{
+				recent_history = local_account.getChatHTMLHistory(id);
+			}
+		}
+		
+		return recent_history;
 	}
 }

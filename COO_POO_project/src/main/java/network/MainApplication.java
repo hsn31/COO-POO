@@ -339,18 +339,19 @@ public class MainApplication implements ActionListener
 	
 	private void process_selectionActiveUser(JComboBox<CoordUser> object)
 	{
-		if (((CoordUser)object.getSelectedItem())!=null) {
-		String ipAddress = ((CoordUser)object.getSelectedItem()).ip;
-		//object.getSelectedIndex();
-		
-		
-		if(!local_interface.chatAlreadyDownloaded(ipAddress))
+		if (((CoordUser)object.getSelectedItem())!=null) 
 		{
-			String htmlHistory = local_memory.downloadChatHTMLHistory(ipAddress);
-			local_interface.create_openChat(ipAddress, htmlHistory);
-		}
-		
-		local_interface.openChatExisting(ipAddress);
+			String ipAddress = ((CoordUser)object.getSelectedItem()).ip;
+			//object.getSelectedIndex();
+			
+			
+			if(!local_interface.chatAlreadyDownloaded(ipAddress))
+			{
+				String htmlHistory = local_memory.downloadChatHTMLHistory(ipAddress);
+				local_interface.create_openChat(ipAddress, htmlHistory);
+			}
+			
+			local_interface.openChatExisting(ipAddress);
 		}
 	}
 	
