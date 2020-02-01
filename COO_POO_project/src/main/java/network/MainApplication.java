@@ -88,7 +88,8 @@ public class MainApplication implements ActionListener
 			if(local_memory.lastPseudonymeIsOk())
 			{
 				local_manager.broadcastConnected(local_memory.getPseudo());
-
+				
+				local_interface.showNewActiveUser(stringlocal_address, local_memory.getPseudo());
 				local_interface.process_login(local_memory.getPseudo());
 				
 				//Donc on peut direct afficher l'applicationWindow:
