@@ -63,7 +63,7 @@ public class NetworkManager //implements Runnable
 		stringLocalAdress = TESTAddress();
 		local_address = InetAddress.getByName(stringLocalAdress);
 				
-    	inPort = 2834;
+    	inPort = 2838;
 
     	inDgramSocket = new DatagramSocket(inPort);
 

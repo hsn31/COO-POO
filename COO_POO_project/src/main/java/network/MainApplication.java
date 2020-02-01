@@ -338,7 +338,7 @@ public class MainApplication implements ActionListener
 		local_interface.click_on_ExitCurrentChatButton();
 	}
 	
-	private void process_selectionActiveUser(JComboBox<CoordUser> object)
+	private synchronized void process_selectionActiveUser(JComboBox<CoordUser> object)
 	{
 		if (((CoordUser)object.getSelectedItem())!=null) 
 		{

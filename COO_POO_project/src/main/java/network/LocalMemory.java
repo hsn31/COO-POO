@@ -144,6 +144,7 @@ public class LocalMemory
 	
 	public void addMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
+		System.out.println(" TEST/ addMessage LocalMemory distantAdress= " + distantAddress + "\n");
 		local_account.registerMessage(nature, distantAddress, strDate, message);
 	}
 
@@ -164,7 +165,6 @@ public class LocalMemory
 			String messages_to_update_history = local_account.getChatHistory(id);
 			
 			local_history.updateHistory(id, messages_to_update_history);
-			
 		}
 		
 		local_history.closeHistories();

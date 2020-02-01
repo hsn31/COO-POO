@@ -367,6 +367,9 @@ public class ApplicationWindow
 		listOfActiveUsers.set(place, cu);
 		System.out.println("TEST/ ApplicationWindow create_openChat" + place + cu + "\n");
 		
+		//Mise à jour de la distant adress
+		currentChatVisibleAddress=ipAddress;
+		
 		refresh_comboBox();
 		System.out.println("************************** create_openChat fin *******************************"+ "\n");
 	}
@@ -499,7 +502,8 @@ public class ApplicationWindow
 		}
 		else
 		{
-			chatWithLabel.setText("You are chatting with: ");
+			chatWithLabel.setText("You are chatting with: " + pseudo);
+			
 		}
 	}
 	
@@ -550,8 +554,8 @@ public class ApplicationWindow
 		listBox.removeAllItems();
 		
 		System.out.println("*********************************************************"+ "\n");
-		System.out.println("refresh_comboBox " + listOfActiveUsers);
-		System.out.println("refresh_comboBox " + listOfActiveUsers.size());
+		System.out.println("refresh_comboBox " + listOfActiveUsers + "\n");
+		System.out.println("refresh_comboBox " + listOfActiveUsers.size() + "\n");
 		System.out.println("*********************************************************"+ "\n");
 		
 		for(int i = 0 ; i < listOfActiveUsers.size() ; i++)
