@@ -23,6 +23,7 @@ public class MainApplication implements ActionListener
 	private NetworkManager local_manager;
 	private LocalMemory local_memory;
 	private VisualInterface local_interface;
+	private boolean changingChat = false;
 	
 	private Thread processor_messages;
 	
@@ -399,9 +400,19 @@ public class MainApplication implements ActionListener
 		}
 		else if(e.getSource().equals(local_interface.getObjectListActiveUsers()))
 		{
-			//attention
+			changingChat=true;
+			
 			process_selectionActiveUser(local_interface.getObjectListActiveUsers());
+			
+			changingChat=false;
+			
+			//notify();
 		}
 		
+	}
+
+	public boolean isChangingChat() {
+		// TODO Auto-generated method stub
+		return changingChat;
 	}
 }
