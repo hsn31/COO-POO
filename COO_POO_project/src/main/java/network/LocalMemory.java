@@ -175,8 +175,13 @@ public class LocalMemory
 
 	public String downloadChatHTMLHistory(String ipAddress) 
 	{
+		System.out.print("LOCALMEMORY HISTORY" + "\n");
+		
 		String precedent_history = download_PrecedentChatHTMLHistory(ipAddress);
 		String recent_history = download_RecentChatHTMLHistory(ipAddress);
+		
+		System.out.print("LOCALMEMORY HISTORY precedent_History " + precedent_history + " FIN" + "\n");
+		System.out.print("LOCALMEMORY HISTORY recent_History " + recent_history + "\n");
 		
 		return precedent_history + recent_history;
 	}
@@ -186,17 +191,28 @@ public class LocalMemory
 	{
 		String precedent_history = "";
 		
+		System.out.print(" INSIDE download_PrecedentChatHTMLHistory "+ "\n");
+		
 		ArrayList<String> filesExisting = local_history.listAllHist();
 		
+		System.out.print(" INSIDE download_PrecedentChatHTMLHistory FILEEXISTING ="+ filesExisting + "\n");
 		for (int i =0; i< filesExisting.size() ; i++ ) 
 		{
 			String id = filesExisting.get(i);
 			
-			if(id == ipAddress)
+			System.out.print(" download_PrecedentChatHTMLHistory BEFORE"+ id.equals(ipAddress) + "ID=" +id + "ipAddress"+ipAddress + "\n");
+			
+			if((id.equals(ipAddress)))
 			{
-				if (!local_history.needNewHistory(id)) 
-				{
+				System.out.print(" download_PrecedentChatHTMLHistory AFTER "+ id.equals(ipAddress) + "ID=" +id + "ipAddress"+ipAddress + "\n");
+				
+				//if (!local_history.needNewHistory(id)) 
+				//{
+					System.out.print(" download_PrecedentChatHTMLHistory AFTER Value"+ local_history.needNewHistory(id) + "\n");
+					
 					ArrayList<String> history_from_doc = local_history.readHistory(ipAddress);
+					
+					System.out.print(" download_PrecedentChatHTMLHistory : history_from_doc = "+ history_from_doc+ "\n");
 					
 					for(int j = 0 ; j < history_from_doc.size() ; j++)
 					{
@@ -206,15 +222,19 @@ public class LocalMemory
 						if(!line.equals("") && !beginning.equals("Date of the previous conversation ") && !beginning.equals("End of the conversation "))
 						{
 							String htmlLine = historyLine_toHtml(line);
+							
+							System.out.print(" download_PrecedentChatHTMLHistory : INSIDE THIRD IF ="+ "\n");
 	
 							precedent_history = precedent_history + "<br>" + htmlLine;
 						}
-					}
+					//}
 				}
 			}
 		}
+		System.out.print(" END download_PrecedentChatHTMLHistory VALEUR = "+ precedent_history +"\n");
 		
 		return precedent_history;
+
 	}
 	
 	private String historyLine_toHtml(String line)
