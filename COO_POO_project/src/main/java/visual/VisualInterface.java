@@ -8,7 +8,6 @@ import network.Message.Origin;
 import visual.ApplicationWindow.CoordUser;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 

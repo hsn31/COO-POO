@@ -28,6 +28,37 @@ public class HistoryManager {
 		memoryConversation.add(new History(fileName));
 	}
     
+
+	public boolean fileAccountExists()
+	{
+		return listAllHist().contains("LastPseudo");
+	}
+	
+	public String getLastPseudoFromDataBase()
+	{
+		File fileHist = new File("histories/LastPseudo");
+		BufferedReader lecteurAvecBuffer = null;
+		String ligne = "";
+			
+		try
+		{
+			lecteurAvecBuffer = new BufferedReader(new FileReader(fileHist));
+		
+			ligne = lecteurAvecBuffer.readLine();
+			
+			if(ligne == null)
+			{
+				ligne = "";
+			}
+	  	}
+		catch(IOException e)
+		{
+			System.out.println("Erreur readPseudoInHystory");
+	  	}
+		
+		return ligne;
+	}
+	
 	
 	public ArrayList<String> listAllHist()
 	{
@@ -97,6 +128,11 @@ public class HistoryManager {
 		{
 			memoryConversation.get(i).closeHistory();
 		}
+	}
+	
+	public void updatePseudoHistory(String pseudo)
+	{
+		History.updatePseudoHistory(pseudo);
 	}
 
 }

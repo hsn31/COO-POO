@@ -35,6 +35,28 @@ public class History {
 		}
 	}
 	
+
+	public static void updatePseudoHistory(String pseudo)
+	{
+		File filePseudoHistory = new File("histories/LastPseudo");
+		
+		try
+		{
+			PrintWriter printwriter = new PrintWriter(new FileOutputStream(filePseudoHistory));
+			printwriter.print("");
+			printwriter.close(); 
+			
+			FileWriter writer = new FileWriter(filePseudoHistory, false);
+			writer.write(pseudo);
+			writer.flush();
+			writer.close();
+			
+		} catch (IOException e){
+			System.err.println("Error History.java updating pseudo file");
+			e.printStackTrace();
+		}
+	}
+	
 	public String getFileName()
 	{
 		return fileName;

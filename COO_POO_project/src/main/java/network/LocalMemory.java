@@ -1,7 +1,5 @@
 package network;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 
 import network.Message.Origin;
@@ -29,13 +27,13 @@ public class LocalMemory
 		
 		local_history = new HistoryManager();
 		
-		//récupérer dans database données pour:
-		boolean database_say_account_exists = false;
+		//récupérer l'ancien pseudo dans database
+		boolean database_say_account_exists = local_history.fileAccountExists();
 		
 		if(database_say_account_exists)
 		{
-			//String last_pseudo = getLastPseudoFromDataBase();
-			createAccountFromDatabase(stringlocal_address, "last_pseudo");
+			String last_pseudo = local_history.getLastPseudoFromDataBase();
+			createAccountFromDatabase(stringlocal_address, last_pseudo);
 		}
 		else
 		{
@@ -170,6 +168,10 @@ public class LocalMemory
 		}
 		
 		local_history.closeHistories();
+		
+		String current_pseudo = local_account.getPseudo();
+		
+		local_history.updatePseudoHistory(current_pseudo);
 	}
 
 

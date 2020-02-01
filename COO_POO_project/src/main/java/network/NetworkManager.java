@@ -46,9 +46,11 @@ public class NetworkManager //implements Runnable
     private DatagramSocket outDgramSocket = new DatagramSocket(); 
     //private DatagramPacket outPacket = null ;
     
+    /*
     //attributes to receive the answer in broadcast (port x)
     private DatagramPacket inPacket_broadcast = null;
     private byte[] inBuffer_broadcast;
+    */
     
     private Thread receiver;
     
@@ -68,8 +70,10 @@ public class NetworkManager //implements Runnable
         inBuffer = new byte[256];
         inPacket = new DatagramPacket(inBuffer, inBuffer.length);
         
+        /*
         inBuffer_broadcast = new byte[256];
         inPacket_broadcast = new DatagramPacket(inBuffer_broadcast, inBuffer_broadcast.length);
+        */
         
         receiver = new Thread(new ReceiverThread(this));
 		receiver.start();
