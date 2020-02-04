@@ -108,28 +108,37 @@ public class Account {
 	
 	public void registerMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
-		System.out.println("*******RegisterMessage ACCOUNT*************************"+ ListOfChat);
+		System.out.println("*******RegisterMessage ACCOUNT*************************"+ "\n");
+		
+		System.out.println("TEST / Account RegisterMessage ListOfChat = "+ ListOfChat+ "DistantAddress ="+ distantAddress + "strDate ="+ strDate+"\n");
 		
 		//Pour éviter les erreurs. 
 		if((ListOfChat.isEmpty() || !ListOfChat.containsKey(distantAddress)))
 		{	
-			System.out.println("INSIDE IF \n");
+			System.out.println("TEST / Account RegisterMessage ListOfChat INSIDE IF \n"+ "\n");
 			//test
 			if (ListOfChat.isEmpty() ) {
-			System.out.println("INSIDE IF second if \n");
+			System.out.println("TEST / Account RegisterMessage ListOfChat INSIDE IF second if \n"+ "\n");
 			}
 			
 			ListOfChat.put(distantAddress, new Chat(distantAddress));
 			ListOfChat.put(distantAddress, ListOfChat.get(distantAddress).AddMessage(nature, strDate, message));
 			
-			System.out.println("les messages : \n " + ListOfChat.get(distantAddress).getHistory());
+			System.out.println("TEST / Account RegisterMessage ListOfChat => les messages : \n " + ListOfChat.get(distantAddress).getHistory() + "\n");
 			
 		}else {
 			
 			//ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
 			ListOfChat.put(distantAddress, ListOfChat.get(distantAddress).AddMessage(nature, strDate, message));
-			
+			System.out.println("TEST / Account RegisterMessage ListOfChat => les messages : \n " + ListOfChat.get(distantAddress).AddMessage(nature, strDate, message) + "\n");
 		}
+		
+		//resultat du contenu dans les chats : 
+		ListOfChat.forEach((k,v)->
+		{
+			System.out.println("TEST / Account RegisterMessage ListOfChat => les messages : " + k + "Message " + v.getHistory() + "\n");
+		});
+		
 	}
 	
 }

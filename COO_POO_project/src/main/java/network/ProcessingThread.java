@@ -1,7 +1,6 @@
 package network;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -117,7 +116,15 @@ public class ProcessingThread implements Runnable
 		else if(idPacketReceived.equals("5"))
 		{
 			System.out.print("Process_5_Start"+"\n");
+			
+			if (local_application.isChangingChat()) {try {
+				Thread.sleep(4);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}}
+			
 			local_application.addReceivedMessage(ipSenderPacketReceived, textPacketReceived);
+			
 			System.out.print("Process_5_END"+"\n");
 		}
 		}

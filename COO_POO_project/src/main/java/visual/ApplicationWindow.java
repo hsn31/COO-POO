@@ -5,8 +5,8 @@ import java.io.IOException;
 import javax.swing.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+//import java.util.Collection;
+//import java.util.Iterator;
 import java.util.LinkedHashMap;
 import network.*;
 import network.Message.Origin;
@@ -367,6 +367,9 @@ public class ApplicationWindow
 		listOfActiveUsers.set(place, cu);
 		System.out.println("TEST/ ApplicationWindow create_openChat" + place + cu + "\n");
 		
+		//Mise à jour de la distant adress
+		currentChatVisibleAddress=ipAddress;
+		
 		refresh_comboBox();
 		System.out.println("************************** create_openChat fin *******************************"+ "\n");
 	}
@@ -499,7 +502,8 @@ public class ApplicationWindow
 		}
 		else
 		{
-			chatWithLabel.setText("You are chatting with: ");
+			chatWithLabel.setText("You are chatting with: " + pseudo);
+			
 		}
 	}
 	
@@ -550,8 +554,8 @@ public class ApplicationWindow
 		listBox.removeAllItems();
 		
 		System.out.println("*********************************************************"+ "\n");
-		System.out.println("refresh_comboBox " + listOfActiveUsers);
-		System.out.println("refresh_comboBox " + listOfActiveUsers.size());
+		System.out.println("refresh_comboBox " + listOfActiveUsers + "\n");
+		System.out.println("refresh_comboBox " + listOfActiveUsers.size() + "\n");
 		System.out.println("*********************************************************"+ "\n");
 		
 		for(int i = 0 ; i < listOfActiveUsers.size() ; i++)
@@ -626,10 +630,10 @@ public class ApplicationWindow
 	
 	public void debugging (LinkedHashMap<String,String> initialList) {
 	// Affecter les valeurs à une collection
-	Collection<String> c = initialList.values();
+	//Collection<String> c = initialList.values();
 
 	//Créer un itérateur sur la collection
-	Iterator<String> itr = c.iterator();
+	//Iterator<String> itr = c.iterator();
 
 	System.out.println("--------------------Affichage des valeurs de la LinkedHashMap---------------------"+ "\n");
 	/*

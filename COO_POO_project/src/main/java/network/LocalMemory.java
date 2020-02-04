@@ -1,7 +1,5 @@
 package network;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 
 import network.Message.Origin;
@@ -29,13 +27,13 @@ public class LocalMemory
 		
 		local_history = new HistoryManager();
 		
-		//récupérer dans database données pour:
-		boolean database_say_account_exists = false;
+		//récupérer l'ancien pseudo dans database
+		boolean database_say_account_exists = local_history.fileAccountExists();
 		
 		if(database_say_account_exists)
 		{
-			//String last_pseudo = getLastPseudoFromDataBase();
-			createAccountFromDatabase(stringlocal_address, "last_pseudo");
+			String last_pseudo = local_history.getLastPseudoFromDataBase();
+			createAccountFromDatabase(stringlocal_address, last_pseudo);
 		}
 		else
 		{
@@ -146,6 +144,7 @@ public class LocalMemory
 	
 	public void addMessage(Origin nature, String distantAddress, String strDate, String message)
 	{
+		System.out.println(" TEST/ addMessage LocalMemory distantAdress= " + distantAddress + "\n");
 		local_account.registerMessage(nature, distantAddress, strDate, message);
 	}
 
@@ -166,29 +165,56 @@ public class LocalMemory
 			String messages_to_update_history = local_account.getChatHistory(id);
 			
 			local_history.updateHistory(id, messages_to_update_history);
-			
 		}
 		
 		local_history.closeHistories();
+		
+		String current_pseudo = local_account.getPseudo();
+		
+		local_history.updatePseudoHistory(current_pseudo);
 	}
 
 
 	public String downloadChatHTMLHistory(String ipAddress) 
 	{
+		System.out.print("LOCALMEMORY HISTORY" + "\n");
+		
+		String precedent_history = download_PrecedentChatHTMLHistory(ipAddress);
+		String recent_history = download_RecentChatHTMLHistory(ipAddress);
+		
+		System.out.print("LOCALMEMORY HISTORY precedent_History " + precedent_history + " FIN" + "\n");
+		System.out.print("LOCALMEMORY HISTORY recent_History " + recent_history + "\n");
+		
+		return precedent_history + recent_history;
+	}
+	
+	
+	private String download_PrecedentChatHTMLHistory(String ipAddress)
+	{
 		String precedent_history = "";
-		String recent_history = "";
 		
-		ArrayList<String> list = local_account.getDistantChat();
+		System.out.print(" INSIDE download_PrecedentChatHTMLHistory "+ "\n");
 		
-		for (int i =0; i< local_account.getDistantChat().size(); i++ ) 
+		ArrayList<String> filesExisting = local_history.listAllHist();
+		
+		System.out.print(" INSIDE download_PrecedentChatHTMLHistory FILEEXISTING ="+ filesExisting + "\n");
+		for (int i =0; i< filesExisting.size() ; i++ ) 
 		{
-			String id = list.get(i);
+			String id = filesExisting.get(i);
 			
-			if(id == ipAddress)
+			System.out.print(" download_PrecedentChatHTMLHistory BEFORE"+ id.equals(ipAddress) + "ID=" +id + "ipAddress"+ipAddress + "\n");
+			
+			if((id.equals(ipAddress)))
 			{
-				if (!local_history.needNewHistory(id)) 
-				{
+				System.out.print(" download_PrecedentChatHTMLHistory AFTER "+ id.equals(ipAddress) + "ID=" +id + "ipAddress"+ipAddress + "\n");
+				
+				//if (!local_history.needNewHistory(id)) 
+				//{
+					System.out.print(" download_PrecedentChatHTMLHistory AFTER Value"+ local_history.needNewHistory(id) + "\n");
+					
 					ArrayList<String> history_from_doc = local_history.readHistory(ipAddress);
+					
+					System.out.print(" download_PrecedentChatHTMLHistory : history_from_doc = "+ history_from_doc+ "\n");
 					
 					for(int j = 0 ; j < history_from_doc.size() ; j++)
 					{
@@ -197,39 +223,63 @@ public class LocalMemory
 						
 						if(!line.equals("") && !beginning.equals("Date of the previous conversation ") && !beginning.equals("End of the conversation "))
 						{
-							String [] values = line.split("<>");
-							String strOrigin = values[0];
-							String strDate = values[1];
-							String message = values[2];
+							String htmlLine = historyLine_toHtml(line);
 							
-							String balise = "<p>";
-							
-							if(strOrigin.equals("R"))
-							{
-								//blanc : #FFFFFF
-								balise = "<p color =#FFFFFF>";
-							}
-							else if(strOrigin.equals("S"))
-							{
-								//bleu : #0066FF
-								balise = "<p color =#0066FF>";
-							}
-							
-							String txtDate = balise + strDate + "</p>";
-							String txtMessage = balise + message + "</p>";
+							System.out.print(" download_PrecedentChatHTMLHistory : INSIDE THIRD IF ="+ "\n");
 	
-							precedent_history = precedent_history + "<br>" + txtDate + txtMessage;
+							precedent_history = precedent_history + "<br>" + htmlLine;
 						}
-					}
-				}
-				
-				if(local_account.chatIsCreated(id))
-				{
-					recent_history = local_account.getChatHTMLHistory(id);
+					//}
 				}
 			}
 		}
+		System.out.print(" END download_PrecedentChatHTMLHistory VALEUR = "+ precedent_history +"\n");
 		
-		return precedent_history + recent_history;
+		return precedent_history;
+
+	}
+	
+	private String historyLine_toHtml(String line)
+	{
+		String [] values = line.split("<>");
+		String strOrigin = values[0];
+		String strDate = values[1];
+		String message = values[2];
+		
+		String balise = "<p>";
+		
+		if(strOrigin.equals("R"))
+		{
+			//blanc : #FFFFFF
+			balise = "<p color =#FFFFFF>";
+		}
+		else if(strOrigin.equals("S"))
+		{
+			//bleu : #0066FF
+			balise = "<p color =#0066FF>";
+		}
+		
+		String txtDate = balise + strDate + "</p>";
+		String txtMessage = balise + message + "</p>";
+		
+		return txtDate + txtMessage;
+	}
+	
+	private String download_RecentChatHTMLHistory(String ipAddress)
+	{
+		String recent_history = "";
+		ArrayList<String> list = local_account.getDistantChat();
+		
+		for (int i =0; i< list.size(); i++ ) 
+		{
+			String id = list.get(i);
+			
+			if(local_account.chatIsCreated(id))
+			{
+				recent_history = local_account.getChatHTMLHistory(id);
+			}
+		}
+		
+		return recent_history;
 	}
 }

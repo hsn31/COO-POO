@@ -23,6 +23,7 @@ public class MainApplication implements ActionListener
 	private NetworkManager local_manager;
 	private LocalMemory local_memory;
 	private VisualInterface local_interface;
+	private boolean changingChat = false;
 	
 	private Thread processor_messages;
 	
@@ -88,7 +89,8 @@ public class MainApplication implements ActionListener
 			if(local_memory.lastPseudonymeIsOk())
 			{
 				local_manager.broadcastConnected(local_memory.getPseudo());
-
+				
+				local_interface.showNewActiveUser(stringlocal_address, local_memory.getPseudo());
 				local_interface.process_login(local_memory.getPseudo());
 				
 				//Donc on peut direct afficher l'applicationWindow:
@@ -337,20 +339,21 @@ public class MainApplication implements ActionListener
 		local_interface.click_on_ExitCurrentChatButton();
 	}
 	
-	private void process_selectionActiveUser(JComboBox<CoordUser> object)
+	private synchronized void process_selectionActiveUser(JComboBox<CoordUser> object)
 	{
-		if (((CoordUser)object.getSelectedItem())!=null) {
-		String ipAddress = ((CoordUser)object.getSelectedItem()).ip;
-		//object.getSelectedIndex();
-		
-		
-		if(!local_interface.chatAlreadyDownloaded(ipAddress))
+		if (((CoordUser)object.getSelectedItem())!=null) 
 		{
-			String htmlHistory = local_memory.downloadChatHTMLHistory(ipAddress);
-			local_interface.create_openChat(ipAddress, htmlHistory);
-		}
-		
-		local_interface.openChatExisting(ipAddress);
+			String ipAddress = ((CoordUser)object.getSelectedItem()).ip;
+			//object.getSelectedIndex();
+			
+			
+			if(!local_interface.chatAlreadyDownloaded(ipAddress))
+			{
+				String htmlHistory = local_memory.downloadChatHTMLHistory(ipAddress);
+				local_interface.create_openChat(ipAddress, htmlHistory);
+			}
+			
+			local_interface.openChatExisting(ipAddress);
 		}
 	}
 	
@@ -397,9 +400,19 @@ public class MainApplication implements ActionListener
 		}
 		else if(e.getSource().equals(local_interface.getObjectListActiveUsers()))
 		{
-			//attention
+			changingChat=true;
+			
 			process_selectionActiveUser(local_interface.getObjectListActiveUsers());
+			
+			changingChat=false;
+			
+			//notify();
 		}
 		
+	}
+
+	public boolean isChangingChat() {
+		// TODO Auto-generated method stub
+		return changingChat;
 	}
 }
