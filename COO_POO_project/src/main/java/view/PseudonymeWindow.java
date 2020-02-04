@@ -1,9 +1,10 @@
-package visual;
+package view;
 
 import java.awt.*;
 import java.io.IOException;
 import javax.swing.*;
-import network.*;
+
+import controller.MainApplication;
 
 
 

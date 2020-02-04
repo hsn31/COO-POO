@@ -1,11 +1,12 @@
-package visual;
+package view;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import network.*;
-import network.Message.Origin;
-import visual.ApplicationWindow.CoordUser;
+
+import controller.MainApplication;
+import model.Message.Origin;
+import view.ApplicationWindow.CoordUser;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

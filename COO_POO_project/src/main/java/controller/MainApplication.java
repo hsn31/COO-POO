@@ -1,4 +1,4 @@
-package network;
+package controller;
 
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
@@ -13,9 +13,10 @@ import java.util.Date;
 
 import javax.swing.JComboBox;
 
-import network.Message.Origin;
-import visual.ApplicationWindow.CoordUser;
-import visual.VisualInterface;
+import model.LocalMemory;
+import model.Message.Origin;
+import view.VisualInterface;
+import view.ApplicationWindow.CoordUser;
 
 public class MainApplication implements ActionListener
 {

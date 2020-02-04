@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import network.NetworkManager;
+import controller.NetworkManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

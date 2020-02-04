@@ -1,8 +1,8 @@
-package network;
+package model;
 
 import java.util.*;
 
-import network.Message.Origin;
+import model.Message.Origin;
 
 //Mettre ici l'histoire des historiques  + 
 

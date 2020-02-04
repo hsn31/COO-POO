@@ -1,8 +1,8 @@
-package network;
+package model;
 
 import java.util.ArrayList;
 
-import network.Message.Origin;
+import model.Message.Origin;
 
 
 public class Chat {

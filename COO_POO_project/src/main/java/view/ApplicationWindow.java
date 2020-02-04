@@ -1,15 +1,17 @@
-package visual;
+package view;
 
 import java.awt.*;
 import java.io.IOException;
 import javax.swing.*;
+
+import controller.MainApplication;
+import model.Message.Origin;
+
 import java.net.*;
 import java.util.ArrayList;
 //import java.util.Collection;
 //import java.util.Iterator;
 import java.util.LinkedHashMap;
-import network.*;
-import network.Message.Origin;
 
 public class ApplicationWindow
 {
