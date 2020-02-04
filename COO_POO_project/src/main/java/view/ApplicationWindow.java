@@ -247,7 +247,7 @@ public class ApplicationWindow
 		//centralChatsPanel.setPreferredSize(new Dimension(x, x));
 		//topChatPanel.setPreferredSize(new Dimension(x, x));
 		exitCurrentChatButton.setPreferredSize(new Dimension(50, 20));
-		//chatWithLabel.setPreferredSize(new Dimension(x, x));
+		chatWithLabel.setPreferredSize(new Dimension(200, 20));
 		listBox.setPreferredSize(new Dimension(200, 20));
 		//currentChatPanel already done in constructor
 		

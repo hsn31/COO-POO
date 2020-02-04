@@ -133,7 +133,8 @@ public class LocalMemory
 	//ET que la liste des active users a été récupérée par le network
 	public boolean lastPseudonymeIsOk()
 	{
-		LinkedHashMap<String,String> list_ActiveUsers_withoutLocal = listOfActiveUsers;
+		LinkedHashMap<String,String> list_ActiveUsers_withoutLocal = new LinkedHashMap<String,String>();
+		list_ActiveUsers_withoutLocal.putAll(listOfActiveUsers);
 		list_ActiveUsers_withoutLocal.remove(stringlocal_address);
 
 		return !(list_ActiveUsers_withoutLocal.containsValue(local_account.getPseudo()));
@@ -198,41 +199,36 @@ public class LocalMemory
 		ArrayList<String> filesExisting = local_history.listAllHist();
 		
 		System.out.print(" INSIDE download_PrecedentChatHTMLHistory FILEEXISTING ="+ filesExisting + "\n");
-		for (int i =0; i< filesExisting.size() ; i++ ) 
+			
+		if((ipAddress.equals(ipAddress)))
 		{
-			String id = filesExisting.get(i);
 			
-			System.out.print(" download_PrecedentChatHTMLHistory BEFORE"+ id.equals(ipAddress) + "ID=" +id + "ipAddress"+ipAddress + "\n");
 			
-			if((id.equals(ipAddress)))
-			{
-				System.out.print(" download_PrecedentChatHTMLHistory AFTER "+ id.equals(ipAddress) + "ID=" +id + "ipAddress"+ipAddress + "\n");
+			//if (!local_history.needNewHistory(id)) 
+			//{
+				System.out.print(" download_PrecedentChatHTMLHistory AFTER Value"+ local_history.needNewHistory(ipAddress) + "\n");
 				
-				//if (!local_history.needNewHistory(id)) 
-				//{
-					System.out.print(" download_PrecedentChatHTMLHistory AFTER Value"+ local_history.needNewHistory(id) + "\n");
+				ArrayList<String> history_from_doc = local_history.readHistory(ipAddress);
+				
+				System.out.print(" download_PrecedentChatHTMLHistory : history_from_doc = "+ history_from_doc+ "\n");
+				
+				for(int j = 0 ; j < history_from_doc.size() ; j++)
+				{
+					String line = history_from_doc.get(j);
+					String beginning = line.split(":")[0];
 					
-					ArrayList<String> history_from_doc = local_history.readHistory(ipAddress);
-					
-					System.out.print(" download_PrecedentChatHTMLHistory : history_from_doc = "+ history_from_doc+ "\n");
-					
-					for(int j = 0 ; j < history_from_doc.size() ; j++)
+					if(!line.equals("") && !beginning.equals("Date of the previous conversation ") && !beginning.equals("End of the conversation "))
 					{
-						String line = history_from_doc.get(j);
-						String beginning = line.split(":")[0];
+						String htmlLine = historyLine_toHtml(line);
 						
-						if(!line.equals("") && !beginning.equals("Date of the previous conversation ") && !beginning.equals("End of the conversation "))
-						{
-							String htmlLine = historyLine_toHtml(line);
-							
-							System.out.print(" download_PrecedentChatHTMLHistory : INSIDE THIRD IF ="+ "\n");
-	
-							precedent_history = precedent_history + "<br>" + htmlLine;
-						}
-					//}
-				}
+						System.out.print(" download_PrecedentChatHTMLHistory : INSIDE THIRD IF ="+ "\n");
+
+						precedent_history = precedent_history + "<br>" + htmlLine;
+					}
+				//}
 			}
 		}
+		
 		System.out.print(" END download_PrecedentChatHTMLHistory VALEUR = "+ precedent_history +"\n");
 		
 		return precedent_history;
@@ -268,16 +264,10 @@ public class LocalMemory
 	private String download_RecentChatHTMLHistory(String ipAddress)
 	{
 		String recent_history = "";
-		ArrayList<String> list = local_account.getDistantChat();
 		
-		for (int i =0; i< list.size(); i++ ) 
+		if(local_account.chatIsCreated(ipAddress))
 		{
-			String id = list.get(i);
-			
-			if(local_account.chatIsCreated(id))
-			{
-				recent_history = local_account.getChatHTMLHistory(id);
-			}
+			recent_history = local_account.getChatHTMLHistory(ipAddress);
 		}
 		
 		return recent_history;

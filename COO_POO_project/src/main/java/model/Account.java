@@ -130,7 +130,7 @@ public class Account {
 			
 			//ListOfChat.get(distantAddress).AddMessage(nature, strDate, message);
 			ListOfChat.put(distantAddress, ListOfChat.get(distantAddress).AddMessage(nature, strDate, message));
-			System.out.println("TEST / Account RegisterMessage ListOfChat => les messages : \n " + ListOfChat.get(distantAddress).AddMessage(nature, strDate, message) + "\n");
+			System.out.println("TEST / Account RegisterMessage ListOfChat => les messages : \n " + ListOfChat.get(distantAddress).getHistory() + "\n");
 		}
 		
 		//resultat du contenu dans les chats : 

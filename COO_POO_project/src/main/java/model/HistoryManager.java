@@ -10,7 +10,6 @@ import java.util.*;
  * @author peraire
  */
  
- //Je propose d'utiliser cette classe pour le history d'un utilisateur... Mais il faut modifier le nom
  
 public class HistoryManager {
     

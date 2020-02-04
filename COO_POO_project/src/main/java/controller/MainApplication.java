@@ -230,11 +230,14 @@ public class MainApplication implements ActionListener
 	
 	private void process_shutDown()
 	{
-		//sauvegarde dans la base de donnée !!
-		local_memory.saveHistory();
-		
-		//envoyer le message de déconnexion 
-		local_manager.broadcastDisconnected();
+		if(local_state == AppState.CHATTING)
+		{
+			//sauvegarde dans la base de donnée !!
+			local_memory.saveHistory();
+			
+			//envoyer le message de déconnexion 
+			local_manager.broadcastDisconnected();
+		}
 		
 		local_manager.closeServer();
 		
@@ -251,10 +254,9 @@ public class MainApplication implements ActionListener
 		
 		local_interface.process_applyMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
 		
-		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
-		
 		local_memory.addMessage(Origin.SENT, distantAddress, strDate, wantedMessage);
-		 
+		
+		local_manager.unicastSendChatMessage(datedMessage, distantAddress);
 	}
 	
 	//------------------- INTERACTIONS WITH USER -----------------------------
@@ -270,13 +272,13 @@ public class MainApplication implements ActionListener
 		} 
 		else if(wantedPseudo.contains(" "))
 		{
-			currentError = "Impossible to login with a pseudo which contains a space !";
+			currentError = "<html>Impossible to login with a pseudo <br> which contains a space !</html>";
 		} 
 		else
 		{
 			if(local_memory.pseudoAlreadyUsed(wantedPseudo)) 
 			{
-				currentError = "Impossible to use the pseudonyme <" + wantedPseudo + "> because it is already Online.";
+				currentError = "<html>Impossible to use the pseudonyme '" + wantedPseudo + "' <br>because it is already Online.</html>";
 			}
 		}
 		
