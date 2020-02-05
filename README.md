@@ -2,21 +2,20 @@
 <h3> Système de clavardage distribué interactif multi-utilisateur temps réel </h3>
 
 <h4> Lien : </h4>
-Lien vers le Diagramme de Classe : https://cutt.ly/irrxtdY <br>
-
 
 Lien vers le Manuel Utilisateur : https://cutt.ly/wrAU4Ct <br>
 
-Lien vers le Rapport : <br>
+Lien vers le Rapport : https://docs.google.com/document/d/1x4I2mK-SD2O5Nu7SRxaOoJSVoM0n1CHDc5Ug4g44X78/edit?usp=sharing <br>
 
-Lien vers le fichier d'execution du programme (.jar + .bat) : https://cutt.ly/JrAU9Fi ATTENTION : Il faut taper les commandes <br>
+Lien vers le fichier d'execution du programme (.jar + .bat) : https://cutt.ly/JrAU9Fi <br> 
+ATTENTION : Il faut taper les commandes <br>
 -chmod u+x ChatApplication.jar <br>
 -./ChatApplication.jar <br>
 <br>
 
 <h4> Organisation : </h4>
-Le dossier COO projet chat contient les élements de conception COO.  <br>
-Le dossier COO_POO_project contient l'ensemble du code. <br>
+Le dossier COO projet chat contient les élements volumineux de conception COO : le diagramme de classe et le diagramme des cas d'utilisation  <br>
+Le dossier COO_POO_project contient l'ensemble du code (Runnable depuis la classe MainApplication au sein d'éclipse) <br>
 Le dossier annexes contient des photos annexes.  <br>
 
 <h4> Membres du Groupe </h4>
