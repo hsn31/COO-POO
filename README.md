@@ -14,9 +14,8 @@ ATTENTION : Il faut taper les commandes <br>
 <br>
 
 <h4> Organisation : </h4>
-Le dossier COO projet chat contient les élements volumineux de conception COO : le diagramme de classe et le diagramme des cas d'utilisation  <br>
 Le dossier COO_POO_project contient l'ensemble du code (Runnable depuis la classe MainApplication au sein d'éclipse) <br>
-Le dossier annexes contient des photos annexes.  <br>
+Le dossier annexes contient des photos annexes et les élements volumineux de conception COO : le diagramme de classe et le diagramme des cas d'utilisation  <br> <br>
 
 <h4> Membres du Groupe </h4>
 <h5> Väinö KUOSMANEN </h5>
